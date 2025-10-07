@@ -1,0 +1,72 @@
+
+project: 
+  type: website
+  output-dir: docs
+
+pages:
+    - index.qmd
+    - page_SDM.1_DataPreparation.qmd
+
+website: 
+  title: "SDM Workshop"
+  site-url: "https://konswells1.github.io/SDM-Workshop"
+  favicon: "images/sdm_favicon.png"
+  search: true
+  page-navigation: true
+
+  navbar: 
+    logo:
+      path: "images/sdm_favicon.png"
+      href: index.qmd
+      alt: "SDM Workshop Logo"
+      height: 45px
+    left:
+      - text: "Spatial Data"
+        menu:
+          - text: "Spatial Data in R"
+            file: page_SDM.2_SpatialDataR.qmd
+          - text: "Species Data"
+            file: page_SDM.3_SpeciesData.qmd
+          - text: "Environmental Data"
+            file: page_SDM.4_EnvironmentalData.qmd
+          - text: "Background & Pseudo-Absence Data"
+            file: page_SDM.5_PseudoAbsenceData.qmd
+
+      - text: "Species Distribution Models"
+        menu:
+          - text: "Simple Model Fitting (GLM)" 
+            file: page_SDM.6_SDMSimpleModelFitting.qmd
+          - text: "Assessment & Projection" 
+            file: page_SDM.7_SDMAssessmentProjection.qmd
+          - text: "Fitting & Comparing Algorithms"
+            file: page_SDM.8_SDMCompareAlgorithms.qmd
+          - text: "Ensemble Modelling"
+            file: page_SDM.9_SDMEnsembleModelFitting.qmd
+
+  page-footer: 
+    left: "Konstans Wells, Swansea University, 2025"
+    right: "License: [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)"
+
+format: 
+  html: 
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    page-layout: full 
+    code-copy: true
+    css: styles.css
+
+  pdf:
+    documentclass: book
+    toc: true
+    toc-depth: 3
+    output-file: SDM_Workshop.pdf
+
+execute:
+  setup: scripts/load_packages.R
+  error: true
+  echo: true
+  warning: true
+  message: true  
+    

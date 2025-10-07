@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Environmental Data – SDM Workshop</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/sdm_favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9859d952baf36b9a7db628bbb9f3169e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo light-content">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">SDM Workshop</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-spatial-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Spatial Data</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-spatial-data">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.2_SpatialDataR.html">
+ <span class="dropdown-text">Spatial Data in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.3_SpeciesData.html">
+ <span class="dropdown-text">Species Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.4_EnvironmentalData.html">
+ <span class="dropdown-text">Environmental Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.5_PseudoAbsenceData.html">
+ <span class="dropdown-text">Background &amp; Pseudo-Absence Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-species-distribution-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Species Distribution Models</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-species-distribution-models">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.6_SDMSimpleModelFitting.html">
+ <span class="dropdown-text">Simple Model Fitting (GLM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.7_SDMAssessmentProjection.html">
+ <span class="dropdown-text">Assessment &amp; Projection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.8_SDMCompareAlgorithms.html">
+ <span class="dropdown-text">Fitting &amp; Comparing Algorithms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.9_SDMEnsembleModelFitting.html">
+ <span class="dropdown-text">Ensemble Modelling</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#climate-data" id="toc-climate-data" class="nav-link active" data-scroll-target="#climate-data">1. Climate data</a></li>
+  <li><a href="#land-cover-data" id="toc-land-cover-data" class="nav-link" data-scroll-target="#land-cover-data">2. Land cover data</a>
+  <ul class="collapse">
+  <li><a href="#accessing-global-land-cover-data" id="toc-accessing-global-land-cover-data" class="nav-link" data-scroll-target="#accessing-global-land-cover-data">Accessing Global Land Cover Data</a></li>
+  </ul></li>
+  <li><a href="#joining-different-datasets" id="toc-joining-different-datasets" class="nav-link" data-scroll-target="#joining-different-datasets">3. Joining different datasets</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Environmental Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In species distribution modelling (SDM) and related ecological applications such as habitat suitability assessments, understanding the relationship between species occurrences and the underlying environmental conditions is essential. <strong>Environmental data</strong> form the backbone of SDMs, providing the contextual information needed to analyse where species are found and, importantly, where they could be found under different conditions (according to the predictions from the underlying model).</p>
+<p>Since SDMs aim not only to identify ecological relationships but also to project these relationships across broader spatial extents or under future environmental scenarios, access to landscape-scale environmental data is critical. Environmental variables of <strong>abiotic conditions such as climate, topography, soil, and land cover</strong> or commonly of key interest to describe the ecological and spatial constraints that influence species distributions. These variables are often derived from remote sensing products, interpolated climate surfaces, digital elevation models, and in-situ measurements.</p>
+<p>Selecting relevant and high-quality environmental predictors is a key step in building robust, interpretable models. Considerations such as spatial and temporal resolution, variable collinearity, and ecological relevance all play a role in shaping model outcomes.</p>
+<p><br></p>
+<p>In this part of the workshop, we will:</p>
+<p>Explore the main types of environmental datasets commonly used in SDM</p>
+<p>Discuss spatial and temporal resolution — and why they matter</p>
+<p>Learn how to access, prepare, and manage environmental layers for modelling</p>
+<p>Address common challenges such as collinearity, scaling, and data gaps</p>
+<p>Understanding your environmental data is just as important as understanding your species data.</p>
+<p>Together, they define the basis for making informed, ecologically meaningful predictions about species distributions, be it in the present, the past, and under future scenarios.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Required R Packages for This Section
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Before continuing, make sure the following R packages are installed and loaded:</p>
+<ul>
+<li><code>terra</code> – for working with spatial raster and vector data</li>
+<li><code>rnaturalearth</code> – for country/world map boundaries</li>
+<li><code>rnaturalearthdata</code> – Natural Earth support data</li>
+<li><code>ggplot2</code> – for plotting</li>
+<li><code>sf</code> – for handling vector data in simple features (sf) format</li>
+<li><code>geodata</code> – easy access to global environmental raster layers</li>
+</ul>
+<p>You can automatically install any missing packages by running the code below:</p>
+</div>
+</div>
+</div>
+<p><br></p>
+<section id="climate-data" class="level2">
+<h2 class="anchored" data-anchor-id="climate-data">1. Climate data</h2>
+<p>Climate variables are critical predictors in SDMs, as they directly influence species physiology, habitat suitability, and ecological interactions. Commonly used climate variables include temperature (e.g., mean annual, maximum of warmest month), precipitation (e.g., total annual, seasonality), and derived bioclimatic variables.</p>
+<p>In R, climate data can be easily accessed, processed, and visualized using a combination of packages and global datasets. One of the most widely used sources is <strong>WorldClim</strong>, which provides high-resolution global climate layers. You can explore the available variables <a href="https://www.worldclim.org/data/bioclim.html">here</a>. To download and use these data in R, this can be efficiently done with the package. Other sources of climate data include for example the <a href="https://chelsa-climate.org/">CHELSA</a> database</p>
+<section id="accessing-climate-data" class="level4">
+<h4 class="anchored" data-anchor-id="accessing-climate-data">1.1 Accessing climate data</h4>
+<p>The <code>geodata</code> package simplifies the process of downloading WorldClim and CHELSA data. As discussed in the section “3. Raster Data in R”, the tera package can be used to crop and mask climate data to the study region to reduce computational load and improve model relevance.</p>
+<section id="code-to-access-climate-data-already-done-in-data-preparation" class="level5">
+<h5 class="anchored" data-anchor-id="code-to-access-climate-data-already-done-in-data-preparation">Code to access climate data (already done in data preparation)</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a temporary directory to store raster data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>tmp_dir <span class="ot">&lt;-</span> <span class="fu">tempdir</span>()  <span class="co"># automatically cleaned up when R session ends</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Download WorldClim bioclimatic variables (1970–2000 baseline)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Clim_extant <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">worldclim_global</span>(<span class="at">var =</span> <span class="st">"bio"</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">res =</span> <span class="dv">10</span>,          <span class="co"># resolution of 10 arc-minutes (~18 km)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">path =</span> tmp_dir)   </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># View variable names</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Clim_extant)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># UK map</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>UK_sf <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">"medium"</span>, <span class="at">country =</span> <span class="st">"United Kingdom"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>UK_vect <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">vect</span>(UK_sf)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Clim_UK_crop <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Clim_extant, UK_vect)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>Clim_UK <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">mask</span>(Clim_UK_crop, UK_vect)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Data is in memory and temporary folder; no permanent files created</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="plot-climate-data" class="level5">
+<h5 class="anchored" data-anchor-id="plot-climate-data">Plot climate data</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define color palette</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>col_palette <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"orange"</span>))(<span class="dv">20</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the first bioclimatic variable for the UK</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Clim_UK[[<span class="dv">1</span>]], </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">names</span>(Clim_UK)[<span class="dv">1</span>], </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> col_palette)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.4_EnvironmentalData_files/figure-html/plot-climate-data-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="future-climate-data" class="level4">
+<h4 class="anchored" data-anchor-id="future-climate-data">1.2 Future climate data</h4>
+<p>Projecting future species distributions under climate change is essential for understanding potential range shifts, extinction risks, and guide future conservation planning. Future climate data provide model inputs that represent different greenhouse gas concentration trajectories over time.</p>
+<p>These data are generated by <strong>global climate models (GCM)</strong> and made available through datasets like WorldClim and CHELSA, which provide downscaled, bias-corrected projections for various future scenarios. Downscaled future climate data from WorldClim v2.1, which includes projections from multiple GCMs can be also accessed with the help of the <code>geodata</code> package. In this workshop, we use <strong>CMIP-6</strong> (Coupled Model Intercomparison Project Phase 6) climate projections, which provide simulations of future climate based on various greenhouse gas concentration pathways (known as SSPs). These models incorporate complex physical processes and interactions within the atmosphere, oceans, land surface, and ice.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download future climate data (CMIP6 projections for 2041–2060)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We use bioclimatic variables (bioc) at 5 arc-min resolution (~9 km)</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Scenario: SSP1-2.6 (“Paris Agreement compatible”), GCM = BCC-CSM2-MR</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># SSP1: Sustainability pathway – world shifts toward green growth and equity</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Radiative forcing stabilizes at 2.6 W/m² by 2100</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Clim_cmip6_2041_2060 <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">cmip6_world</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">var   =</span> <span class="st">"bioc"</span>,        <span class="co"># bioclimatic variables</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ssp   =</span> <span class="st">"126"</span>,         <span class="co"># SSP1-2.6 scenario</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"BCC-CSM2-MR"</span>, <span class="co"># Global climate model</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">time  =</span> <span class="st">"2041-2060"</span>,   <span class="co"># target period</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">res   =</span> <span class="dv">5</span>,             <span class="co"># resolution (arc-minutes)</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">path  =</span> <span class="st">"data/"</span>        <span class="co"># folder to save downloaded files</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># View variable names</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Clim_future_cmip6_2041_2060)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a variable (e.g., future annual mean temperature)</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(Clim_future_cmip6_2041_2060[[<span class="dv">1</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.4_EnvironmentalData_files/figure-html/plot-cmip6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The figure below shows the <strong>projected change in annual mean temperature</strong> relative to a historical baseline (1970–2000). The animation cycles through three future periods (2021–2040, 2041–2060, 2061–2080). Each frame represents the spatial pattern of temperature change (in °C) predicted by CMIP-6 for that period, highlighting where and by how much temperatures are expected to increase or decrease in the UK.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/UK_temperature_change_Diff.gif" class="img-fluid figure-img"></p>
+<figcaption>Projected temperature change over time according to the CMIP-6 model.</figcaption>
+</figure>
+</div>
+<p><br></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Choosing among GCMs and SSPs scenarios
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>There is no single “best” model or scenario for future climates. Best practice includes:</p>
+<ul>
+<li><strong>Ensemble modelling</strong>: Use multiple GCMs to average predictions and estimate uncertainty.</li>
+<li><strong>Scenario comparison</strong>: Run projections under different Shared Socioeconomic Pathways (SSP) to capture a range of plausible futures.</li>
+<li><strong>Temporal exploration</strong>: Compare mid- and end-century scenarios for temporal trends.</li>
+</ul>
+</div>
+</div>
+</div>
+<p><br><br></p>
+</section>
+</section>
+<section id="land-cover-data" class="level2">
+<h2 class="anchored" data-anchor-id="land-cover-data">2. Land cover data</h2>
+<p>Land cover is an essential environmental predictor in species distribution modelling (SDM), representing the physical surface of the Earth—such as forests, grasslands, wetlands, croplands, and urban areas. It provides crucial information about habitat availability, fragmentation, and human impacts on ecosystems.</p>
+<p>In R, land cover data can be accessed and processed using remote sensing-derived datasets and spatial packages.</p>
+<hr>
+<section id="accessing-global-land-cover-data" class="level3">
+<h3 class="anchored" data-anchor-id="accessing-global-land-cover-data">Accessing Global Land Cover Data</h3>
+<p>Several global land cover datasets are publicly available, including:</p>
+<ul>
+<li><a href="https://land.copernicus.eu/en/products/global-dynamic-land-cover"><strong>Copernicus CGLS-LC100</strong></a>: Global land cover maps at 100m spatial resolution</li>
+<li><a href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MCD12Q1"><strong>MODIS MCD12Q1</strong></a>: Global land cover maps at 500m resolution</li>
+<li><a href="https://esa-worldcover.org/en"><strong>ESA WorldCover</strong></a>: Global land cover at 10m resolution</li>
+<li><a href="https://modis.gsfc.nasa.gov/data/dataprod/mod13.php"><strong>MODIS NDVI (Normalized Difference Vegetation Index)</strong></a>: Satellite-derived vegetation greenness index available at 250m resolution, useful for tracking vegetation health and phenology.</li>
+<li><a href="https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-data/sentinel-2"><strong>Sentinel-2 Vegetation Indices</strong></a>: High-resolution (10-60m) vegetation indices including NDVI, EVI, and others, from the European Sentinel-2 mission.</li>
+</ul>
+<p>Among these, the ESA WorldCover dataset can be accessed and downloaded using the <code>geodata</code> R package. However, this direct download option is not available for all land cover datasets.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># EDS land cover data (variable selected: trees) for the UK</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lc_trees <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">landcover</span>(<span class="at">var =</span> <span class="st">"trees"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="joining-different-datasets" class="level1">
+<h1>3. Joining different datasets</h1>
+<p>In species distribution modelling (SDM) and related geospatial applications in environmental sciences, we often work with multiple types and layers of data, including different environmental variables, species occurrence records, and related metadata.</p>
+<p>Before building robust and biologically meaningful models, it is critical to properly <strong>prepare and join</strong> these datasets. This involves ensuring that environmental raster layers are first <strong>aligned and stacked</strong>, that is, standardized to the same spatial resolution, extent, and coordinate reference system so that they can be consistently and efficiently used together. Following this, species data and other attributes must be spatially and temporally aligned and <strong>joined</strong> across formats (e.g., raster versus vector data).</p>
+<p>There are two primary types of joins you’ll typically perform: 1. <strong>Spatial joins</strong>: Linking species occurrences to environmental conditions, for example, by extracting temperature or land cover values at occurrence points. 2. <strong>Attribute joins</strong>: Merging additional non-spatial data, such as species traits or survey metadata, based on common identifiers.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check CRS and resolution for the two raster files of climate and elevation data</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">crs</span>(Clim_UK))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\"],\n        MEMBER[\"World Geodetic System 1984 (G730)\"],\n        MEMBER[\"World Geodetic System 1984 (G873)\"],\n        MEMBER[\"World Geodetic System 1984 (G1150)\"],\n        MEMBER[\"World Geodetic System 1984 (G1674)\"],\n        MEMBER[\"World Geodetic System 1984 (G1762)\"],\n        MEMBER[\"World Geodetic System 1984 (G2139)\"],\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]],\n        ENSEMBLEACCURACY[2.0]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    USAGE[\n        SCOPE[\"Horizontal component of 3D system.\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]],\n    ID[\"EPSG\",4326]]"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">crs</span>(Elev_UK))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\"],\n        MEMBER[\"World Geodetic System 1984 (G730)\"],\n        MEMBER[\"World Geodetic System 1984 (G873)\"],\n        MEMBER[\"World Geodetic System 1984 (G1150)\"],\n        MEMBER[\"World Geodetic System 1984 (G1674)\"],\n        MEMBER[\"World Geodetic System 1984 (G1762)\"],\n        MEMBER[\"World Geodetic System 1984 (G2139)\"],\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]],\n        ENSEMBLEACCURACY[2.0]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    USAGE[\n        SCOPE[\"Horizontal component of 3D system.\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]],\n    ID[\"EPSG\",4326]]"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample Elev_UK raster to match Clim_UK raster</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Elev_UK_aligned <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">resample</span>(Elev_UK, Clim_UK, <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop to common extent</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>common_extent <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">ext</span>(Clim_UK), <span class="fu">ext</span>(Elev_UK_aligned))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Clim_UK_crop2 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Clim_UK, common_extent)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Elev_UK_crop2 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Elev_UK_aligned, common_extent)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack layers and name variables</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>Env_UK_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(Clim_UK_crop2 , Elev_UK_crop2)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Env_UK_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sub</span>(<span class="st">"^wc2</span><span class="sc">\\</span><span class="st">.1_10m_"</span>, <span class="st">""</span>, <span class="fu">names</span>(Clim_UK)), <span class="st">"elevation"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print stack summary</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Env_UK_stack)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>class       : SpatRaster 
+dimensions  : 130, 119, 20  (nrow, ncol, nlyr)
+resolution  : 0.08333333, 0.08333333  (x, y)
+extent      : -8.166667, 1.75, 50, 60.83333  (xmin, xmax, ymin, ymax)
+coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+sources     : Clim_UK.tif  (19 layers) 
+              memory  
+names       :    bio_1,    bio_2,    bio_3,    bio_4,  bio_5,  bio_6, ... 
+min values  :  3.73125, 2.468750, 26.61725, 244.1159, 13.000, -3.735, ... 
+max values  : 11.13333, 8.602083, 42.87903, 507.7567, 23.302,  5.600, ... </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercises: Exploring environmental data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p><strong>Map climate variables across a region:</strong><br>
+Use <code>geodata::worldclim_global()</code> to download bioclimatic variables. Crop to a country of your choice and plot maps of temperature and precipitation. What spatial patterns do you observe?</p></li>
+<li><p><strong>Extract climate at occurrence points:</strong><br>
+Use <code>terra::extract()</code> to get climate and elevation values at species occurrence points. Plot environmental gradients (e.g., temp vs.&nbsp;elevation). How might these relate to the species’ ecology?</p></li>
+<li><p><strong>Compare present vs.&nbsp;future climate:</strong><br>
+Extract current and CMIP6 future climate (e.g., <code>bio1</code>) at occurrence locations. Calculate and map differences. Where is the largest projected change?</p></li>
+</ol>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/konswells1\.github\.io\/SDM-Workshop");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Konstans Wells, Swansea University, 2025</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>License: <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

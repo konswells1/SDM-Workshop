@@ -1,0 +1,372 @@
+---
+title: "Data Preparation"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Data preparation for the SDM workshop
+
+This page documents the steps used to **download and save** the datasets used throughout the workshop.\
+All workshop pages will simply reload the saved `.RData` file to ensure reproducibility and avoid repeatedly downloading data from online sources (this helps with speed and reduces server load when 30+ students are running the same code *but* for actual research, always use the most up-to-date data!)).
+
+::: {.callout-note collapse="true" icon="package"}
+### Pre-saved data
+
+For teaching efficiency, the workshop pages use **pre-saved datasets** stored in `/data/`.  
+This ensures exercises run quickly and consistently without repeatedly downloading large files.
+
+If you want to reproduce the full workflow, you can re-run the download and cropping steps.  
+Be aware that downloading global rasters and GBIF data may take several minutes.  
+
+For full reproducibility, the data downloading steps are also documented below.
+
+:::
+
+::: {.callout-note collapse="true" icon="package"}
+### Required R packages for the workshop
+
+Make sure the following packages are **installed and loaded** before proceeding. These will be used throughout the workshop:
+
+-   `terra` — for handling spatial raster and vector data
+-   `geodata` — provides easy access to global climate, topography, land cover and other raster datasets
+-   `sf` — for vector data in simple features format
+-   `rnaturalearth` — for country and world maps
+-   `rnaturalearthdata` — provides Natural Earth vector data (used with `rnaturalearth`)
+-   `spocc` — for accessing species occurrence data from multiple databases
+-   `rgbif` — for GBIF data queries
+-   `ggplot2` — for custom plotting
+-   `viridis` — for color palettes
+-   `tidyverse` — for data manipulation/formatting
+-   `leaflet` — for plotting interactive maps
+-   `CoordinateCleaner` — for cleaning species data
+-   `effects` — visualising model effects
+-   `ggcorrplot` — visualising correlation matrices
+-   `pROC` — analysing and visualising ROC curves
+-   `PresenceAbsence` — evaluating presence-absence model performance
+-   `ecospat` — spatial ecology and species distribution modeling tools
+
+You can install any missing packages by running:
+
+```{r}
+#| label: packages-install
+#| echo: true
+#| message: false
+#| warning: false
+
+# Set CRAN mirror for non-interactive install
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+# List of required packages
+required_packages <- c(
+  "terra", "geodata", "sf", "raster",
+  "rnaturalearth", "rnaturalearthdata",
+  "spocc", "rgbif", "ggplot2", "viridis", "tidyverse", "dplyr",
+  "leaflet", "CoordinateCleaner", "effects",
+  "ggcorrplot", "caret", "pROC", "PresenceAbsence", "ecospat",
+  "mgcv", "dismo", "gbm", "randomForest", "maxnet",
+  "biomod2", "sdm", "ENMeval"
+)
+
+# Identify missing packages
+missing_packages <- required_packages[!(required_packages %in% rownames(installed.packages()))]
+
+# Install missing packages with dependencies
+if (length(missing_packages) > 0) {
+  suppressWarnings(suppressMessages(
+    install.packages(missing_packages, dependencies = TRUE, quiet = TRUE)
+  ))
+}
+
+# Load all required packages
+invisible(lapply(required_packages, function(pkg) {
+  suppressWarnings(suppressMessages(
+    library(pkg, character.only = TRUE)
+  ))
+}))
+```
+:::
+
+<br>
+
+### 1. Basemaps
+
+```{r}
+#| label: download-maps
+#| echo: false
+#| include: false
+#| message: false
+#| warning: false
+
+
+if (!file.exists("data/workshop_data.RData")) {
+  # Load country boundaries for the entire world as an sf object
+  World_sf <- ne_countries(scale = "medium", returnclass = "sf")
+
+  # Load the United Kingdom boundary as an sf object
+  UK_sf <- ne_countries(scale = "medium", country = "United Kingdom", returnclass = "sf")
+
+  # Load UK administrative regions (states/regions) as an sf object
+  UK_admin_sf <- ne_states(country = "United Kingdom", returnclass = "sf")
+
+  # Subset the UK administrative regions to only East Wales
+  WalesEast_admin_sf <- UK_admin_sf[UK_admin_sf$region == "East Wales", ]
+}
+```
+
+```{r}
+#| label: demo-maps
+#| eval: false
+#| echo: true
+#| warning: false
+#| message: false
+
+# Load country boundaries for the entire world as an sf object
+World_sf <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Load the United Kingdom boundary as an sf object
+UK_sf <- ne_countries(scale = "medium", country = "United Kingdom", returnclass = "sf")
+
+# Load UK administrative regions (states/regions) as an sf object
+UK_admin_sf <- ne_states(country = "United Kingdom", returnclass = "sf")
+
+# Subset the UK administrative regions to only East Wales
+WalesEast_admin_sf <- UK_admin_sf[UK_admin_sf$region == "East Wales", ]
+```
+
+<br>
+
+### 2. Environmental data
+
+```{r}
+#| label: hide-download-envdata
+#| echo: false
+#| include: false
+#| message: false
+#| warning: false
+
+if (!file.exists("data/Clim_UK.tif")) {
+  Clim_extant <- geodata::worldclim_global(var = "bio", res = 5, path = "data/")
+  Clim_UK <- terra::crop(Clim_extant, UK_sf)
+  terra::writeRaster(Clim_UK, "data/Clim_UK.tif", overwrite = TRUE)
+}
+
+if (!file.exists("data/Elev_UK.tif")) {
+  Elev_UK <- geodata::elevation_30s(country = "GB", path = "data/")
+  terra::writeRaster(Elev_UK, "data/Elev_UK.tif", overwrite = TRUE)
+}
+
+
+if (!file.exists("data/Clim_cmip6_2041_2060_UK.tif")) {
+  Clim_cmip6_2041_2060 <- geodata::cmip6_world(var = "bioc", ssp = "126", model = "BCC-CSM2-MR", time = "2041-2060", 
+                                             res = 5, path = "data/")
+  terra::writeRaster(Clim_cmip6_2041_2060_UK, "data/Clim_cmip6_2041_2060_UK.tif", overwrite = TRUE)
+}
+```
+
+```{r}
+#| label: demo-envdata
+#| eval: false
+#| echo: true
+#| warning: false
+#| message: false
+
+# Download WorldClim data
+Clim_extant <- geodata::worldclim_global(var = "bio", 
+                                         res = 5, path = "data/")
+
+names(Clim_extant) <- sub("^wc2.1_5m_", "", names(Clim_extant))
+
+# Download elevation data
+Elev_UK <- geodata::elevation_30s(country = "GB", path = "data/")
+
+# Crop climate to UK
+Clim_UK <- terra::crop(Clim_extant, UK_sf)
+
+# Crop elevation to UK
+Elev_UK <- terra::crop(Elev_UK, UK_sf)
+
+# Download bioclimatic variables for a future scenario
+# Example: CMIP6 data for SSP5-8.5, year 2060, GCM = BCC-CSM2-MR, resolution = 5 arc-min
+# Shared Socioeconomic Pathways (SSPs) code 126: refers to the "Paris Agreement compatible" pathway with:
+# SSP1: Sustainability (world shifts toward green growth, equity, and environmental awareness)
+# Radiative forcing stabilizes at 2.6 W/m² by 2100
+Clim_cmip6_2041_2060 <- geodata::cmip6_world(var = "bioc", ssp = "126", model = "BCC-CSM2-MR", time = "2041-2060", 
+                                             res = 5, path = "data/")
+
+names(Clim_cmip6_2041_2060) <- gsub("^bio", "bio_", names(Clim_cmip6_2041_2060))
+
+# Crop future climate to UK
+Clim_cmip6_2041_2060_UK  <- terra::crop(Clim_extant, UK_sf)
+```
+
+<br>
+
+### 3. Species occurrence data from GBIF
+
+```{r}
+#| label: hide-download-gbif
+#| echo: false
+#| include: false
+#| message: false
+#| warning: false
+
+if (!file.exists("data/workshop_data.RData")) {
+  ####
+  # Focal species for the SDM workshop
+  species_name <- "Rhinolophus hipposideros"
+  key <- name_backbone(name = species_name)$speciesKey
+
+  occ_data_rhinhipp <- occ_search(
+    taxonKey = key,
+    country = "GB",
+    hasCoordinate = TRUE,
+    limit = 2000
+  )
+
+  occ_df_rhinhipp <- occ_data_rhinhipp$data
+
+  # Note the date when GBIF data were downloaded
+  attr(occ_df_rhinhipp, "gbif_download_date") <- Sys.Date()
+
+  ####
+  #  Target group species for species background data
+  # Define target group (Chiroptera = bats)
+  bat_taxon_key <- name_backbone(name = "Chiroptera")$usageKey
+  
+  # Download bat occurrence records from GBIF
+  bat_occ <- rgbif::occ_search(
+    taxonKey = bat_taxon_key,
+    country = "GB",
+    hasCoordinate = TRUE,
+    limit = 10000  # increase if needed, but beware GBIF limits
+  )
+
+  # Extract data
+  bat_df <- bat_occ$data
+
+  # Remove records for the focal species (Rhinolophus hipposideros)
+  target_group_df <- bat_df %>%
+    # Select only the columns key, decimalLatitude, decimalLongitude
+    dplyr::select(species, key, decimalLatitude, decimalLongitude) %>%
+    # Remove records with missing coordinates
+    filter(!is.na(decimalLongitude), !is.na(decimalLatitude)) %>%
+    filter(!species %in% "Rhinolophus hipposideros") %>%
+    dplyr::select(species, decimalLatitude, decimalLongitude)
+  
+  # Note the date when GBIF data were downloaded
+  attr(target_group_df, "gbif_download_date") <- Sys.Date()
+  
+  # Convert to sf object
+  target_group_sf <- st_as_sf(
+    target_group_df,
+    coords = c("decimalLongitude", "decimalLatitude"),
+    crs = 4326
+  )
+}  
+```
+
+```{r}
+#| label: demo-gbif
+#| eval: false
+#| echo: true
+#| warning: false
+#| message: false
+
+####
+# Focal species for the SDM workshop
+species_name <- "Rhinolophus hipposideros"
+key <- name_backbone(name = species_name)$speciesKey
+
+occ_data_rhinhipp <- occ_search(
+  taxonKey = key,
+  country = "GB",
+  hasCoordinate = TRUE,
+  limit = 2000
+)
+
+occ_df_rhinhipp <- occ_data_rhinhipp$data
+
+# Note the date when GBIF data were downloaded
+attr(occ_df_rhinhipp, "gbif_download_date") <- Sys.Date()
+
+
+####
+#  Target group species for species background data
+# Define target group (Chiroptera = bats)
+bat_taxon_key <- name_backbone(name = "Chiroptera")$usageKey
+
+# Download bat occurrence records from GBIF
+bat_occ <- rgbif::occ_search(
+  taxonKey = bat_taxon_key,
+  country = "GB",
+  hasCoordinate = TRUE,
+  limit = 10000  # increase if needed, but beware GBIF limits
+)
+
+# Extract data
+bat_df <- bat_occ$data
+
+# Remove records for the focal species (Rhinolophus hipposideros)
+target_group_df <- bat_df %>%
+    # Select only the columns key, decimalLatitude, decimalLongitude
+  dplyr::select(species, key, decimalLatitude, decimalLongitude) %>%
+  # Remove records with missing coordinates
+  filter(!is.na(decimalLongitude), !is.na(decimalLatitude)) %>%
+  filter(!species %in% "Rhinolophus hipposideros") %>%
+  dplyr::select(species, decimalLatitude, decimalLongitude)
+
+# Note the date when GBIF data were downloaded
+attr(target_group_df, "gbif_download_date") <- Sys.Date()
+
+# Convert to sf object
+target_group_sf <- st_as_sf(
+  target_group_df,
+  coords = c("decimalLongitude", "decimalLatitude"),
+  crs = 4326
+)
+```
+
+## 4. Save datasets for reuse
+
+```{r}
+#| label: hide-savedata
+#| echo: false
+#| include: false
+#| message: false
+#| warning: false
+
+if (!file.exists("data/workshop_data.RData")) {
+  # Save vector and tabular data only
+  save(
+    World_sf, UK_sf, UK_admin_sf, WalesEast_admin_sf,
+    species_name, occ_df_rhinhipp, target_group_sf, 
+    file = "data/workshop_data.RData"
+  )
+}  
+```
+
+```{r}
+#| label: demo-savedata
+#| eval: false
+#| echo: true
+#| warning: false
+#| message: false
+
+# Save vector and tabular data only
+save(
+  World_sf, UK_sf, UK_admin_sf, WalesEast_admin_sf,
+  species_name, occ_df_rhinhipp, target_group_sf, 
+  file = "data/workshop_data.RData"
+)
+
+# Save raster data separately as GeoTIFFs
+terra::writeRaster(Clim_UK, "data/Clim_UK.tif", overwrite = TRUE)
+terra::writeRaster(Elev_UK, "data/Elev_UK.tif", overwrite = TRUE)
+terra::writeRaster(Clim_cmip6_2041_2060_UK, "data/Clim_cmip6_2041_2060_UK.tif", overwrite = TRUE)
+```
+
+
+

@@ -1,0 +1,82 @@
+{
+  "index.qmd": {
+    "index.html": "9dd76319"
+  },
+  "about.qmd": {
+    "about.html": "cec462fc"
+  },
+  "SpatialDataR.qmd": {
+    "SpatialDataR.html": "c312038c"
+  },
+  "SpeciesData.qmd": {
+    "SpeciesData.html": "7e06a3c4"
+  },
+  "EnvironmentalData.qmd": {
+    "EnvironmentalData.html": "b09718c4"
+  },
+  "SDMSimpleModelFitting.qmd": {
+    "SDMSimpleModelFitting.html": "d030d939"
+  },
+  "SDMAssessmentProjection.qmd": {
+    "SDMAssessmentProjection.html": "375e695a"
+  },
+  "SDMEnsembleModelFitting.qmd": {
+    "SDMEnsembleModelFitting.html": "7d8ac429"
+  },
+  "PseudoAbsenceData.qmd": {
+    "PseudoAbsenceData.html": "c33bdfc7"
+  },
+  "DataPreparation.qmd": {
+    "DataPreparation.html": "1ca0091c"
+  },
+  "SDMCompareAlgorithms.qmd": {
+    "SDMCompareAlgorithms.html": "10117ef0"
+  },
+  "page_SDM.2_SpatialDataR.qmd": {
+    "page_SDM.2_SpatialDataR.html": "79cf378a",
+    "page_SDM.2_SpatialDataR.tex": "3e72f0ea"
+  },
+  "page_SDM.1_DataPreparation.qmd": {
+    "page_SDM.1_DataPreparation.html": "7675fe44",
+    "page_SDM.1_DataPreparation.tex": "6543be11"
+  },
+  "FILES_QMD/about.qmd": {
+    "about.html": "c976d9dd"
+  },
+  "FILES_QMD/DataPreparation.qmd": {
+    "DataPreparation.html": "fdfb8f9e"
+  },
+  "FILES_QMD/EnvironmentalData.qmd": {
+    "EnvironmentalData.html": "25312187"
+  },
+  "FILES_QMD/SDMAssessmentProjection.qmd": {
+    "SDMAssessmentProjection.html": "a3d208f7"
+  },
+  "page_SDM.3_SpeciesData.qmd": {
+    "page_SDM.3_SpeciesData.html": "bbfec20e"
+  },
+  "page_SDM.4_EnvironmentalData.qmd": {
+    "page_SDM.4_EnvironmentalData.html": "44d87a01"
+  },
+  "page_SDM.5_PseudoAbsenceData.qmd": {
+    "page_SDM.5_PseudoAbsenceData.html": "ea48f998"
+  },
+  "page_SDM.6_SDMSimpleModelFitting.qmd": {
+    "page_SDM.6_SDMSimpleModelFitting.html": "97a33f16"
+  },
+  "page_SDM.7_SDMAssessmentProjection.qmd": {
+    "page_SDM.7_SDMAssessmentProjection.html": "2d41dda2"
+  },
+  "page_SDM_index.qmd": {
+    "page_SDM_index.html": "467cc34a"
+  },
+  "page_SDM.9_SDMEnsembleModelFitting.qmd": {
+    "page_SDM.9_SDMEnsembleModelFitting.html": "a0e4ba11"
+  },
+  "page_SDM.8_SDMCompareAlgorithms.qmd": {
+    "page_SDM.8_SDMCompareAlgorithms.html": "e8e7a0d2"
+  },
+  "SDM_Book.qmd": {
+    "SDM_Book.tex": "78ac670c"
+  }
+}

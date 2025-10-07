@@ -1,0 +1,452 @@
+---
+title: "Species Data"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: setup-load-data
+#| echo: false
+#| warning: false
+#| message: false
+
+library(terra)
+library(sf)
+library(ggplot2)
+library(dplyr)
+
+# Load pre-saved spatial and occurrence data
+load("data/workshop_data.RData")
+```
+
+Species data form the foundation of ecological and biodiversity analyses. These data often include species **occurrence records**, abundance counts, and trait information, collected across both space and time.
+
+One common type of species data is occurrence records — point data indicating where a species has been observed. In some cases, you may have a file containing presence-only records (locations where a species was detected). In other cases, you may work with presence-absence data, where each location is marked with whether the species was observed (present) or not (absent). These data can also apply to related domains, such as disease incidence records.
+
+In the era of big data, many occurrence datasets are readily available through online biodiversity databases, often as georeferenced records.
+
+Regardless of the data source, the goal is to map the occurrence points and link them to relevant environmental conditions at each location. To do this, your dataset must include at least two columns with latitude and longitude coordinates indicating where each species record was collected or assumed absent.
+
+## 1. Species occurrence data: concepts and formats
+
+Species occurrence data typically include: - Presence-only records: Locations where a species has been observed - Presence-absence data: Locations where presence or absence was recorded - Abundance data: Counts or estimates of individuals observed
+
+Common data fields include: - Species scientific name (species) - Geographic coordinates (longitude, latitude) - Observation date (date) - Observer or data source - Environmental metadata (optional)
+
+Occurrence data are accessible from a growing number of online databases. Notable examples of interest - [**GBIF (Global Biodiversity Information Facility)**](https://www.gbif.org/): the largest open-access biodiversity database, aggregating millions of occurrence records from museums, citizen science, and research projects worldwide. - [**iNaturalist**](https://www.inaturalist.org/): a citizen science platform where users submit geo-tagged observations of plants, animals, and fungi, often with photos verified by a community of experts. - [**eBird**](https://ebird.org/): a global bird observation database maintained by the Cornell Lab of Ornithology, containing millions of bird sightings submitted by birdwatchers. - [**OBIS (Ocean Biogeographic Information System)**](https://obis.org/): a specialized database focusing on marine species distribution data from research cruises, museums, and observation networks. - [Movebank](https://www.movebank.org/cms/movebank-main): detailed location data of animal movement sequences (mostly from tagging data that recorded movement paths)
+
+<br>
+
+### 1.1 Downloading species occurrence data from GBIF
+
+**The Global Biodiversity Information Facility (GBIF)** is a key open-access resource for species occurrence data. Using the `rgbif` package, we can query GBIF and download occurrence records for a species of interest. Below is an example workflow to download occurrence records for *Rhinolophus hipposideros* (the lesser horseshoe bat), restricted to records from the United Kingdom:
+
+```{r}
+#| label: rgbif-download
+#| eval: false
+#| echo: true
+#| message: false
+#| warning: false
+
+library(rgbif)
+
+# Define species name
+species_name <- "Rhinolophus hipposideros"
+
+# Check whether synonyms are recorded in GBIF
+name_suggest(q=species_name, rank='species')
+
+# Check number of records with coordinate information
+occ_search(scientificName = species_name , hasCoordinate=T, limit = 10)$meta$count
+
+# Get GBIF taxon key for the species
+key <- name_backbone(name = species_name)$speciesKey
+
+# Download occurrence data from the UK only (limited to 1000 records)
+occ_data_rhinhipp <- occ_search(
+  taxonKey = key,
+  country = "GB",          # Filter to UK only
+  hasCoordinate = TRUE,
+  limit = 1000
+)
+
+# Extract the data frame
+occ_df_rhinhipp <- occ_data_rhinhipp$data
+```
+
+::: {.callout-note collapse="true" icon="lightbulb"}
+### Our focal species of the day!
+
+In this tutorial, we use occurrence data of the [Lesser Horseshoe Bat (Rhinolophus hipposideros)](https://animaldiversity.org/accounts/Rhinolophus_hipposideros/). Distributed across most of Europe, it can be found in warmer regions with woodlands, riparian forests and pastures. Lesser Horseshoe Bats forage for arthropods, often flying not more than a few meters above the ground. They may take large prey back to a roost or perch. From May, mixed-sex maternity colonies are formed in maternity roosting sites, and the females have a single pup. Lesser Horseshoe Bats hibernate over the winter in caves, disused mines, tunnels and cellars. They tend to roost in old houses, churches, stables and barns. According to the [IUCN Red List](https://www.iucnredlist.org/species/19518/21972794), their population is decreasing.
+
+![*Rhinolophus hipposideros* (source: faluke, via iNaturalist, photo 102259155)](./images/rhinolophus_bat.png){height="300px"}
+
+It’s worth browsing literature databases using search strings like "*species distribution model*" AND "*Rhinolophus hipposideros*". Reviewing recent titles and abstracts (from the past 5 to 10 years) can clarify how SDMs are applied to this species in both theoretical and applied contexts. At the same time, explore studies on the species' life history, including diet, habitat use, climate sensitivity, and roosting behavior. A strong biological foundation is essential for creating models that reflect real-world ecology and produce meaningful results.
+:::
+
+#### Plotting the occurrence records
+
+We can now plot the downloaded occurrence records on a map to explore their spatial distribution within the UK. Mapping the raw occurrence data is important step in exploring your dataset, helping you verify that points fall roughly where expected. At this stage however, the data are likely uncleaned, so avoid drawing strong conclusions until further validation and cleaning have been performed.
+
+```{r}
+#| label: plot-occrec
+#| echo: true
+#| message: false
+#| warning: false
+
+library(rnaturalearth)
+library(ggplot2)
+
+# UK map
+UK_sf <- ne_countries(scale = "medium", country = "United Kingdom", returnclass = "sf")
+
+# Plot the occurrence records over a UK basemap
+ggplot() +
+  geom_sf(data = UK_sf, fill = "grey90", color = "black") +
+  geom_point(
+    data = occ_df_rhinhipp,
+    aes(x = decimalLongitude, y = decimalLatitude),
+    size = 1,
+    shape = 23,
+    fill = "#6a3d9a"
+  ) +
+  labs(
+    title = "Records of Rhin. hipposideros in the UK"
+  ) +
+  theme_minimal()
+```
+
+### Interactive map of occurrence records
+
+To further explore the spatial distribution of *Rhinolophus hipposideros* in the UK, we can use an interactive map. The map below is rendered using the `leaflet` package and allows zooming, panning, and clicking on individual points for more information.
+
+```{r}
+#| label: leaflet-occrec
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 6
+
+library(leaflet)
+
+leaflet(data = occ_df_rhinhipp) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(
+    lng = ~decimalLongitude,
+    lat = ~decimalLatitude,
+    radius = 4,
+    fillColor = "#6a3d9a",   # Purple (accessible and visually appealing)
+    color = "white",
+    weight = 1,
+    fillOpacity = 0.8,
+    popup = ~paste0(
+      "<strong>Scientific Name:</strong> ", scientificName,
+      "<br><strong>Date:</strong> ", eventDate
+    )
+  ) %>%
+  addLegend(
+    position = "bottomright",
+    colors = "#6a3d9a",
+    labels = "*Rhinolophus hipposideros*",
+    title = "Species"
+  )
+```
+
+<br>
+
+::: {.callout-tip collapse="true" icon="lightbulb"}
+### Tip: Using your own field data
+
+You can easily import species occurrence data from your own field surveys using tools like the [`readxl`](https://CRAN.R-project.org/package=readxl) package (for Excel files) or `read.csv()` (for CSVs). Regardless of format, the key requirement is to prepare a data frame with at least **two columns for coordinates** — ideally **longitude** first and **latitude** second (think: X and Y axes).
+
+Different coordinate systems can be used, such as geographic coordinates (longitude/latitude) or projected systems like UTM (Easting/Northing). These can be converted between each other in R by specifying and transforming the coordinate reference system (**CRS**).
+
+Additional useful columns may include: - A **species name** column (if working with multiple species) - A **presence/absence indicator** (`1` for presence, `0` for absence)
+
+Once formatted, your own data can be processed and analyzed in exactly the same way as GBIF or other downloaded datasets.
+:::
+
+::: {.callout-tip collapse="true" icon="lightbulb"}
+### Use filters wisely...
+
+When downloading large datasets, apply filters such as date range, coordinate presence, or country to reduce size and improve relevance.
+:::
+
+<br><br>
+
+## 2 Data cleaning for species occurrence data
+
+As with many data-intensive workflows, cleaning your occurrence data is a crucial early step. Public database like GBIF are rich sources, but weren’t originally designed specifically for species distribution modelling (SDM) or systematic analyses. That means you will often need to filter, correct and validate the data so that your subsequent models are meaningful, reproducible and robust. Below are common issues, rationale, and reproducible workflows using R.
+
+#### What to check & why
+
+-   **Duplicates**: Records with identical coordinates (and metadata) can artificially inflate data density.\
+-   **Outliers**: Points way outside expected range (e.g., in the ocean for terrestrial species, or extreme lat/lon).\
+-   **Coordinate validation**: Missing values, lat/long reversed, zero coordinates, or values outside valid ranges.\
+-   **Country/administrative mismatches**: The “country” field may not match what the spatial location implies.\
+-   **Ungeoreferenced localities**: Text descriptions without coordinates; some may be georeferenced later, others discarded.\
+-   **Sampling bias**: Over‑sampling near roads, institutions; under‑sampling in remote areas.
+
+#### Sampling bias in species occurrence data
+
+When species occurrence records are collected opportunistically (e.g. near roads, cities, institutions, or along accessible routes), **sampling bias** often arises. Some areas end up heavily sampled, others under-sampled. If not addressed, this bias can distort species distribution models in that overrepresented zones may dominate the environmental signal and lead to misleading predictions. On the other hand, high point density in some places *may* reflect genuine habitat suitability. Subsampling or thinning helps, but you must balance bias reduction against losing valid information.
+
+A related concept is **scale**: spatial grain (resolution) and extent affect what patterns you see. Organisms perceive environments differently at different scales — what seems clustered or patchy at one grain may be regular or homogeneous at another. So exploring how different grain sizes / sampling distances influence your data is useful.
+
+<br>
+
+::: {.callout-note collapse="true" icon="lightbulb"}
+### Exploring spatial resolution effects:
+
+How does changing the spatial resolution (grain size) affect the number and distribution of retained species occurrences?\
+Watch the animation below to see how coarser grids retain fewer points while finer grids retain more.\
+The raster grid is created with `terra::rast()` and its resolution adjusted using `res()`.\
+Points are subsampled using stratified random sampling with `terra::spatSample()`, selecting one point per grid cell.
+:::
+
+```{r}
+#| label: grid-resolution
+#| echo: false
+#| message: false
+#| warning: false
+#| results: 'hide'
+#| fig-height: 6
+
+library(terra)
+library(magick)
+
+# Create spatial points from species data (lat/lon in correct order)
+occ_points <- terra::vect(
+  as.matrix(occ_df_rhinhipp[, c("decimalLongitude", "decimalLatitude")]),
+  type = "points",
+  crs = "EPSG:4326"
+)
+
+# Create base raster using extent of occurrence points
+base_r <- terra::rast(occ_points)
+
+# Create folder to store frames
+dir.create("frames", showWarnings = FALSE)
+n_iter <- 20
+frames <- list()
+
+# Iterate over different resolutions and sample points
+for (i in 1:n_iter) {
+  res_samp <- sample(seq(0.1, 1.0, by = 0.1), 1)
+  r <- base_r
+  res(r) <- res_samp
+  r <- extend(r, ext(r) + 1)
+  
+  occ_points_samp <- terra::spatSample(occ_points, size = 1, method = "random", strata = r)
+  p <- as.polygons(r)
+  
+  png_filename <- sprintf("frames/frame_%02d.png", i)
+  png(png_filename, width = 800, height = 600)
+  plot(p, border = 'gray', main = paste("Grid Resolution:", res_samp, "°"))
+  points(occ_points, pch = 16, col = "black", cex = 0.7)
+  points(occ_points_samp, cex = 1.5, col = 'red', pch = 'x')
+  dev.off()
+  
+  frames[[i]] <- image_read(png_filename)
+}
+
+# Create GIF
+gif <- image_animate(image_join(frames), fps = 2)
+image_write(gif, "grid_sampling_animation.gif")
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+
+# Display the GIF in HTML
+cat('<img src="grid_sampling_animation.gif" width="700" style="display:block; margin:auto;">')
+```
+
+#### Cleaning species data using **`CoordinateCleaner`**
+
+Not all coordinates in species occurrence data are correct or reliable. We need to cross-check these carefully to ensure robust modelling.
+
+An overview of coordinate cleaning methods is provided by Robert Hijmans in tutorials from the **dismo** package. A more recent and powerful tool is the **CoordinateCleaner** package (Zizka et al., 2019), which efficiently cleans geographic coordinates using multiple automated tests.
+
+The key cleaning steps we will apply here include: - Removing **duplicates** (exact same coordinates and metadata). - Checking if coordinates match the reported **country codes** (test centroids). - Detecting spatial **outliers** far from expected ranges. - Testing proximity to known biodiversity institutions (e.g., botanical gardens) that may bias records. - Additional cleaning steps are available; rigorous exploration and testing are crucial for professional data cleaning.
+
+<BR>
+
+```{r}
+#| label: clean-coordinates
+#| message: false
+#| warning: false
+#| echo: true
+
+# Load libraries
+library(CoordinateCleaner)
+library(terra)
+library(sf)
+library(dplyr)
+
+# Convert to sf object for spatial operations
+occ_sf_rhinhipp <- st_as_sf(occ_df_rhinhipp, coords = c("decimalLongitude", "decimalLatitude"), crs = 4326)
+
+# Step 1: Remove exact duplicates (including metadata if needed)
+occ_unique_rhinhipp <- occ_df_rhinhipp %>% distinct()
+
+# Flag records with potentially problematic coordinates using various tests:
+# - 'centroids': points near country or province centroids (likely errors)
+# - 'duplicates': exact duplicate records
+# - 'equal': points with identical latitude and longitude values
+# - 'gbif': records flagged by GBIF as problematic
+# - 'institutions': points near biodiversity institutions (e.g., museums, botanical gardens)
+# - 'seas': points falling in the sea for terrestrial species
+# - 'zeros': points with zero coordinates (0,0)
+# The parameter inst_rad = 10000 sets the radius (in meters) around institutions to flag points
+occ_rhinhipp_flags <- clean_coordinates(occ_unique_rhinhipp, lon="decimalLongitude", lat="decimalLatitude", countries="countryCode", 
+			tests=c("centroids", "duplicates", "equal", "gbif", "institutions", "zeros"), inst_rad = 10000)
+
+# Subset the original data to keep only the records that passed all cleaning tests
+occ_rhinhipp_cleaned <- occ_unique_rhinhipp[occ_rhinhipp_flags$.summary,]
+
+# Print number of records retained after cleaning
+cat("Number of records before cleaning:", nrow(occ_unique_rhinhipp), "\n")
+cat("Number of records retained after cleaning:", nrow(occ_rhinhipp_cleaned), "\n")
+
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 6
+
+# Plot the raw versus cleaned records
+library(leaflet)
+
+leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+
+  # Add raw occurrence points (purple), hidden by default
+  addCircleMarkers(
+    data = occ_df_rhinhipp,
+    lng = ~decimalLongitude,
+    lat = ~decimalLatitude,
+    radius = 5,
+    color = "#6a3d9a",
+    fillColor = "#6a3d9a",
+    fillOpacity = 0.4,
+    stroke = FALSE,
+    group = "Raw points"
+  ) %>%
+
+  # Add cleaned points (red)
+  addCircleMarkers(
+    data = occ_rhinhipp_cleaned,
+    lng = ~decimalLongitude,
+    lat = ~decimalLatitude,
+    radius = 5,
+    color = "black",
+    fillColor = "#e31a1c",
+    fillOpacity = 0.9,
+    weight = 1,
+    group = "Cleaned points"
+  ) %>%
+
+  # Add layer control to toggle point types
+  addLayersControl(
+    overlayGroups = c("Raw points", "Cleaned points"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+
+  # Hide the raw points group by default
+  hideGroup("Raw points") %>%
+
+  # Add a legend explaining point colors
+  addLegend(
+    position = "bottomright",
+    colors = c("#6a3d9a", "#e31a1c"),
+    labels = c("Raw records", "Cleaned records"),
+    title = "Point Types",
+    opacity = 0.9
+  )
+
+```
+
+::: {.callout-note collapse="true" icon="download"}
+### Accessing multiple occurrence databases with `spocc`
+
+The [`spocc`](https://docs.ropensci.org/spocc/) package is a versatile R tool that lets you query **multiple biodiversity databases** in a single workflow — including **GBIF**, **eBird**, **iNaturalist**, and **OBIS**.
+
+This is especially helpful when working with **taxa not well covered** in a single database, or when aiming to **compare sources**.
+
+Below is a simple example querying **iNaturalist** for the species *Zosterops emiliae* (Mountain Black-eye, a species endemic to Borneo).
+
+<iframe src="https://macaulaylibrary.org/asset/109035701/embed" height="370" width="320" frameborder="0" allowfullscreen>
+
+</iframe>
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(spocc)
+library(leaflet)
+library(dplyr)
+
+# Search for records from iNaturalist
+res <- occ(query = "Zosterops emiliae", from = "inat", limit = 100)
+
+# Convert to data frame
+df <- occ2df(res)
+
+# Filter iNaturalist results (redundant here, but useful if multiple sources are queried)
+inat_df <- df %>% filter(prov == "inat")
+
+# Remove missing coordinates
+inat_df <- inat_df %>% filter(!is.na(latitude) & !is.na(longitude))
+```
+
+```{r}
+#| echo: false
+
+inat_df$longitude <- as.numeric(inat_df$longitude)
+inat_df$latitude <- as.numeric(inat_df$latitude)
+
+# Create leaflet map
+leaflet(data = inat_df) %>%
+  addProviderTiles(providers$OpenTopoMap) %>%
+  addCircleMarkers(
+    ~longitude, ~latitude,
+    radius = 5,
+    color = "darkgreen",
+    fillOpacity = 0.7,
+    popup = ~name
+  ) %>%
+  addScaleBar(position = "bottomleft")
+```
+:::
+
+::: {.callout-note collapse="true" icon="info"}
+### Exercises: Examing different species data
+
+1.  **Download and map a different species:**\
+    Choose a different species relevant to your region or interests and the use `occ_search()` to download up to 1000 records with coordinates, restricted to a country of your choice. Plot the occurrence points on a static map.
+
+2.  **Explore sampling bias and thinning:**\
+    Create a `terra::rast()` object covering the extent of your species data. Use stratified sampling (`terra::spatSample()`) to thin the data across raster cells of varying resolutions (e.g., 0.1, 0.25, 0.5 degrees). Plot the full vs. thinned datasets over a base map to compare spatial density.
+:::
+
+::: {.callout-note collapse="true" icon="book"}
+### Literature
+
+Aiello-Lammens, M. E., Boria, R. A., Radosavljevic, A., Vilela, B., & Anderson, R. P. (2015). **spThin: an R package for spatial thinning of species occurrence records for use in ecological niche models.** *Ecography*, 38(5), 541–545. [doi:10.1111/ecog.01132](https://doi.org/10.1111/ecog.01132)
+
+Baker, D. J., Maclean, I. M. D., & Gaston, K. J. (2024). **Effective strategies for correcting spatial sampling bias in species distribution models without independent test data.** *Diversity and Distributions*, 30(3), e13802. [doi:10.1111/ddi.13802](https://doi.org/10.1111/ddi.13802)
+
+Inman, R., Franklin, J., Esque, T., & Nussear, K. (2021). **Comparing sample bias correction methods for species distribution modeling using virtual species**. *Ecosphere*, 12(3), e03422. [doi:10.1002/ecs2.3422](https://doi.org/10.1002/ecs2.3422)
+
+Steen, V. A., Tingley, M. W., Paton, P. W. C., & Elphick, C. S. (2021). **Spatial thinning and class balancing: Key choices lead to variation in the performance of species distribution models with citizen science data**. *Methods in Ecology and Evolution*, 12(2), 216–226. [doi:10.1111/2041-210X.13525](https://doi.org/10.1111/2041-210X.13525)
+
+Zizka, A., Silvestro, D., Andermann, T., Azevedo, J., Duarte Ritter, C., Edler, D., Farooq, H., Herdean, A., Ariza, M., Scharn, R., Svantesson, S., Wengström, N., Zizka, V. & Antonelli, A. (2019). **CoordinateCleaner: Standardized cleaning of occurrence records from biological collection databases**. *Methods in Ecology and Evolution*, 10(5), 744–751. [doi:10.1111/2041-210X.13152](https://doi.org/10.1111/2041-210X.13152)
+:::
+
+

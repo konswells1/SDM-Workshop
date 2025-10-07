@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Fitting &amp; Comparing Algorithms – SDM Workshop</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/sdm_favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9859d952baf36b9a7db628bbb9f3169e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo light-content">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">SDM Workshop</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-spatial-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Spatial Data</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-spatial-data">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.2_SpatialDataR.html">
+ <span class="dropdown-text">Spatial Data in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.3_SpeciesData.html">
+ <span class="dropdown-text">Species Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.4_EnvironmentalData.html">
+ <span class="dropdown-text">Environmental Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.5_PseudoAbsenceData.html">
+ <span class="dropdown-text">Background &amp; Pseudo-Absence Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-species-distribution-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Species Distribution Models</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-species-distribution-models">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.6_SDMSimpleModelFitting.html">
+ <span class="dropdown-text">Simple Model Fitting (GLM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.7_SDMAssessmentProjection.html">
+ <span class="dropdown-text">Assessment &amp; Projection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.8_SDMCompareAlgorithms.html">
+ <span class="dropdown-text">Fitting &amp; Comparing Algorithms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.9_SDMEnsembleModelFitting.html">
+ <span class="dropdown-text">Ensemble Modelling</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#generalised-additive-models-gams" id="toc-generalised-additive-models-gams" class="nav-link active" data-scroll-target="#generalised-additive-models-gams">1. Generalised Additive Models (GAMs)</a></li>
+  <li><a href="#machine-learningbased-sdm-methods" id="toc-machine-learningbased-sdm-methods" class="nav-link" data-scroll-target="#machine-learningbased-sdm-methods">2. Machine Learning–Based SDM Methods</a>
+  <ul class="collapse">
+  <li><a href="#boosted-regression-trees-brggbm" id="toc-boosted-regression-trees-brggbm" class="nav-link" data-scroll-target="#boosted-regression-trees-brggbm">2.1 Boosted Regression Trees (BRG/GBM)</a></li>
+  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests">2.2 Random Forests</a></li>
+  <li><a href="#maxent" id="toc-maxent" class="nav-link" data-scroll-target="#maxent">2.3 Maxent</a></li>
+  </ul></li>
+  <li><a href="#envelope-based-models" id="toc-envelope-based-models" class="nav-link" data-scroll-target="#envelope-based-models">3. Envelope-Based Models</a>
+  <ul class="collapse">
+  <li><a href="#bioclim" id="toc-bioclim" class="nav-link" data-scroll-target="#bioclim">3.1 Bioclim</a></li>
+  </ul></li>
+  <li><a href="#advanced-and-emerging-methods" id="toc-advanced-and-emerging-methods" class="nav-link" data-scroll-target="#advanced-and-emerging-methods">4. Advanced and Emerging Methods</a>
+  <ul class="collapse">
+  <li><a href="#bayesian-sdms-e.g.-inla" id="toc-bayesian-sdms-e.g.-inla" class="nav-link" data-scroll-target="#bayesian-sdms-e.g.-inla">4.1 Bayesian SDMs (e.g., INLA)</a></li>
+  <li><a href="#joint-species-distribution-modelling-to-account-for-biotic-interactions" id="toc-joint-species-distribution-modelling-to-account-for-biotic-interactions" class="nav-link" data-scroll-target="#joint-species-distribution-modelling-to-account-for-biotic-interactions">4.2 Joint species distribution modelling to account for biotic interactions</a></li>
+  <li><a href="#dynamic-and-spatio-temporal-sdms" id="toc-dynamic-and-spatio-temporal-sdms" class="nav-link" data-scroll-target="#dynamic-and-spatio-temporal-sdms">4.3 Dynamic and spatio-temporal SDMs</a></li>
+  <li><a href="#neural-networks-and-deep-learning-approaches-to-sdm" id="toc-neural-networks-and-deep-learning-approaches-to-sdm" class="nav-link" data-scroll-target="#neural-networks-and-deep-learning-approaches-to-sdm">4.4 Neural networks and deep learning approaches to SDM</a></li>
+  <li><a href="#mechanistic-process-based-models" id="toc-mechanistic-process-based-models" class="nav-link" data-scroll-target="#mechanistic-process-based-models">4.5 Mechanistic / process-based models</a></li>
+  </ul></li>
+  <li><a href="#comparing-sdm-algorithms" id="toc-comparing-sdm-algorithms" class="nav-link" data-scroll-target="#comparing-sdm-algorithms">5. Comparing SDM algorithms</a>
+  <ul class="collapse">
+  <li><a href="#performance-metrics-comparison" id="toc-performance-metrics-comparison" class="nav-link" data-scroll-target="#performance-metrics-comparison">5.1 Performance metrics comparison</a></li>
+  <li><a href="#performance-metrics-comparison-1" id="toc-performance-metrics-comparison-1" class="nav-link" data-scroll-target="#performance-metrics-comparison-1">5.2 Performance metrics comparison</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fitting &amp; Comparing Algorithms</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><br></p>
+<p>Species Distribution Models (SDMs) can be built using a variety of algorithms, each with its own assumptions, strengths, and limitations. While earlier in this workshop we focused on fitting a simple Generalized Linear Model (GLM), this section broadens the scope to explore alternative approaches commonly used in ecological modelling and biogeography.</p>
+<p>Widely used SDM algorithms include:</p>
+<p><strong>Generalized Additive Models (GAM)</strong>: Flexible regression models that capture non-linear relationships using smoothing functions.</p>
+<p><strong>Boosted Regression Trees (BRT / GBM)</strong>: Ensemble models that combine many decision trees for robust predictions.</p>
+<p><strong>Random Forests</strong>: A tree-based ensemble method that averages multiple models to improve accuracy and reduce overfitting.</p>
+<p><strong>MaxEnt</strong>: A popular presence-only modelling method based on the principle of maximum entropy.</p>
+<p><strong>Bioclim</strong>: A simple climatic envelope model based on observed environmental ranges (not covered in this workshop).</p>
+<p><strong>INLA (Integrated Nested Laplace Approximation)</strong>: A Bayesian framework allowing spatially explicit modelling of species distributions.</p>
+<p><strong>Artificial Neural Networks (ANN)</strong>: Flexible machine learning models that can capture complex non-linear relationships, though often harder to interpret.</p>
+<p>In this section we will fit some of these algorithms to the same species–environment dataset in order to compare their predictive performance and understand how different methods respond to the same data. This comparison highlights the variability that can arise depending on algorithm choice, which is an important consideration when using SDMs for decision-making in conservation, land-use planning, or climate change impact assessment.</p>
+<p>Throughout this section, we will assess model performance using metrics such as AUC (Area Under the Curve), sensitivity, specificity, and TSS (True Skill Statistic). We will also explore how each algorithm predicts habitat suitability across geographic space, and discuss differences in their outputs.</p>
+<p>This foundation will prepare us for the next step: <strong>ensemble modelling</strong>, where we combine the strengths of multiple algorithms to generate more robust and reliable predictions.</p>
+<section id="generalised-additive-models-gams" class="level2">
+<h2 class="anchored" data-anchor-id="generalised-additive-models-gams">1. Generalised Additive Models (GAMs)</h2>
+<p>Generalised Additive Models (GAMs) extend Generalised Linear Models (GLMs) by allowing for non-linear relationships between predictors and the response variable. In the context of species distribution modelling, GAMs can capture complex ecological responses to environmental gradients using smooth functions, rather than assuming a linear or quadratic form.</p>
+<p>GAMs are particularly useful when species responses to predictors (e.g., temperature, elevation, precipitation) are expected to be curved or irregular. This flexibility often improves model fit and interpretability without overfitting — especially when using automatic smoothing penalties.</p>
+<p>In R, GAMs are commonly fitted using the <code>mgcv</code> package, which supports efficient estimation of smooth terms and model diagnostics.</p>
+<section id="fitting-a-gam-with-mgcv" class="level4">
+<h4 class="anchored" data-anchor-id="fitting-a-gam-with-mgcv">Fitting a GAM with <code>mgcv</code></h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit GAM with smooth terms for selected predictors</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>gam_model <span class="ot">&lt;-</span> <span class="fu">gam</span>(pa <span class="sc">~</span> <span class="fu">s</span>(bio_1) <span class="sc">+</span> <span class="fu">s</span>(bio_12) <span class="sc">+</span> <span class="fu">s</span>(elevation), </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> sdm_df_clean, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Family: binomial 
+Link function: logit 
+
+Formula:
+pa ~ s(bio_1) + s(bio_12) + s(elevation)
+
+Parametric coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)  -1.1067     0.4739  -2.335   0.0195 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Approximate significance of smooth terms:
+               edf Ref.df Chi.sq p-value    
+s(bio_1)     3.965  4.879  83.35  &lt;2e-16 ***
+s(bio_12)    5.801  6.501  43.22  &lt;2e-16 ***
+s(elevation) 2.628  3.385  67.44  &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+R-sq.(adj) =   0.47   Deviance explained = 42.6%
+UBRE = -0.16461  Scale est. = 1         n = 660</code></pre>
+</div>
+</div>
+<p><strong>Plotting smooth effects</strong></p>
+<p>We can plot the estimated smooth functions to explore how each predictor influences the probability of species presence:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gam_model, <span class="at">pages =</span> <span class="dv">1</span>, <span class="at">shade =</span> <span class="cn">TRUE</span>, <span class="at">seWithMean =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/gam-smooth-plots-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Smoothed relationships estimated by GAM for each predictor.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This visualisation helps interpret non-linear ecological responses. For example, a unimodal response to temperature might suggest an optimal thermal range for the species.</p>
+</section>
+<section id="predicting-habitat-suitability-with-gams" class="level4">
+<h4 class="anchored" data-anchor-id="predicting-habitat-suitability-with-gams">Predicting habitat suitability with GAMs</h4>
+<p>Once a GAM is fitted, we can project it onto environmental raster layers to generate spatial predictions of habitat suitability.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the raster stack contains the same predictor names</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>proj_stack <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(proj_stack)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "bio_1"     "bio_12"    "elevation"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict using the GAM model</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gam_suitability <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(proj_stack, gam_model, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the prediction</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gam_suitability,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"GAM-predicted habitat suitability"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">plasma</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/gam-projection-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluating-gam-performance" class="level4">
+<h4 class="anchored" data-anchor-id="evaluating-gam-performance">Evaluating GAM performance</h4>
+<p>We can evaluate the model using a hold-out test set or cross-validation. Here’s an example using a simple AUC-based assessment.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit GAM to training data only</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>gam_model_train <span class="ot">&lt;-</span> <span class="fu">gam</span>(pa <span class="sc">~</span> <span class="fu">s</span>(bio_1) <span class="sc">+</span> <span class="fu">s</span>(bio_12) <span class="sc">+</span> <span class="fu">s</span>(elevation), </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> sdm_df_train, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test data</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>gam_predict_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(gam_model_train, <span class="at">newdata =</span> sdm_df_test, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>roc_gam <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(sdm_df_test<span class="sc">$</span>pa, gam_predict_test)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>auc_gam <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_gam)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ROC</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_gam, <span class="at">col =</span> <span class="st">"#1f78b4"</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"GAM ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_gam, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/gam-evaluation-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="machine-learningbased-sdm-methods" class="level2">
+<h2 class="anchored" data-anchor-id="machine-learningbased-sdm-methods">2. Machine Learning–Based SDM Methods</h2>
+<p>Machine learning (ML) methods have become increasingly popular in species distribution modelling due to their ability to model complex, non-linear relationships between species occurrence and environmental variables. Unlike traditional regression-based approaches (such as GLMs or GAMs), which require the modeller to explicitly define the form of each predictor (e.g., linear terms, polynomial terms, or smooth functions), machine learning models can automatically learn patterns, thresholds, and interactions from the data.</p>
+<p>At their core, machine learning algorithms aim to find the statistical relationships or decision rules that best predict an outcome based on input features, typically by minimizing some form of prediction error. They do this by iteratively adjusting model parameters or structures in response to data, often without assuming any fixed functional form in advance.</p>
+<p>This flexibility makes ML methods particularly valuable in ecological applications where relationships between species and environment may be unknown, non-linear, or influenced by multiple interacting factors. They are also well suited for large datasets with many predictors or complex structures, such as spatial or temporal autocorrelation.</p>
+<p><br></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What does a machine learning model ‘learn’?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The plot below shows a simplified example of how a machine learning algorithm (e.g.&nbsp;decision tree, random forest, or boosted tree) separates presence and absence records based on two environmental predictors. The algorithm automatically finds patterns and draws boundaries in the data space to predict species occurrence without the modeller needing to specify a particular equation. The model ‘learns’ by testing different patterns and combinations in the data, adjusting itself to improve predictions on new, unseen observations. This iterative process helps it find rules that generalize beyond the training examples.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/ml-boundary-demo-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="boosted-regression-trees-brggbm" class="level3">
+<h3 class="anchored" data-anchor-id="boosted-regression-trees-brggbm">2.1 Boosted Regression Trees (BRG/GBM)</h3>
+<p>Boosted Regression Trees (BRTs), also known as Gradient Boosting Machines (GBMs), are powerful machine learning models that combine the strengths of two methods: regression trees and boosting.</p>
+<p>A <strong>regression tree</strong> is a model that recursively splits the data based on predictor variables to reduce variance in the response. While a single tree may be simple and prone to overfitting, <strong>boosting</strong> builds an ensemble of many small trees in sequence. Each new tree focuses on the prediction errors made by the previous ones, gradually improving overall accuracy.</p>
+<p>This iterative process makes BRTs highly flexible and effective at modelling complex ecological responses, including interactions and non-linear effects. They are particularly well-suited to species distribution modelling, where ecological relationships can be intricate and noisy.</p>
+<p>We will use the <code>gbm.step()</code> function from the <code>dismo</code> package, which automates parameter tuning and cross-validation for BRTs.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dismo)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Data needs to in dataframe format for dismo::gbm.step()</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>sdm_df_clean <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_clean)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure response is numeric 1-0</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>sdm_df_clean<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdm_df_clean<span class="sc">$</span>pa))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>brt_model <span class="ot">&lt;-</span> <span class="fu">gbm.step</span>(<span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.x =</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.y =</span> <span class="st">"pa"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"bernoulli"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">tree.complexity =</span> <span class="dv">3</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">learning.rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">bag.fraction =</span> <span class="fl">0.5</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 
+ GBM STEP - version 2.9 
+ 
+Performing cross-validation optimisation of a boosted regression tree model 
+for NA and using a family of bernoulli 
+Using 660 observations and 3 predictors 
+creating 10 initial models of 50 trees 
+
+ folds are stratified by prevalence 
+total mean deviance =  1.3852 
+tolerance is fixed at  0.0014 
+now adding trees... </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/brt-fit-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Understanding the holdout deviance plot
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>The plot shows <strong>holdout deviance</strong> (a measure of model error) on cross-validated data versus the number of trees in the Boosted Regression Tree (BRT) model.</li>
+<li>Lower deviance indicates better model fit.</li>
+<li>Each point o the line represents the deviance after adding that many trees.</li>
+<li>The red horizontal line marks the mean deviance at the optimal number of trees determined via cross-validation.</li>
+<li>The curve usually declines initially, then levels off; if it rises, overfitting may occur.</li>
+<li>Choosing the number of trees at the minimum deviance balances predictive performance and model complexity.</li>
+</ul>
+<blockquote class="blockquote">
+<p>Even if the deviance curve looks smooth, cross-validation helps select a robust number of trees rather than relying solely on training data.</p>
+</blockquote>
+</div>
+</div>
+</div>
+<p>Once fitted, we can explore variable influence and partial dependence plots:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(brt_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/brt-effects-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Partial dependence plots from the BRT model showing species response to each predictor.</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                var  rel.inf
+bio_1         bio_1 42.16197
+elevation elevation 29.16432
+bio_12       bio_12 28.67371</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gbm.plot</span>(brt_model, <span class="at">n.plots =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/brt-effects-2.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Partial dependence plots from the BRT model showing species response to each predictor.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Predicting habitat suitability with the BRT</strong></p>
+<p>We can now project the BRT model to the environmental raster layers:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>proj_stack_sub <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(proj_stack_sub) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)  <span class="co"># ensure matching names</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict habitat suitability</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>brt_prediction <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(proj_stack_sub, brt_model, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Mask to land area (optional: using the first raster as template)</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># This sets ocean/NA areas back to NA</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>brt_prediction <span class="ot">&lt;-</span> <span class="fu">mask</span>(brt_prediction, proj_stack_sub[[<span class="dv">1</span>]])</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot with color scale emphasizing land values</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(brt_prediction,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"BRT-predicted habitat suitability"</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">magma</span>(<span class="dv">50</span>),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">na.col =</span> <span class="st">"lightblue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/brt-projection-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Model evaluation</strong></p>
+<p>Evaluate the model on training data using AUC:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data needs to in dataframe format for dismo::gbm.step()</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>sdm_df_train <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_train)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure response is numeric 1-0</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>sdm_df_train<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdm_df_train<span class="sc">$</span>pa))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit BRT to training data only</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>brt_model_train <span class="ot">&lt;-</span> <span class="fu">gbm.step</span>(<span class="at">data =</span> sdm_df_train,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.x =</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>),</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.y =</span> <span class="st">"pa"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"bernoulli"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">tree.complexity =</span> <span class="dv">3</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">learning.rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">bag.fraction =</span> <span class="fl">0.5</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 
+ GBM STEP - version 2.9 
+ 
+Performing cross-validation optimisation of a boosted regression tree model 
+for NA and using a family of bernoulli 
+Using 462 observations and 3 predictors 
+creating 10 initial models of 50 trees 
+
+ folds are stratified by prevalence 
+total mean deviance =  1.386 
+tolerance is fixed at  0.0014 
+now adding trees... </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/brt-eval-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test data</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>brt_predict_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(brt_model_train, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">newdata=</span> sdm_df_test, <span class="at">n.trees =</span> brt_model_train<span class="sc">$</span>gbm.call<span class="sc">$</span>best.trees, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>roc_brt <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(sdm_df_test<span class="sc">$</span>pa, brt_predict_test)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>auc_brt <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_brt )</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_brt, <span class="at">col =</span> <span class="st">"#ff7f00"</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"BRT ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_brt, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/brt-eval-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="random-forests" class="level3">
+<h3 class="anchored" data-anchor-id="random-forests">2.2 Random Forests</h3>
+<p><strong>Random Forests</strong> are a powerful and widely used machine learning method in species distribution modelling. Like Boosted Regression Trees, they are based on ensembles of decision trees — but instead of boosting, Random Forests rely on <strong>bagging</strong> (bootstrap aggregation).</p>
+<p>Each tree in the forest is trained on a different random subset of the data. At each split, only a random subset of predictor variables is considered. This process reduces overfitting and makes the model more robust, particularly when dealing with correlated predictors or noisy data.</p>
+<p>In SDM, Random Forests are valued for their high predictive accuracy, ability to handle non-linear and interactive effects, and their built-in estimates of variable importance.</p>
+<p>Below we fit a Random Forest SDM using the <code>randomForest</code> package.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure 'pa' is a factor for classification</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sdm_df_clean<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_clean<span class="sc">$</span>pa)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>rF_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> <span class="dv">500</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># View variable importance</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rF_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+ randomForest(formula = pa ~ bio_1 + bio_12 + elevation, data = sdm_df_clean,      ntree = 500, importance = TRUE) 
+               Type of random forest: classification
+                     Number of trees: 500
+No. of variables tried at each split: 1
+
+        OOB estimate of  error rate: 16.97%
+Confusion matrix:
+    0   1 class.error
+0 274  67   0.1964809
+1  45 274   0.1410658</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rF_model, <span class="at">main =</span> <span class="st">"Random Forest Variable Importance"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/rF-fit-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Predict habitat suitability using Random Forest</strong></p>
+<p>We now project the trained model onto the environmental raster layers:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare stack</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>proj_stack <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(proj_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of presence</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>rF_prediction <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(proj_stack, rF_model, <span class="at">type =</span> <span class="st">"prob"</span>, <span class="at">index =</span> <span class="dv">2</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot prediction</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rF_prediction,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Random Forest–predicted habitat suitability"</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">inferno</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/rF-projection-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Evaluate model performance</strong></p>
+<p>We use AUC and the ROC curve to evaluate predictive performance:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure 'pa' is a factor for classification</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>sdm_df_train<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_train<span class="sc">$</span>pa)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>sdm_df_test<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_test<span class="sc">$</span>pa)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># # Fit randomForest to training data only</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>rF_model_train <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> sdm_df_train,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> <span class="dv">500</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>rF_predict_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(rF_model_train, <span class="at">newdata=</span> sdm_df_test, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"1"</span>]</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>roc_rF <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(sdm_df_test<span class="sc">$</span>pa, rF_predict_test)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>auc_rF <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_rF)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_rF, <span class="at">col=</span> <span class="st">"#33a02c"</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Random Forest ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_rF, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/rF-eval-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Random Forests are often among the top-performing SDM algorithms, especially when the dataset is not too small. However, like other black-box models, they may lack transparency, so careful evaluation and interpretation of variable importance and response curves are recommended.</p>
+</section>
+<section id="maxent" class="level3">
+<h3 class="anchored" data-anchor-id="maxent">2.3 Maxent</h3>
+<p><strong>Maxent (Maximum Entropy)</strong> is a widely used algorithms in species distribution modelling when only <strong>presence data</strong> are available. Unlike regression- or tree-based methods, which typically require both presence and absence points, Maxent estimates the species’ distribution by finding the probability distribution of maximum entropy (i.e., closest to uniform) constrained by the environmental conditions at known occurrence locations.</p>
+<p>In practice, Maxent contrasts environmental conditions at occurrence points against conditions across a wider background area, identifying the combination of conditions that best explains the observed presences while avoiding overfitting. This makes it particularly useful for records where absences are unreliable or unknown such citizen museum datasets or science data.</p>
+<p>Maxent can be implemented in R via the <code>maxnet</code> package, which provides a native R re-implementation of the Maxent algorithm. Unlike the <code>dismo</code> package’s interface, which requires the standalone Java-based Maxent software, <code>maxnet</code> runs entirely in R and avoids Java dependencies. It fits presence–background models using the same maximum entropy framework, but with a formula interface that allows greater flexibility and integration into R workflows.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxnet)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract environmental predictors at presence and background locations</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(target_group_sf)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into one dataset</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>pa <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(presence_vals)), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(background_vals)))</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>env_vals <span class="ot">&lt;-</span> <span class="fu">rbind</span>(presence_vals, background_vals)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with NA in predictors</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>complete_idx <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(env_vals)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>env_vals_clean <span class="ot">&lt;-</span> env_vals[complete_idx, ]</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>pa_clean <span class="ot">&lt;-</span> pa[complete_idx]</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Maxent with maxnet</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>maxnet_model <span class="ot">&lt;-</span> <span class="fu">invisible</span>(</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">suppressMessages</span>(</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">maxnet</span>(</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">p =</span> pa_clean,</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> env_vals_clean,</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">f =</span> <span class="fu">maxnet.formula</span>(pa_clean, env_vals_clean)</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  )))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The output includes model coefficients, variable contributions, and training performance metrics.</p>
+<p><strong>Visualising variable contributions</strong></p>
+<p>Maxent provides estimates of how much each predictor contributes to the model:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxnet_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/maxnet-var-imp-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Variable importance estimates from the Maxent model.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Projecting habitat suitability with Maxent</strong></p>
+<p>Once trained, the Maxent model can be projected across geographic space to estimate habitat suitability:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxnet)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extract raster values as data.frame</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(proj_stack, <span class="at">xy =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)  <span class="co"># keep xy for plotting</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Identify rows without NA (complete cases)</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>complete_idx <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(env_df[, <span class="fu">names</span>(env_vals)])  <span class="co"># only predictor columns</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Predict with maxnet</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>pred_vals <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(env_df))  <span class="co"># initialize output</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>pred_vals[complete_idx] <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, env_df[complete_idx, <span class="fu">names</span>(env_vals)], <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Convert back to raster</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>maxent_prediction <span class="ot">&lt;-</span> proj_stack[[<span class="dv">1</span>]]  <span class="co"># take first layer as template</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(maxent_prediction) <span class="ot">&lt;-</span> pred_vals</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Plot</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxent_prediction,</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Maxent (maxnet) predicted habitat suitability"</span>,</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">cividis</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/maxnet-project-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Evaluating model performance</strong></p>
+<p>We can evaluate the Maxent model using AUC and the ROC curve, similar to other algorithms:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract environmental values at presence and background points</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(target_group_sf)) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with NA</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> presence_vals[<span class="fu">complete.cases</span>(presence_vals), ]</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> background_vals[<span class="fu">complete.cases</span>(background_vals), ]</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># {redict with maxnet model</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>presence_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, presence_vals, <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>background_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, background_vals, <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into evaluation vectors</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>eval_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(presence_probs)), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(background_probs)))</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>eval_probs <span class="ot">&lt;-</span> <span class="fu">c</span>(presence_probs, background_probs)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC and AUC</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>roc_maxnet <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(eval_labels, eval_probs)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>auc_maxnet <span class="ot">&lt;-</span> roc_maxnet<span class="sc">$</span>auc</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ROC curve</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_maxnet, <span class="at">col =</span> <span class="st">"#6a3d9a"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Maxent (maxnet) ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_maxnet, <span class="dv">3</span>)))</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/maxnet-eval-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Maxent is often praised for its strong performance with limited or biased presence-only data, but users should remain mindful of its assumptions. In particular, results are sensitive to the choice of background points and regularisation settings, and caution is required when extrapolating into novel environmental space (e.g., under future climate scenarios).</p>
+</section>
+</section>
+<section id="envelope-based-models" class="level2">
+<h2 class="anchored" data-anchor-id="envelope-based-models">3. Envelope-Based Models</h2>
+<section id="bioclim" class="level3">
+<h3 class="anchored" data-anchor-id="bioclim">3.1 Bioclim</h3>
+<p><strong>Bioclim</strong> is one of the earliest and simplest species distribution modelling approaches.<br>
+It defines the species’ <strong>environmental envelope</strong> by summarizing the range of conditions (e.g., temperature, precipitation, elevation) at the observed occurrence locations. Predictions are then made by identifying areas in environmental space that fall within (or close to) this envelope.</p>
+<p>Conceptually, Bioclim assumes that a species is equally likely to occur anywhere within its observed environmental limits. This makes it very intuitive and fast to compute, but also limited in its ability to model more complex, non-linear responses. Despite its simplicity, Bioclim is still useful as a <strong>baseline SDM</strong> and for teaching or comparison purposes.</p>
+<p>In R, Bioclim can be fitted using the <code>bioclim()</code> function from the <code>dismo</code> package.</p>
+<p><strong>Fitting a Bioclim model</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extract predictor values at presence points</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Remove any rows with NA</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> presence_vals[<span class="fu">complete.cases</span>(presence_vals), ]</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Compute climatic envelope for each predictor</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>bioclim_min <span class="ot">&lt;-</span> <span class="fu">apply</span>(presence_vals, <span class="dv">2</span>, min)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>bioclim_max <span class="ot">&lt;-</span> <span class="fu">apply</span>(presence_vals, <span class="dv">2</span>, max)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>bioclim_model <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> bioclim_min,</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> bioclim_max</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>bioclim_model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$min
+     bio_1     bio_12  elevation 
+  7.412333 638.000000   8.870933 
+
+$max
+     bio_1     bio_12  elevation 
+  10.82761 1647.00000  509.73306 </code></pre>
+</div>
+</div>
+<p><strong>Visualising Bioclim response curves</strong></p>
+<p>We can plot the response curves to inspect the species’ environmental envelope:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert min/max ranges to long format for plotting</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictor =</span> <span class="fu">names</span>(bioclim_model<span class="sc">$</span>min),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> bioclim_model<span class="sc">$</span>min,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> bioclim_model<span class="sc">$</span>max</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(min, max), <span class="at">names_to =</span> <span class="st">"limit"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(env_df, <span class="fu">aes</span>(<span class="at">x =</span> predictor, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Lines connecting min-max in gray</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> predictor), <span class="at">color =</span> <span class="st">"gray"</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Points colored by limit</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> limit), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Horizontal ticks at min and max</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(predictor)) <span class="sc">-</span> <span class="fl">0.1</span>, </span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xend =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(predictor)) <span class="sc">+</span> <span class="fl">0.1</span>,</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> value, <span class="at">yend =</span> value,</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> limit),</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Environmental predictor"</span>,</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Value"</span>,</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Envelope limit"</span>) <span class="sc">+</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/bioclim-response-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Bioclim response curves showing the species’ environmental envelope.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Projecting habitat suitability with Bioclim</strong></p>
+<p>Once fitted, the Bioclim model can be projected across the study area:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract raster values as a data.frame</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(proj_stack, <span class="at">xy =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute suitability: 1 if all predictors within min/max, 0 otherwise</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>suitability <span class="ot">&lt;-</span> <span class="fu">apply</span>(env_df[, <span class="fu">names</span>(bioclim_model<span class="sc">$</span>min)], <span class="dv">1</span>, <span class="cf">function</span>(x) {</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(x <span class="sc">&gt;=</span> bioclim_model<span class="sc">$</span>min <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> bioclim_model<span class="sc">$</span>max)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize raster for predicted suitability</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>bioclim_prediction <span class="ot">&lt;-</span> proj_stack[[<span class="dv">1</span>]]  <span class="co"># template</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(bioclim_prediction) <span class="ot">&lt;-</span> <span class="cn">NA</span>       <span class="co"># reset</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(bioclim_prediction)[<span class="sc">!</span><span class="fu">is.na</span>(env_df[[<span class="dv">1</span>]])] <span class="ot">&lt;-</span> suitability</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot predicted suitability</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bioclim_prediction,</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Bioclim-predicted habitat suitability"</span>,</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>),</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Unsuitable"</span>, <span class="st">"Suitable"</span>), <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/bioclim-predict-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Bioclim’s simplicity makes it easy to implement and interpret, but it lacks the flexibility of regression- or machine-learning–based approaches. It assumes that all environmental conditions within the observed range are equally suitable, which is often unrealistic. Nevertheless, Bioclim provides a useful baseline comparator in SDM studies and highlights the importance of model choice in shaping predicted distributions.</p>
+</section>
+</section>
+<section id="advanced-and-emerging-methods" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-and-emerging-methods">4. Advanced and Emerging Methods</h2>
+<p>The field of species distribution modelling is constantly evolving. Beyond classical statistical and machine learning approaches, a number of advanced or emerging methods are now being used in ecological research.<br>
+These methods offer new opportunities for handling spatial complexity, uncertainty, biotic interactions and ecological dynamics such as species dispersal and colonisation dynamics and very large datasets, but they may also require greater expertise, computational resources, or specialized software.</p>
+<section id="bayesian-sdms-e.g.-inla" class="level3">
+<h3 class="anchored" data-anchor-id="bayesian-sdms-e.g.-inla">4.1 Bayesian SDMs (e.g., INLA)</h3>
+<p>Bayesian approaches to SDMs provide a <strong>probabilistic framework</strong> that can incorporate prior knowledge, quantify uncertainty, and explicitly model spatial dependence. One of the most widely used implementations is <strong>INLA (Integrated Nested Laplace Approximation)</strong>, which allows efficient Bayesian inference for spatial models.</p>
+<p>Key features of Bayesian SDMs: - Explicitly account for <strong>spatial autocorrelation</strong> in species occurrences.<br>
+- Allow incorporation of <strong>prior knowledge</strong> about ecological processes.<br>
+- Provide <strong>posterior distributions</strong> for parameters and predictions, offering richer uncertainty estimates than single-value statistics like AUC.<br>
+- Flexible framework: can include random effects, hierarchical structures, and complex spatial/temporal dependencies.</p>
+<p>Limitations: - Steeper learning curve compared to GLMs or Random Forests - Can be computationally demanding for large datasets</p>
+<p>INLA is implemented in the R package <a href="https://www.r-inla.org/"><code>R-INLA</code></a>, though it requires some familiarity with Bayesian modelling concepts.</p>
+<p><br></p>
+</section>
+<section id="joint-species-distribution-modelling-to-account-for-biotic-interactions" class="level3">
+<h3 class="anchored" data-anchor-id="joint-species-distribution-modelling-to-account-for-biotic-interactions">4.2 Joint species distribution modelling to account for biotic interactions</h3>
+<p>Most classical SDMs assume that species distributions are shaped primarily by the <strong>abiotic environment</strong> (e.g., climate, topography, land cover). However, species do not occur in isolation. Their distributions are often influenced by <strong>biotic interactions</strong> such as competition, predation, facilitation, or mutualism.</p>
+<p><strong>Joint Species Distribution Models (jSDMs)</strong> extend traditional SDMs by modelling the <strong>occurrence of multiple species simultaneously</strong>. This allows the estimation of both <strong>species–environment relationships</strong> and <strong>species–species associations</strong>, offering a more realistic ecological picture.</p>
+<section id="key-features-of-jsdms" class="level4">
+<h4 class="anchored" data-anchor-id="key-features-of-jsdms">Key features of jSDMs:</h4>
+<ul>
+<li><strong>Shared responses to the environment</strong>: capture similarities among species with similar niches.<br>
+</li>
+<li><strong>Residual correlations</strong>: identify co-occurrence patterns not explained by environment (potential biotic interactions).<br>
+</li>
+<li><strong>Hierarchical framework</strong>: often Bayesian, with species treated as partially exchangeable units.<br>
+</li>
+<li>Can improve predictions, especially for <strong>rare species</strong> with few records, by “borrowing strength” from related species.</li>
+</ul>
+</section>
+<section id="limitations" class="level4">
+<h4 class="anchored" data-anchor-id="limitations">Limitations:</h4>
+<ul>
+<li>More complex to fit and interpret than single-species SDMs.<br>
+</li>
+<li>Computationally demanding, especially with large species × site matrices.<br>
+</li>
+<li>Correlations may reflect <strong>unmeasured environmental covariates</strong> rather than true biotic interactions — so ecological interpretation must be cautious.</li>
+</ul>
+<p>In R, jSDMs can be fitted using packages such as:<br>
+- <strong><code>Hmsc</code></strong>: Hierarchical modelling of species communities (supports spatial/temporal structure).<br>
+- <strong><code>boral</code></strong>: Bayesian ordination and regression analysis of multivariate abundance data.<br>
+- <strong><code>gjam</code></strong>: Generalized Joint Attribute Modelling, flexible for presence–absence, counts, or continuous traits.</p>
+</section>
+</section>
+<section id="dynamic-and-spatio-temporal-sdms" class="level3">
+<h3 class="anchored" data-anchor-id="dynamic-and-spatio-temporal-sdms">4.3 Dynamic and spatio-temporal SDMs</h3>
+<p>While spatial SDMs are common, explicitly incorporating time (seasonality, interannual variability, long-term change, movement/dispersal and colonisation) is essential for capturing ecological dynamics and climate change impacts.</p>
+<p>Key features:</p>
+<p>Capture temporal dynamics in species-environment relationships.</p>
+<p>Can model shifts in species ranges over time.</p>
+<p>Allow exploration of lagged effects, seasonal cycles, or temporal autocorrelation.</p>
+<p>Approaches:</p>
+<p>Time-varying covariates in standard SDMs.</p>
+<p>Spatio-temporal models using INLA (R-INLA), mgcv::bam() for GAMs with time components.</p>
+<p>Dynamic occupancy models (in unmarked, spOccupancy).</p>
+<p>Temporal models are especially relevant for climate change projections, phenology, or seasonal migrations.</p>
+</section>
+<section id="neural-networks-and-deep-learning-approaches-to-sdm" class="level3">
+<h3 class="anchored" data-anchor-id="neural-networks-and-deep-learning-approaches-to-sdm">4.4 Neural networks and deep learning approaches to SDM</h3>
+<p>Neural networks (NNs), including <strong>deep learning</strong> approaches, are increasingly being applied to SDMs, especially when working with <strong>large, complex datasets</strong> such as high-resolution remote sensing imagery or citizen science data.</p>
+<p>Key features: - Highly flexible models that can capture <strong>complex non-linearities</strong> and interactions.<br>
+- <strong>Convolutional Neural Networks (CNNs)</strong> are particularly useful for incorporating spatially structured data such as satellite images or climate surfaces.<br>
+- Capable of <strong>end-to-end learning</strong> (directly predicting species presence/absence from raw data).</p>
+<p>Limitations: - Require large datasets for training<br>
+- Computationally intensive; often need GPUs or cloud computing<br>
+- Models can be difficult to interpret (“black-box” nature)</p>
+<p>Despite these challenges, deep learning holds promise for applications such as <strong>species recognition from images</strong>, <strong>integration of multiple data sources</strong>, and <strong>fine-scale spatial predictions</strong>.</p>
+</section>
+<section id="mechanistic-process-based-models" class="level3">
+<h3 class="anchored" data-anchor-id="mechanistic-process-based-models">4.5 Mechanistic / process-based models</h3>
+<p>Unlike correlative models, which are based on statistical relationships between species occurrences and environmental variables, mechanistic SDMs explicitly model species distributions using physiological, behavioural, or demographic processes that are assumed to drive species occurrence, abundance, and distribution. These processes are represented through biomathematical functional relationships.</p>
+<p>Examples include: - Niche mapping (thermodynamic constraints on heat, water and nutritional balance) - Dynamic range models that simulate dispersal and colonization - Individual-based models (IBMs) t</p>
+<p>Mechanistic SDMs offer important advantages over correlative models, including the ability to model novel climates more reliably and explicitly incorporate species traits and physiological limits. However, they require detailed species-specific data and are often complex and computationally intensive, making them less accessible for many applications. Linking mechanistic models to real-world patterns remains a challenge, and model validation approaches are still the subject of ongoing debate. To balance these trade-offs, so-called hybrid approaches that combine correlative and mechanistic elements are emerging as a powerful compromise.</p>
+<p><br></p>
+</section>
+</section>
+<section id="comparing-sdm-algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-sdm-algorithms">5. Comparing SDM algorithms</h2>
+<p>Once multiple species distribution models are fitted, it is informative to compare their predictions and performance metrics. This helps learners and practitioners understand how algorithm choice affects model outputs and ecological interpretation.</p>
+<section id="performance-metrics-comparison" class="level3">
+<h3 class="anchored" data-anchor-id="performance-metrics-comparison">5.1 Performance metrics comparison</h3>
+<p>Key metrics include:</p>
+<p>AUC (Area Under the ROC Curve): overall discriminatory ability.</p>
+<p>TSS (True Skill Statistic): balances sensitivity and specificity.</p>
+<p>Sensitivity / Specificity: model’s ability to predict presences vs absences.</p>
+<p>Deviance or log-likelihood: for statistical models like GAMs.</p>
+<p>You can compile a simple table of metrics for each model:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>model_metrics <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model =</span> <span class="fu">c</span>(<span class="st">"GAM"</span>, <span class="st">"BRT"</span>, <span class="st">"Random Forest"</span>, <span class="st">"Maxent"</span>, <span class="st">"Bioclim"</span>),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AUC =</span> <span class="fu">c</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    auc_gam,    <span class="co"># GAM</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    auc_brt,    <span class="co"># BRT</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    auc_rF,     <span class="co"># RF</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    auc_maxnet, <span class="co"># Maxnet</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NA</span>          <span class="co"># Bioclim</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(model_metrics, <span class="at">caption =</span> <span class="st">"Comparison of model performance (AUC) across SDM algorithms"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Comparison of model performance (AUC) across SDM algorithms</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: right;">AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">GAM</td>
+<td style="text-align: right;">0.8625923</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BRT</td>
+<td style="text-align: right;">0.8903815</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Random Forest</td>
+<td style="text-align: right;">0.8989951</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Maxent</td>
+<td style="text-align: right;">0.8446836</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bioclim</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="performance-metrics-comparison-1" class="level3">
+<h3 class="anchored" data-anchor-id="performance-metrics-comparison-1">5.2 Performance metrics comparison</h3>
+<p>Visual comparison of habitat suitability maps can highlight differences in predicted distributions, smoothness, and sensitivity to rare occurrences or extreme values.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))  <span class="co"># grid layout</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(glm_suitability_map, <span class="at">main =</span> <span class="st">"GLM"</span>, <span class="at">col =</span> <span class="fu">viridis</span>(<span class="dv">50</span>, <span class="at">option =</span> <span class="st">"D"</span>))</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gam_suitability, <span class="at">main =</span> <span class="st">"GAM"</span>, <span class="at">col =</span> <span class="fu">plasma</span>(<span class="dv">50</span>))</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(brt_prediction, <span class="at">main =</span> <span class="st">"BRT"</span>, <span class="at">col =</span> <span class="fu">magma</span>(<span class="dv">50</span>))</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rF_prediction, <span class="at">main =</span> <span class="st">"Random Forest"</span>, <span class="at">col =</span> <span class="fu">inferno</span>(<span class="dv">50</span>))</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxent_prediction, <span class="at">main =</span> <span class="st">"Maxent"</span>, <span class="at">col =</span> <span class="fu">cividis</span>(<span class="dv">50</span>))</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bioclim_prediction, <span class="at">main =</span> <span class="st">"Bioclim"</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.8_SDMCompareAlgorithms_files/figure-html/compare-maps-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Spatial predictions from different SDM algorithms for visual comparison.</figcaption>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))  <span class="co"># reset layout</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Literature
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Bakka, H., Rue, H., Fuglstad, G.-.A., Riebler, A., Bolin, D., Illian, J., Krainski, E., Simpson, D. &amp; Lindgren, F. (2018). <strong>Spatial modeling with R-INLA: A review.</strong> <em>WIREs Computational Statistics</em>, 10(6), e1443. doi:10.1002/wics.1443</p>
+<p>Deneu, B., Servajean, M., Bonnet, P., Botella, C., Munoz, F., &amp; Joly, A. (2021). <strong>Convolutional neural networks improve species distribution modelling by capturing the spatial structure of the environment.</strong> <em>PLOS Computational Biology</em>, 17(4), e1008856. doi:10.1371/journal.pcbi.1008856</p>
+<p>Elith, J., Leathwick, J. R., &amp; Hastie, T. (2008). <strong>A working guide to boosted regression trees.</strong> <em>Journal of Animal Ecology</em>, 77(4), 802–813. doi:10.1111/j.1365-2656.2008.01390.x</p>
+<p>Elith, J., &amp; Leathwick, J. R. (2009). <strong>Species distribution models: ecological explanation and prediction across space and time.</strong> <em>Annual Review of Ecology Evolution and Systematics</em>, 40, 677–697. doi:10.1146/annurev.ecolsys.110308.120159</p>
+<p>Kearney, M. R., &amp; Porter, W. P. (2020). <strong>NicheMapR – an R package for biophysical modelling: the ectotherm and Dynamic Energy Budget models.</strong> <em>Ecography</em>, 43(1), 85–96. doi:https://doi.org/10.1111/ecog.04680</p>
+<p>Wood, S. N. (2017). <strong>Generalized additive models. An introduction with R</strong> ( 2nd ed.). CRC Press.</p>
+<p>Phillips, S.J., Dudík, M., Elith, J., Graham, C.H., Lehmann, A., Leathwick, J. &amp; Ferrier, S. (2009) <strong>Sample selection bias and presence-only distribution models: Implications for background and pseudo-absence data.</strong> <em>Ecological Applications</em>, 19(1), 181–197. <a href="https://doi.org/10.1890/07-2153.1">doi:10.1890/07-2153.1</a></p>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/konswells1\.github\.io\/SDM-Workshop");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Konstans Wells, Swansea University, 2025</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>License: <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

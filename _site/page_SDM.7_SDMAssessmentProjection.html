@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Assessment &amp; Projection – SDM Workshop</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/sdm_favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9859d952baf36b9a7db628bbb9f3169e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="site_libs/leaflet-binding-2.2.3/leaflet.js"></script>
+
+<script src="site_libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+
+<script src="site_libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
+
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo light-content">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">SDM Workshop</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-spatial-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Spatial Data</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-spatial-data">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.2_SpatialDataR.html">
+ <span class="dropdown-text">Spatial Data in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.3_SpeciesData.html">
+ <span class="dropdown-text">Species Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.4_EnvironmentalData.html">
+ <span class="dropdown-text">Environmental Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.5_PseudoAbsenceData.html">
+ <span class="dropdown-text">Background &amp; Pseudo-Absence Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-species-distribution-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Species Distribution Models</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-species-distribution-models">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.6_SDMSimpleModelFitting.html">
+ <span class="dropdown-text">Simple Model Fitting (GLM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.7_SDMAssessmentProjection.html">
+ <span class="dropdown-text">Assessment &amp; Projection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.8_SDMCompareAlgorithms.html">
+ <span class="dropdown-text">Fitting &amp; Comparing Algorithms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.9_SDMEnsembleModelFitting.html">
+ <span class="dropdown-text">Ensemble Modelling</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#model-evaluation-1" id="toc-model-evaluation-1" class="nav-link active" data-scroll-target="#model-evaluation-1">1. Model evaluation</a></li>
+  <li><a href="#projection-across-space-and-time" id="toc-projection-across-space-and-time" class="nav-link" data-scroll-target="#projection-across-space-and-time">2. Projection across space and time</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Assessment &amp; Projection</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><br></p>
+<p>After a species distribution model (SDM) has been fitted, the next critical steps are to <strong>assess its performance</strong> and <strong>project it across space or time</strong>. Model assessment ensures that the relationships identified between species occurrences and environmental predictors are robust, interpretable, and generalisable. Projection then allows us to translate these relationships into maps of habitat suitability, either under current conditions or for future scenarios such as climate change.</p>
+<p><strong>Model assessment</strong> involves several interconnected steps:<br>
+<strong>Model fit</strong>: Examining how well the model explains the training data.<br>
+<strong>Model validation</strong>: Testing model predictions on independent data (data not used for fitting) to avoid overfitting and assess generalization.<br>
+<strong>Model evaluation</strong>: Calculating quantitative performance metrics on the validation data to objectively judge model quality.<br>
+</p>
+<p>A common and recommended approach is to <strong>split the available data into training and testing sets</strong> or use <strong>cross-validation</strong> methods. This ensures that evaluation statistics such as AUC or TSS reflect the model’s predictive ability rather than just its capacity to reproduce the training data.</p>
+<p>Evaluation metrics fall into two main types:<br>
+<strong>Threshold-independent metrics</strong> like AUC and Continuous Boyce Index evaluate the model’s discrimination ability without requiring a binary classification.<br>
+<strong>Threshold-dependent metrics</strong>** like sensitivity, specificity, and True Skill Statistic (TSS) require converting continuous predictions into binary outcomes and assess classification accuracy at selected thresholds.<br>
+</p>
+<p>Together, these evaluation metrics, when applied on validation data, provide a comprehensive picture of model performance.</p>
+<p><strong>Projection</strong> extends model application by using fitted relationships to predict species distributions across geographic space, or under different environmental conditions. This is particularly powerful for biodiversity monitoring, invasive species risk mapping, and forecasting impacts of global change. However, projections must always be interpreted in light of uncertainties stemming from data quality, model choice, and environmental scenarios.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Essential SDM Workflow: Fitting, Validating, Evaluation and Projection
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When building species distribution models (SDMs), it’s essential to distinguish between <strong>model fit</strong>, <strong>model validation</strong>, <strong>model evaluation</strong>, and <strong>final projection</strong>. These are distinct but interconnected steps in a robust modelling workflow.</p>
+<hr>
+<section id="model-fit" class="level4">
+<h4 class="anchored" data-anchor-id="model-fit"><strong>Model fit</strong></h4>
+<p>Refers to how well a model explains the data it was <strong>trained on</strong>. This can be assessed using residuals, likelihood measures, or internal performance statistics. However, good fit to training data does <strong>not guarantee predictive accuracy</strong> — models can overfit, especially with small sample sizes or many predictors.</p>
+<hr>
+</section>
+<section id="model-validation" class="level4">
+<h4 class="anchored" data-anchor-id="model-validation"><strong>Model validation</strong></h4>
+<p>Evaluates how well the model <strong>generalizes to new data</strong>. This requires testing predictions on <strong>data not used for model fitting</strong>, typically via: - <strong>Data splitting</strong> (e.g., 70% training, 30% testing), or<br>
+- <strong>Cross-validation</strong> (e.g., k-fold, spatial block).</p>
+<p>Validation ensures the model’s performance is <strong>not just memorizing patterns in the training data</strong>, but reflects true predictive power.</p>
+<hr>
+</section>
+<section id="model-evaluation" class="level4">
+<h4 class="anchored" data-anchor-id="model-evaluation"><strong>Model evaluation</strong></h4>
+<p>Involves calculating quantitative performance metrics (e.g., AUC, TSS, Boyce Index) on the <strong>validation (test) data</strong>. This step quantifies how well the model distinguishes presences from absences, both: - <strong>Threshold-independently</strong> (e.g., AUC, Boyce), and<br>
+- <strong>Threshold-dependently</strong> (e.g., sensitivity, specificity, TSS).</p>
+<p>Evaluation provides <strong>objective evidence</strong> of model reliability.</p>
+<hr>
+</section>
+<section id="final-projection" class="level4">
+<h4 class="anchored" data-anchor-id="final-projection"><strong>Final projection</strong></h4>
+<p>Once the model has been validated and evaluated: - You can <strong>refit the final model using all available data</strong> (training + test) to maximize information. - Use this full model to <strong>project species distributions</strong> across space (e.g., habitat suitability maps) or time (e.g., future climate scenarios).</p>
+<p><strong>Why refit with all data?</strong><br>
+To improve accuracy of projections, especially for rare species or sparse datasets. But remember: this projection step should <strong>only happen after validation</strong> is complete.</p>
+<hr>
+<p><strong>Best practice workflow summary</strong>:</p>
+<ol type="1">
+<li><strong>Split</strong> data → for training and validation.<br>
+</li>
+<li><strong>Fit</strong> model on training data.<br>
+</li>
+<li><strong>Validate &amp; evaluate</strong> on test data.<br>
+</li>
+<li><strong>Refit</strong> model on all data.<br>
+</li>
+<li><strong>Project</strong> using the refitted model.</li>
+</ol>
+<p>This approach supports both <strong>scientific rigor</strong> and <strong>reliable application</strong> of SDMs in conservation, forecasting, and spatial planning.</p>
+</section>
+</div>
+</div>
+</div>
+<p><br></p>
+<section id="model-evaluation-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-evaluation-1">1. Model evaluation</h3>
+<p>Model evaluation is a key step in SDM analysis. Since SDMs typically predict a continuous probability of occurrence or relative suitability, while field data are often binary (presence vs.&nbsp;absence/pseudo-absence), we need appropriate metrics to judge model quality.</p>
+<p>A critical principle in SDM evaluation is to <strong>assess model predictions on independent data</strong> not used during model fitting. This can be achieved by:<br>
+<strong>Data splitting</strong>: dividing the dataset into training and testing subsets, fitting the model only on training data, then evaluating on testing data.<br>
+<strong>Cross-validation</strong>: repeatedly splitting the data into folds, training on some folds and testing on the others, to obtain robust performance estimates. Evaluating models on independent data helps to avoid overly optimistic assessments caused by overfitting and better reflects how the model will perform in real-world applications.</p>
+<p>After a model is fitted, and data have been partitioned appropriately, evaluation metrics are calculated on the validation (test) data to assess predictive performance based on either</p>
+<p><strong>Threshold-independent</strong> or <strong>Threshold-dependent</strong> metrics.</p>
+<p>Following best-practice, we now split our data into training and testing subsets and refit the GLM model using only the training data before performing any validation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate an index that assign 70% of data to training data</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>trainIndex <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(sdm_df_clean<span class="sc">$</span>pa, <span class="at">p =</span> .<span class="dv">7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>sdm_df_train <span class="ot">&lt;-</span> sdm_df_clean[trainIndex, ]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sdm_df_test <span class="ot">&lt;-</span> sdm_df_clean[<span class="sc">-</span>trainIndex, ]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model on training data</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>glm_multi_train <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> <span class="fu">poly</span>(elevation, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">poly</span>(bio_1, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">poly</span>(bio_12, <span class="dv">2</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> sdm_df_train,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> binomial)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>glm_step_train <span class="ot">&lt;-</span> <span class="fu">step</span>(glm_multi_train , <span class="at">direction =</span> <span class="st">"both"</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="threshold-independent-evaluation" class="level4">
+<h4 class="anchored" data-anchor-id="threshold-independent-evaluation">1.1 Threshold-independent evaluation</h4>
+<p>The most widely used threshold-independent measure is the <strong>area under the ROC curve (AUC)</strong>. AUC evaluates how well the model distinguishes presences from absences across all possible thresholds. An AUC of 0.5 indicates random performance, while values above 0.7 are typically considered fair, and above 0.9 excellent (Araujo et al.&nbsp;2005).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test data</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>glm_predict_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(glm_step_train , <span class="at">newdata =</span> sdm_df_test, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 'Observed' test data (presence/pseudoabsence)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>obs_test <span class="ot">&lt;-</span> sdm_df_test<span class="sc">$</span>pa</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate with ROC and AUC on test data</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>roc_glm <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(obs_test, glm_predict_test)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>auc_glm <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_glm)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print AUC</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(auc_glm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area under the curve: 0.8567</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ROC curve</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_glm, <span class="at">col =</span> <span class="st">"#e31a1c"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"ROC Curve"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/auc-eval-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>How to interpret the ROC curve
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>The ROC curve plots <strong>sensitivity (true positive rate)</strong> against <strong>1 – specificity (false positive rate)</strong> across all thresholds.<br>
+</li>
+<li>A model with <strong>no predictive ability</strong> follows the diagonal line (AUC ≈ 0.5).<br>
+</li>
+<li>Curves that <strong>bow towards the upper-left corner</strong> indicate stronger discrimination between presences and absences.<br>
+</li>
+<li>The <strong>area under the curve (AUC)</strong> provides a summary metric:
+<ul>
+<li><strong>AUC = 0.5</strong> → random predictions<br>
+</li>
+<li><strong>0.7 ≤ AUC &lt; 0.8</strong> → fair<br>
+</li>
+<li><strong>0.8 ≤ AUC &lt; 0.9</strong> → good<br>
+</li>
+<li><strong>AUC ≥ 0.9</strong> → excellent</li>
+</ul></li>
+</ul>
+<p>Always interpret AUC together with ecological reasoning and other evaluation measures<br>
+(e.g., TSS, Boyce index), since AUC alone can be misleading if prevalence is unbalanced<br>
+or sampling design introduces bias.</p>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>The <strong>Continuous Boyce Index (CBI)</strong> is an evaluation metric used for species distribution models (SDMs) and habitat suitability models that are built using presence-only data. The CBI is particularly useful for SDMs, as it directly evaluates how predictions for observed presences deviate from a random distribution of available habitat suitability values. It ranges from -1 (counter-predictive), to 0 (no better than random), to +1 (perfect agreement between model predictions and presence distribution).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ecospat)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute Continuous Boyce Index (CBI)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>boyce_res <span class="ot">&lt;-</span> <span class="fu">ecospat.boyce</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> glm_predict_test,            <span class="co"># model predictions</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">obs =</span> glm_predict_test[obs_test <span class="sc">==</span> <span class="dv">1</span>],  <span class="co"># predictions at presence points</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nclass =</span> <span class="dv">0</span>,                  <span class="co"># automatic binning</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">window.w =</span> <span class="st">"default"</span>         <span class="co"># default moving window</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/boyce-eval-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>boyce_res<span class="sc">$</span>Spearman.cor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>How to interprete the Boyce curve
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>X-axis (suitability):</strong> predicted suitability scores from the SDM.<br>
+</li>
+<li><strong>Y-axis (predicted/expected ratio):</strong> how much more (or less) frequently presences are found in each suitability class than expected at random.</li>
+</ul>
+<p><strong>Guidelines:</strong><br>
+- A flat line near <strong>1</strong> → model performs no better than random.<br>
+- An increasing curve, with ratios <strong>&gt;1</strong> in high suitability bins → good model performance.<br>
+- Ratios <strong>&lt;1</strong> in high suitability bins → the model may be misleading.</p>
+<p>While P/E ratios in the plot may exceed 1, the Boyce Index correlation ranges from -1 to +1..</p>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="threshold-dependent-evaluation" class="level4">
+<h4 class="anchored" data-anchor-id="threshold-dependent-evaluation">1.2 Threshold-dependent evaluation</h4>
+<p>To compute threshold-dependent metrics, we need to choose a threshold that converts continuous probabilities into binary predictions. Several rules exist (see Liu et al., 2005), such as:</p>
+<p>Maximizing sensitivity + specificity</p>
+<p>Equal sensitivity and specificity</p>
+<p>Fixed probability cutoffs (e.g., 0.5)</p>
+<p>Here we use the <code>PresenceAbsence</code> package to determine an optimal threshold and then compute metrics like sensitivity, specificity, and the True Skill Statistic (TSS).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PresenceAbsence)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct PresenceAbsence dataframe</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure observed and predicted values are numeric</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>pa_df_test <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="fu">seq_along</span>(obs_test),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">observed =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(obs_test)),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">predicted =</span> <span class="fu">as.numeric</span>(glm_predict_test)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove any rows with missing values</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>pa_df_test <span class="ot">&lt;-</span> pa_df_test[<span class="fu">complete.cases</span>(pa_df_test), ]</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Find threshold</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>(opt_thresh <span class="ot">&lt;-</span> PresenceAbsence<span class="sc">::</span><span class="fu">optimal.thresholds</span>(</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">DATA=</span> pa_df_test,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">opt.methods =</span> <span class="fu">c</span>(<span class="st">'MaxSens+Spec'</span>, <span class="st">'Sens=Spec'</span>, <span class="st">'MinROCdist'</span>, <span class="st">'MaxKappa'</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Method predicted
+1 MaxSens+Spec      0.47
+2    Sens=Spec      0.51
+3   MinROCdist      0.50
+4     MaxKappa      0.47</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use one threshold (e.g., MaxSens+Spec)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    chosen_thresh <span class="ot">&lt;-</span> opt_thresh<span class="sc">$</span>predicted[opt_thresh<span class="sc">$</span>Method <span class="sc">==</span> <span class="st">'MaxSens+Spec'</span>]  </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Classify predictions</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>pred_binary <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">as.numeric</span>(glm_predict_test) <span class="sc">&gt;=</span> chosen_thresh, <span class="dv">1</span>, <span class="dv">0</span>)    </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">Observed =</span> obs_test, <span class="at">Predicted =</span> pred_binary)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Predicted
+Observed  0  1
+       0 77 25
+       1 13 82</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute sensitivity, specificity, TSS</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="ot">&lt;-</span> <span class="fu">sum</span>(pred_binary <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> obs_test <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="fu">sum</span>(obs_test <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>specificity <span class="ot">&lt;-</span> <span class="fu">sum</span>(pred_binary <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> obs_test <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">sum</span>(obs_test <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>tss <span class="ot">&lt;-</span> sensitivity <span class="sc">+</span> specificity <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">ConfusionMatrix =</span> cm,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">Sensitivity =</span> sensitivity,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">Specificity =</span> specificity,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">TSS =</span> tss)   </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$ConfusionMatrix
+        Predicted
+Observed  0  1
+       0 77 25
+       1 13 82
+
+$Sensitivity
+[1] 0.8631579
+
+$Specificity
+[1] 0.754902
+
+$TSS
+[1] 0.6180599</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Choosing thresholds for binary predictions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Species distribution models typically produce <strong>continuous predictions</strong> (relative suitability or probability of occurrence).<br>
+To evaluate performance or produce presence/absence maps, these need to be <strong>converted into binary predictions</strong>.<br>
+There is no single “best” threshold. Instead, different methods emphasize different trade-offs.</p>
+<p>Here are four widely used options:</p>
+<ul>
+<li><p><strong>MaxSens+Spec</strong><br>
+Maximizes the sum of sensitivity (true positive rate) and specificity (true negative rate).<br>
+→ Balanced choice when false positives and false negatives are equally costly.</p></li>
+<li><p><strong>Sens=Spec</strong><br>
+Selects the threshold where sensitivity and specificity are equal.<br>
+→ Useful when both error types are equally undesirable.</p></li>
+<li><p><strong>MinROCdist</strong><br>
+Minimizes the distance between the ROC curve and the perfect classifier point (0,1).<br>
+→ Robust option, often similar to MaxSens+Spec but less sensitive to skewed prevalence.</p></li>
+<li><p><strong>MaxKappa</strong><br>
+Maximizes Cohen’s Kappa statistic, which accounts for agreement expected by chance.<br>
+→ Historically popular in ecology, still informative for comparing classifiers.</p></li>
+</ul>
+<p>It is good practice to report <strong>multiple thresholds</strong>.<br>
+This ensures transparency, allows comparison across studies, and lets end-users (e.g., conservation managers) choose the threshold best suited to their objectives (e.g., maximizing detection vs.&nbsp;minimizing false alarms).</p>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p><strong>AUC</strong>: reflects overall discriminatory ability, independent of any threshold.</p>
+<p><strong>Threshold-dependent metrics</strong>: provide information about model performance in classifying presences vs.&nbsp;absences at a chosen threshold.</p>
+<p><strong>TSS</strong>: balances sensitivity and specificity, commonly used in SDM studies.</p>
+<p>In practice, both perspectives are valuable. Threshold-independent measures provide a broad sense of predictive skill, while threshold-dependent measures allow for more concrete classification performance.</p>
+</section>
+</section>
+<section id="projection-across-space-and-time" class="level3">
+<h3 class="anchored" data-anchor-id="projection-across-space-and-time">2. Projection across space and time</h3>
+<p>Once a species distribution model has been calibrated and evaluated, the next step is projection: predicting habitat suitability across geographic space or future environmental scenarios. Projections enable us to identify potential ranges, assess climate change impacts, and inform conservation planning.</p>
+<p>There are two main projection contexts:</p>
+<p><strong>Spatial projection</strong>: applying the model to current environmental layers across the study area to produce a habitat suitability map.</p>
+<p><strong>Temporal projection</strong>: applying the model to future climate scenarios (e.g., CMIP6 SSPs) to forecast potential range shifts.</p>
+<p>::: {.callout-tip collapse=“true” icon=“globe”}<br>
+### Important considerations when projecting SDMs</p>
+<p>Ensure predictor variables in the projection layers match the model in units, resolution, and extent.</p>
+<p>Beware of extrapolation: predictions in environmental space outside the range of training data are uncertain.</p>
+<p>For presence–pseudoabsence models, predictions remain relative suitability, not absolute probabilities.</p>
+<p>When projecting to future climates, using ensembles of GCMs helps capture uncertainty. :::</p>
+<p><br></p>
+<section id="projecting-the-fitted-glm-across-current-environmental-layers" class="level4">
+<h4 class="anchored" data-anchor-id="projecting-the-fitted-glm-across-current-environmental-layers">2.1 Projecting the fitted GLM across current environmental layers</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare environmental stack for projection</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>proj_stack <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(proj_stack)  <span class="co"># needs to match predictors in glm_step</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "bio_1"     "bio_12"    "elevation"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict relative suitability across the raster stack</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>glm_suitability_map <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(proj_stack, glm_step, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the predicted suitability</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(glm_suitability_map,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Predicted habitat suitability for R. hipposideros (current)"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">viridis</span>(<span class="dv">50</span>, <span class="at">option =</span> <span class="st">"D"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/projection_current-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To support conservation decisions or map projected ranges, we often need binary predictions — areas where the species is likely present (1) or absent (0) — instead of continuous suitability values. We’ll now apply a threshold to the predicted suitability map and visualize this binary prediction.</p>
+<p>We’ll use the threshold identified earlier (e.g., <em>“MaxSens+Spec”</em>) to reclassify the continuous map.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create binary prediction map: 1 = presence, 0 = absence</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>binary_map <span class="ot">&lt;-</span> glm_suitability_map <span class="sc">&gt;=</span> chosen_thresh</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the binary prediction map</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(binary_map,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Predicted presence/absence of *Rhinolophus hipposideros* (current)"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"darkgreen"</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Absence"</span>, <span class="st">"Presence"</span>),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"darkgreen"</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/binary-map-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why binary maps?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Binary SDM outputs are often used in applied contexts — for example:</p>
+<p>Estimating species’ range size</p>
+<p>Identifying priority conservation areas</p>
+<p>Communicating results to decision-makers</p>
+<p><em>But</em>: Always interpret binary maps with caution. Thresholding reduces a continuous gradient to a yes/no decision, which can oversimplify ecological reality. That’s why it is recommend:</p>
+<p>Reporting both continuous and binary maps</p>
+<p>Explaining how the threshold was chosen</p>
+<p>Being transparent about limitations</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>View interactive map of projected habitat suitability, presence/absence, and occurrence records
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We can also explore an interactive version of the current habitat suitability map and binary map overlaid with occurrence records using <strong>Leaflet</strong>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-facaf5e0f5b7b2b1fa2f" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-facaf5e0f5b7b2b1fa2f">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"Satellite",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[60.83333333333332,-8.166666666666666],[49.99999999999999,1.749999999999998]],null,"Suitability (continuous)",{"tileSize":256,"zIndex":1,"minZoom":0,"opacity":0.4}]},{"method":"addLegend","args":[{"colors":["#000004 , #430A67 20.0980812551238%, #952667 40.1961625102476%, #DD5239 60.2942437653714%, #FCA70C 80.3923250204952%, #FCFFA4 "],"labels":["0.2","0.4","0.6","0.8"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"topright","type":"numeric","title":"Habitat Suitability","extra":{"p_1":0.2009808125512379,"p_n":0.8039232502049524},"layerId":null,"className":"info legend","group":"Suitability (continuous)"}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[60.83333333333332,-8.166666666666666],[49.99999999999999,1.749999999999998]],null,"Presence/Absence (binary)",{"tileSize":256,"zIndex":1,"minZoom":0,"opacity":0.4}]},{"method":"addLegend","args":[{"colors":["lightgrey","darkgreen"],"labels":["Absence","Presence"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"unknown","title":"Presence/Absence","extra":null,"layerId":null,"className":"info legend","group":null}]},{"method":"addCircleMarkers","args":[[52.547661,51.89,51.76,53.323914,51.94,51.6,52.82,50.953602,52.076527,52.48,52.08,52.610815,51.136191,51.114355,50.74,50.822624,53.2,50.701981,51.94,51.99,51.83,51.53,52,51.94,51.99,51.84,51.98,51.812603,52.67,51.01591,51.950728,51.95,51.922428,51.96,51.1,52.14,51.180535,52.57,51.110205,52.04,51.87,50.987048,51.790912,51.95,52.04,51.84,52.09,52.009608,51.94,51.66,52.11,51.651088,51.92,52.369174,51.84,51.19,51.828561,50.88,53.349345,53.347074,51.795979,51.707139,52.013228,51.651979,51.738667,51.225024,54.277149,50.886816,51.87,51.743504,51.545213,51.740991,51.741885,51.990914,52.80294,51.836907,52.088702,52.578332,52.748316,51.980882,52.749032,52.04,50.980485,51.128329,52.286943,52.01287,53.257235,52.794108,53.175293,52.785206,51.919976,49.99616,52.125272,52.902204,53.034311,53.160734,51.791126,51.121381,53.164427,50.082842,51.341987,53.181682,50.74704,52.758717,53.136988,53.064656,51.717385,51.611159,52.650528,51.792519,52.080585,52.843661,53.116474,50.135113,53.119244,52.062137,52.035166,50.853701,53.172469,53.236042,51.618784,52.073605,50.394307,52.703393,53.252861,50.566117,53.09229,51.557516,52.710897,52.242378,51.745535,52.064778,53.161407,51.189201,50.935434,53.056351,51.160744,51.575486,51.610348,53.074321,52.787023,53.262311,53.065336,53.227058,53.047086,53.08308,53.265967,52.541429,53.089839,52.757785,51.583666,51.575219,52.803173,52.963937,52.749962,50.83455,53.153676,51.252616,52.728865,51.78,51.224321,52.1246,52.12,52.55,51.73563,51.719286,51.665425,50.358561,51.710378,52.04,51.92,51.22,51.051108,52.36,51.31,51.23,51.231981,51.555857,52.05,51.91,51.44,51.462254,50.737288,52.945231,51.733844,51.819636,51.98,51.827127,50.659826,51.016502,51.915397,53.261574,51.889356,53.176798,52.102219,52.013406,51.892766,52.995556,52.28202,53.085425,51.922413,52.835381,53.259498,53.069686,51.739918,51.62,51.57,50.750945,53.167395,51.632398,50.38157,50.471459,52.71817,51.829816,51.175199,51.979153,52.09,52.895445,52.650197,52.09,51.918454,51.71,52.725941,53.169651,50.89,51.83179,51.833413,51.91,52.911481,51.494609,52.641967,52.739811,51.828846,51.878962,51.896819,51.550002,51.399856,51.212823,51.72,52.075633,52.887071,52.98771,52.803009,51.21,51.27,51.314193,51.81,51.87,51.647347,51.173314,51.97,51.919713,50.71,51.043932,51.561184,52.072381,51.552131,51.645744,51.776163,51.819173,51.722241,52.28129,51.84,51.67,51.923321,51.885767,51.23,51.909822,50.4,50.57,52.560207,51.656006,51.215182,53.043038,52.23,51.825514,51.91,52.062493,52.07958,52.068949,51.84,52.715766,52.106926,52.06,51.830892,51.96,52.09,51.94,53.036224,51.271408,50.45,51.724918,51.371582,51.297076,51.817274,51.814649,50.752844,51.737238,52.021126,52.34,51.281193,52.815814,50.834976,51.107971,52.637542,50.548506,52.636066,50.078551,52.814143,50.351815,51.021728,50.455589,52.808018,52.543769,51.225191,50.751981,51.799557,51.83359,50.452349,50.844326,50.928167,51.716354,52.625924,51.26322,50.149288,50.445359,53.341966,51.542554,52.905686,53.375925,53.077553,51.219543,50.372945,51.79,52.883909,52.805606,51.891318,52.993874,52.04,52.15214,51.882,51.185288,52.985282,52.900099,51.211252,50.738049,50.729057,51.94,51.922954,51.188814,51.35,51.953412,51.81,51.82,50.47],[-3.107454,-3.28,-3.57,-4.120514,-3.38,-3.51,-3.42,-1.893304,-2.283168,-2.26,-2.28,-2.977668,-2.644768,-2.740908,-2.84,-2.77197,-3.2,-3.127383,-1.55,-1.48,-3.27,-3.74,-1.6,-3.3,-2.96,-2.67,-3.41,-3.085016,-3.28,-2.404751,-2.573126,-2.57,-1.492472,-3.32,-3.87,-1.67,-2.767275,-3.26,-2.759085,-3.08,-2.58,-4.359357,-2.385113,-3.39,-1.93,-3.1,-2.52,-2.94842,-2.46,-2.65,-2.32,-2.796373,-2.63,-2.956105,-2.66,-2.28,-3.089724,-4.43,-3.729059,-3.879199,-4.974272,-2.610432,-1.782855,-2.651843,-3.08756,-2.243792,-0.881784,-3.941958,-1.39,-1.784149,-4.092461,-2.797953,-2.653137,-1.90675,-3.892733,-2.531146,-2.519537,-3.189395,-3.934814,-2.503728,-3.890395,-2.32,-2.908921,-2.605883,-2.404572,-1.637153,-3.875257,-4.596918,-3.273175,-3.877134,-3.375487,-5.175676,-1.643545,-4.372886,-4.037085,-3.369965,-2.690096,-3.223029,-4.297569,-5.293253,-2.611543,-3.81958,-2.844715,-3.846355,-3.80274,-3.829567,-2.949531,-4.174933,-3.161789,-2.385631,-1.746048,-4.59245,-3.30879,-5.35283,-3.787054,-2.417123,-2.416872,-3.002912,-3.834152,-3.791917,-4.247528,-3.307249,-4.315723,-3.266793,-3.867571,-4.691313,-3.785936,-4.157945,-4.021982,-1.730481,-2.790791,-3.292403,-3.310157,-3.568263,-2.90505,-3.784449,-2.83795,-4.158796,-4.218224,-4.307697,-3.758576,-3.837995,-3.784821,-3.791541,-4.321161,-3.800486,-3.583244,-3.940448,-3.278116,-3.223916,-4.202489,-4.173216,-3.180689,-3.944432,-3.831167,-3.130309,-3.190285,-2.495725,-4.022813,-3.36,-3.895771,-3.263791,-3.26,-2.19,-3.377122,-2.674525,-2.659266,-3.79378,-2.659919,-1.85,-2.79,-3.9,-2.265902,-2.12,-2.14,-2.23,-2.341819,-3.371684,-1.54,-2.59,-3.6,-3.656783,-2.943738,-3.988244,-3.521882,-1.660468,-1.75,-3.2348,-3.062442,-3.355705,-3.382616,-3.575586,-4.83509,-3.123594,-2.512394,-1.928559,-4.689951,-3.26788,-2.514466,-3.27052,-2.510343,-4.101994,-3.725431,-4.314912,-2.942762,-4.22,-4.12,-2.92275,-3.871337,-4.240976,-3.759483,-3.762819,-3.852044,-2.944638,-3.040283,-4.84076,-1.79,-4.008264,-4.165751,-2.21,-3.0919,-1.68,-3.260043,-3.721823,-3.95,-2.654437,-1.78372,-3.34,-4.35852,-3.59313,-3.117225,-3.90481,-1.747464,-2.981987,-2.996909,-3.804204,-3.816864,-3.937849,-2.6,-4.554992,-4.453818,-3.863558,-4.152357,-3.94,-2.23,-2.483211,-2.56,-2.69,-3.229908,-3.191358,-1.65,-2.946524,-2.13,-3.334922,-2.794801,-4.70074,-3.660047,-3.374396,-3.371108,-2.472906,-4.245418,-2.661041,-2.64,-2.65,-1.783288,-4.9802,-3.87,-1.776085,-4.31,-4.7,-3.203656,-2.731408,-2.767351,-4.052415,-2.08,-3.379862,-1.83,-2.300435,-2.548615,-4.84646,-1.4,-3.999998,-2.461344,-1.7,-2.799542,-1.67,-2.34,-1.65,-4.063032,-2.237904,-4.34,-4.100751,-2.525803,-2.503439,-3.959953,-2.480112,-2.63927,-3.232347,-4.777823,-2.5,-2.579152,-3.262641,-3.49245,-3.215533,-3.109723,-4.471496,-3.257458,-5.285969,-3.410971,-5.164214,-2.785539,-4.60754,-3.855862,-3.040998,-2.429904,-2.781013,-4.82945,-1.928842,-4.748247,-2.214418,-3.210839,-4.53468,-3.995898,-2.451802,-5.357722,-5.02958,-4.179415,-4.236558,-3.265254,-4.016806,-3.867437,-1.891826,-5.191959,-2.63,-4.602284,-4.00412,-2.415539,-3.416825,-1.68,-2.388733,-5.125279,-3.528526,-4.01243,-3.711115,-2.767944,-2.844553,-2.844391,-3.34,-2.364937,-3.59687,-2.54,-2.615284,-3.15,-2.65,-4.57],5,null,"Cleaned points",{"interactive":true,"className":"","stroke":true,"color":"black","weight":1,"opacity":0.5,"fill":true,"fillColor":"#e31a1c","fillOpacity":0.9},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["Suitability (continuous)","Presence/Absence (binary)"],"Cleaned points",{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]}],"limits":{"lat":[49.99616,60.83333333333332],"lng":[-8.166666666666666,1.749999999999998]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="projecting-under-future-climate-scenarios" class="level4">
+<h4 class="anchored" data-anchor-id="projecting-under-future-climate-scenarios">2.2 Projecting under future climate scenarios</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># First, generate a raster stack for future climate and elevation data</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample Elev_UK raster to match Clim_cmip6_2041_2060_UK raster</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>Elev_UK_aligned_future <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">resample</span>(Elev_UK, Clim_cmip6_2041_2060_UK, <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop to common extent</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>common_extent_future <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">intersect</span>(terra<span class="sc">::</span><span class="fu">ext</span>(Clim_cmip6_2041_2060_UK), terra<span class="sc">::</span><span class="fu">ext</span>(Elev_UK_aligned_future))</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Clim_UK_future_crop2 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Clim_cmip6_2041_2060_UK, common_extent_future)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>Elev_UK_future_crop2 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Elev_UK_aligned_future, common_extent_future)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack layers and name variables</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>Env_UK_stack_future <span class="ot">&lt;-</span> <span class="fu">c</span>(Clim_UK_future_crop2 , Elev_UK_future_crop2)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Env_UK_stack_future) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sub</span>(<span class="st">"^wc2</span><span class="sc">\\</span><span class="st">.1_10m_"</span>, <span class="st">""</span>, <span class="fu">names</span>(Clim_UK_crop2)), <span class="st">"elevation"</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: future CMIP6 scenario (SSP5-8.5, 2041-2060)</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>future_stack <span class="ot">&lt;-</span>  Env_UK_stack_future[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(future_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict future relative suitability</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>future_suitability <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(future_stack, glm_step, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot future suitability</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(future_suitability,</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Projected habitat suitability under CMIP-6 (2041-2060)"</span>,</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">viridis</span>(<span class="dv">50</span>, <span class="at">option =</span> <span class="st">"E"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Literature
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Araujo, M. B., Pearson, R. G., Thuiller, W., &amp; Erhard, M. (2005). <strong>Validation of species-climate impact models under climate change.</strong> <em>Global Change Biology</em>, 11(9), 1504–1513. <a href="https://doi.org/10.1111/j.1365-2486.2005.001000.x">doi:10.1111/j.1365-2486.2005.001000.x</a></p>
+<p>Hirzel, A. H., Le Lay, G., Helfer, V., Randin, C., &amp; Guisan, A. (2006). <strong>Evaluating the ability of habitat suitability models to predict species presences.</strong> <em>Ecological Modelling</em>, 199(2), 142–152. <a href="https://doi.org/10.1016/j.ecolmodel.2006.05.017">doi:10.1016/j.ecolmodel.2006.05.017</a></p>
+<p>Liu, C., Berry, P. M., Dawson, T. P., &amp; Pearson, R. G. (2005). <strong>Selecting thresholds of occurrence in the prediction of species distributions.</strong> <em>Ecography</em>, 28(3), 385–393. doi: <a href="https://doi.org/10.1111/j.0906-7590.2005.03957.x">doi:10.1111/j.0906-7590.2005.03957.x</a></p>
+<p>Smith, A. B., &amp; Santos, M. J. (2020). <strong>Testing the ability of species distribution models to infer variable importance.</strong> <em>Ecography</em>, 43(12), 1801–1813. [doi:10.1111/ecog.05317] (https://doi.org/10.1111/ecog.05317)</p>
+<p>Wilson, K. A., Westphal, M. I., Possingham, H. P., &amp; Elith, J. (2005). <strong>Sensitivity of conservation planning to different approaches to using predicted species distribution data.</strong> <em>Biological Conservation</em>, 122(1), 99–112.</p>
+<p>Zurell, D., Franklin, J., König, C., Bouchet, P.J., Dormann, C.F., Elith, J., Fandos, G., Feng, X., Guillera-Arroita, G., Guisan, A., Lahoz-Monfort, J.J., Leitão, P.J., Park, D.S., Peterson, A.T., Rapacciuolo, G., Schmatz, D.R., Schröder, B., Serra-Diaz, J.M., Thuiller, W., Yates, Katherine L., Zimmermann, Niklaus E. &amp; Merow, C. (2020). <strong>A standard protocol for reporting species distribution models.</strong> <em>Ecography</em>, 43(9), 1261–1277. <a href="https://doi.org/10.1111/ecog.04960">doi:10.1111/ecog.04960</a></p>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/konswells1\.github\.io\/SDM-Workshop");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Konstans Wells, Swansea University, 2025</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>License: <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

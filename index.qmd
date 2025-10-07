@@ -1,0 +1,165 @@
+---
+title: " "
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    css: styles.css
+---
+
+```{r}
+#| label: setup-index
+#| echo: false
+#| warning: false
+#| message: false
+
+# Load packages
+source("scripts/load_packages.R")
+```
+
+
+<!-- Hero Section -->
+<div style="
+  position: relative;           
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3em 2em;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  margin: 2em auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  max-width: 800px;
+  width: 90%;
+  box-sizing: border-box;
+  overflow: hidden;            
+">
+
+  <!-- Background image -->
+  <img src="images/sdm_rhinolophus_illustration.jpg" alt="Background"
+       style="
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
+       opacity: 0.2;           /* adjust transparency */
+       z-index: 0;             /* behind text */
+       " />
+
+  <!-- Main Title -->
+  <h1 style="
+    margin: 0.5em 0;
+    font-size: 2.2em;
+    font-weight: 600;
+    line-height: 1.2;
+    width: 100%;
+    text-align: center;
+  ">
+    SDM Workshop
+  </h1>
+
+  <!-- Short Description --> 
+    <p style="max-width: 700px; font-size: 1.1em; margin-bottom: 1.5em; color: #555;"> 
+    This workshop introduces Species Distribution Modeling using R and open datasets. Explore spatial data, species occurrences,        environmental predictors, and learn to fit, assess, and compare species distribution models including GLMs, Random Forests, and     MaxEnt. Build your skills to generate predictions and ensemble models confidently. </p> 
+
+  <!-- Instructor and Research Group Info --> 
+  <div style="max-width: 700px; font-size: 1em; color: #333; margin-top: 1em;"> 
+  <p><strong>Konstans Wells</strong></p>
+  <p><strong><a href="https://konswells1.github.io" target="_blank">Biodiversity and Animal Health Ecology (BAHE) Group</a></strong>, Swansea      University</p>
+
+  <!-- Logo -->
+  <img src="images/SU-uni-logo.jpg" alt="SDM Workshop Logo" style="width:120px; max-width: 100%; margin-bottom: 1em; border-radius:   5px;"/>
+
+</div></div> 
+
+<!-- Workshop Highlights --> 
+<div style="max-width: 800px; margin: 0 auto; padding: 1em;"> <h2>Workshop Highlights</h2> <ul> <li>Understand spatial data in R</li> <li>Work with occurrence and environmental data</li> <li>Fit basic species distribution models: GLMs, Random Forests, MaxEnt</li> <li>Assess model performance and make projections</li> <li>Build ensemble species distribution models</li> </ul> 
+</div> 
+
+<br>
+
+::: {.callout-note collapse="true" icon="package"}
+### Required R packages for the workshop
+
+Make sure the following packages are **installed and loaded** before proceeding. These will be used throughout the workshop:
+
+-   `terra` — for handling spatial raster and vector data
+-   `geodata` — provides easy access to global climate, topography, land cover and other raster datasets
+-   `sf` — for vector data in simple features format
+-   `raster` — needed for fitting Bioclim models with dismo package
+-   `rnaturalearth` — for country and world maps
+-   `rnaturalearthdata` — provides Natural Earth vector data (used with `rnaturalearth`)
+-   `spocc` — for accessing species occurrence data from multiple databases
+-   `rgbif` — for GBIF data queries
+-   `ggplot2` — for custom plotting
+-   `tidyverse` — for data manipulation/formatting
+-   `leaflet` — for plotting interactive maps
+-   `CoordinateCleaner` — for cleaning species data
+-   `effects` — visualising model effects
+-   `ggcorrplot` — visualising correlation matrices
+-   `caret` — use for data partitioning
+-   `pROC` — analysing and visualising ROC curves
+-   `PresenceAbsence` — evaluating presence-absence model performance
+-   `ecospat` — spatial ecology and species distribution modeling tools
+-   `mgcv` — fitting Generalised Additive Models (GAM)
+-   `dismo`, `gbm` — for Boosted Regression Trees and general SDM tools
+-   `randomForest` — for fitting Random Forest models
+-   `maxnet` — for fitting Maxent models
+-   `biomod2` — for ensemble modeling
+-   `sdm` — for ensemble modeling
+-   `ENMeval` — for ensemble modeling
+
+You can install any missing packages by running:
+
+```{r}
+#| label: packages-install-load
+#| echo: true
+#| message: false
+#| warning: false
+
+# Set CRAN mirror for non-interactive install
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+# List of required packages
+required_packages <- c(
+  "terra", "geodata", "sf", "raster",
+  "rnaturalearth", "rnaturalearthdata",
+  "spocc", "rgbif", "ggplot2", "tidyverse",
+  "leaflet", "CoordinateCleaner", "effects",
+  "ggcorrplot", "caret", "pROC", "PresenceAbsence", "ecospat",
+  "mgcv", "dismo", "gbm", "randomForest", "maxnet",
+  "biomod2", "sdm", "ENMeval"
+)
+
+# Identify packages that are not installed
+missing_packages <- required_packages[!(required_packages %in% installed.packages()[, "Package"])]
+
+# Install missing packages with dependencies
+if (length(missing_packages) > 0) {
+  suppressWarnings(suppressMessages(
+    install.packages(missing_packages, dependencies = TRUE, quiet = TRUE)
+  ))
+}
+
+# Load all required packages
+invisible(lapply(required_packages, function(pkg) {
+  suppressWarnings(suppressMessages(
+    library(pkg, character.only = TRUE)
+  ))
+}))
+```
+:::
+
+::: {.callout-note collapse="true" icon="package"}
+### Open source data and other sources used in this workshop
+
+Open-source data sources are detailed on the [Data Preparation](page_SDM.1_DataPreparation.qmd) page.
+
+This workshop was build with [Quarto](https://quarto.org/).
+
+The entry image and favicon are composites incorporating a photograph of *Rhinolophus hipposiderus* by © d'Oriol Massana Valeriano and [Adrià López-Baucells](www.adriabaucells.com).  
+:::

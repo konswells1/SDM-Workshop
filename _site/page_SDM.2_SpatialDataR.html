@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Spatial Data in R – SDM Workshop</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/sdm_favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9859d952baf36b9a7db628bbb9f3169e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo light-content">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">SDM Workshop</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-spatial-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Spatial Data</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-spatial-data">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.2_SpatialDataR.html">
+ <span class="dropdown-text">Spatial Data in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.3_SpeciesData.html">
+ <span class="dropdown-text">Species Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.4_EnvironmentalData.html">
+ <span class="dropdown-text">Environmental Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.5_PseudoAbsenceData.html">
+ <span class="dropdown-text">Background &amp; Pseudo-Absence Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-species-distribution-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Species Distribution Models</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-species-distribution-models">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.6_SDMSimpleModelFitting.html">
+ <span class="dropdown-text">Simple Model Fitting (GLM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.7_SDMAssessmentProjection.html">
+ <span class="dropdown-text">Assessment &amp; Projection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.8_SDMCompareAlgorithms.html">
+ <span class="dropdown-text">Fitting &amp; Comparing Algorithms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.9_SDMEnsembleModelFitting.html">
+ <span class="dropdown-text">Ensemble Modelling</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#vector-data-in-r---getting-started" id="toc-vector-data-in-r---getting-started" class="nav-link active" data-scroll-target="#vector-data-in-r---getting-started">1. Vector data in R - getting started</a></li>
+  <li><a href="#points-in-space" id="toc-points-in-space" class="nav-link" data-scroll-target="#points-in-space">1.1 Points in space</a>
+  <ul class="collapse">
+  <li><a href="#what-are-spatial-points" id="toc-what-are-spatial-points" class="nav-link" data-scroll-target="#what-are-spatial-points">What are spatial points?</a></li>
+  <li><a href="#creating-points-in-r-with-terra" id="toc-creating-points-in-r-with-terra" class="nav-link" data-scroll-target="#creating-points-in-r-with-terra">Creating points in <code>R</code> with <code>terra</code></a></li>
+  </ul></li>
+  <li><a href="#lines-and-polygons-in-space" id="toc-lines-and-polygons-in-space" class="nav-link" data-scroll-target="#lines-and-polygons-in-space">1.2 Lines and polygons in space</a>
+  <ul class="collapse">
+  <li><a href="#representing-spatial-features-beyond-points" id="toc-representing-spatial-features-beyond-points" class="nav-link" data-scroll-target="#representing-spatial-features-beyond-points">Representing Spatial Features Beyond Points</a></li>
+  <li><a href="#example-drawing-a-migration-path-line-and-a-protected-area-polygon" id="toc-example-drawing-a-migration-path-line-and-a-protected-area-polygon" class="nav-link" data-scroll-target="#example-drawing-a-migration-path-line-and-a-protected-area-polygon">Example: Drawing a migration path (line) and a protected area (polygon)</a></li>
+  </ul></li>
+  <li><a href="#read-vector-data-from-files" id="toc-read-vector-data-from-files" class="nav-link" data-scroll-target="#read-vector-data-from-files">1.3 Read Vector Data from Files</a>
+  <ul class="collapse">
+  <li><a href="#base-maps-as-an-example-of-polygons-using-rnaturalearth" id="toc-base-maps-as-an-example-of-polygons-using-rnaturalearth" class="nav-link" data-scroll-target="#base-maps-as-an-example-of-polygons-using-rnaturalearth">Base maps as an example of polygons (using <code>rnaturalearth</code>)</a></li>
+  </ul></li>
+  <li><a href="#raster-data-in-r" id="toc-raster-data-in-r" class="nav-link" data-scroll-target="#raster-data-in-r">2. Raster Data in R</a></li>
+  <li><a href="#read-raster-data-from-files" id="toc-read-raster-data-from-files" class="nav-link" data-scroll-target="#read-raster-data-from-files">2.1 Read raster data from files</a>
+  <ul class="collapse">
+  <li><a href="#code-to-download-worldclim-2.1-bioclimatic-variables-already-done-in-data-preparation" id="toc-code-to-download-worldclim-2.1-bioclimatic-variables-already-done-in-data-preparation" class="nav-link" data-scroll-target="#code-to-download-worldclim-2.1-bioclimatic-variables-already-done-in-data-preparation">Code to download WorldClim 2.1 bioclimatic variables (already done in data preparation)</a></li>
+  </ul></li>
+  <li><a href="#manipulate-raster-data" id="toc-manipulate-raster-data" class="nav-link" data-scroll-target="#manipulate-raster-data">2.2 Manipulate raster data</a></li>
+  <li><a href="#extract-raster-values" id="toc-extract-raster-values" class="nav-link" data-scroll-target="#extract-raster-values">2.3 Extract Raster Values</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Spatial Data in R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><br></p>
+<p><strong>Spatial data</strong> form the foundation of <strong>geographical analysis</strong> and <strong>ecological modeling</strong>. In <strong>R</strong>, spatial data are typically managed in two primary formats: <strong>vector</strong> and <strong>raster</strong>.</p>
+<p>Beyond data structure, it is increasingly recognized that ecological observations must be interpreted within an appropriate <strong>spatiotemporal context</strong>. Species responses depend not only on local environmental conditions, but also on <strong>spatial patterns</strong>, temporal dynamics, and <strong>scale-dependent processes</strong>. Ignoring these dimensions can obscure ecological signals or lead to misleading inferences about species–environment relationships.</p>
+<p>Adopting <strong>tidy data principles</strong> helps structure ecological data in ways that make relationships between observations, space, and time explicit. This not only supports more efficient and reproducible analysis, but also encourages <strong>conceptual clarity</strong>, enabling environmental scientists and practitioners to think carefully about what constitutes an observation, what variables describe it, and how they are interrelated. Such practices bridge ecological theory with modern data science workflows, enabling transparent model building, integration across datasets, and robust generalization of ecological insights. Ultimately, developing a general understanding of spatial data—and how it fits within broader data science concepts—is not a technical luxury, but a conceptual necessity. It strengthens one’s ability to formulate better ecological questions, design meaningful analyses, and translate data into insight about environmental change, biodiversity patterns, and ecosystem processes.</p>
+<p><br></p>
+<section id="vector-data-representing-discrete-features" class="level4">
+<h4 class="anchored" data-anchor-id="vector-data-representing-discrete-features">Vector data: Representing discrete features</h4>
+<p><strong>Vector data</strong> are used to represent <strong>discrete spatial features</strong> — objects with clear boundaries — such as:</p>
+<ul>
+<li>Tree or animal locations<br>
+</li>
+<li>Roads or rivers<br>
+</li>
+<li>Country or habitat boundaries</li>
+</ul>
+<p>Vector features are commonly represented in three geometries:</p>
+<ul>
+<li><p><strong>Points</strong>: Individual locations defined by coordinate pairs (e.g., species occurrences, weather stations).</p></li>
+<li><p><strong>Lines</strong>: Linear features such as roads, rivers, or migration paths, represented by sequences of connected points.</p></li>
+<li><p><strong>Polygons</strong>: Closed shapes that define areas like lakes, forest patches, or administrative zones.</p></li>
+</ul>
+<p>Each vector feature can also include <strong>associated attributes</strong>, stored in a data table linked to the geometry.<br>
+These might include:</p>
+<ul>
+<li>species_name</li>
+<li>survey_date</li>
+<li>population_count</li>
+</ul>
+</section>
+<section id="raster-data-representing-continuous-spatial-variables" class="level4">
+<h4 class="anchored" data-anchor-id="raster-data-representing-continuous-spatial-variables">Raster Data: Representing Continuous Spatial Variables</h4>
+<p><strong>Raster data</strong> represent <strong>continuous spatial phenomena</strong> — variables that vary smoothly across space — such as:</p>
+<ul>
+<li>Elevation</li>
+<li>Temperature</li>
+<li>Vegetation indices (e.g., NDVI)</li>
+</ul>
+<p>A raster is composed of a <strong>grid of cells</strong> (also called <em>pixels</em>), where <strong>each cell holds a single value</strong> — either <strong>numeric</strong> (e.g., temperature) or <strong>categorical</strong> (e.g., land cover class).</p>
+<hr>
+</section>
+<section id="structure-of-raster-data" class="level4">
+<h4 class="anchored" data-anchor-id="structure-of-raster-data">Structure of raster data</h4>
+<p>Unlike vector data, <strong>raster datasets do not store coordinates for each cell</strong>. Instead, they rely on:</p>
+<ul>
+<li><strong>Spatial extent</strong> – the geographic boundaries covered by the raster<br>
+</li>
+<li><strong>Resolution</strong> – the size of each cell (e.g., 25m x 25m)<br>
+</li>
+<li><strong>Origin</strong> – typically the top-left corner, which anchors the raster in space</li>
+</ul>
+<p>These three components allow computational software like <code>R</code> to calculate the position of every cell efficiently.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Insight: Raster and pixels
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Just like digital images, <strong>raster datasets</strong> can vary in <strong>resolution</strong>, which directly affects both <strong>spatial detail</strong> and <strong>file size</strong>.</p>
+<p>Higher resolution means finer detail but larger file size, while lower resolution may be faster to process but less precise.</p>
+</div>
+</div>
+</div>
+<hr>
+<section id="why-it-matters" class="level5">
+<h5 class="anchored" data-anchor-id="why-it-matters">Why it matters</h5>
+<p>Understanding the differences, structures, and strengths of both vector and raster data is essential for:</p>
+<ul>
+<li>Spatial analysis</li>
+<li>Species distribution modeling</li>
+<li>Working with geographic information systems (GIS) in <code>R</code></li>
+</ul>
+<p>Throughout this workshop, we’ll be using a number of GIS-focused packages in R. If any of these are not already installed on your system, you can install them using:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"package_name"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To work with spatial vector and raster data, we’ll use the <code>terra</code> package (for more information, see <a href="https://rspatial.org/index.html" class="uri">https://rspatial.org/index.html</a>).</p>
+<p>If you haven’t installed it yet, you can run the following command in your R console (skip this step if it’s already installed):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Once installed, load the package:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">library</span>(terra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="vector-data-in-r---getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="vector-data-in-r---getting-started">1. Vector data in R - getting started</h2>
+<p>Vector data are at the core of spatial data analysis in ecology and environmental science. In <code>R</code>, vector data are typically managed using the <strong><code>terra</code></strong> or <strong><code>sf</code></strong> packages, both of which support reading, manipulating, and visualizing point, line, and polygon data.</p>
+<p>The <code>terra</code> package (which we use in this workshop) handles spatial vector and raster data in an efficient, modern, and consistent way.</p>
+<hr>
+</section>
+<section id="points-in-space" class="level2">
+<h2 class="anchored" data-anchor-id="points-in-space">1.1 Points in space</h2>
+<section id="what-are-spatial-points" class="level3">
+<h3 class="anchored" data-anchor-id="what-are-spatial-points">What are spatial points?</h3>
+<p>Points are the simplest vector data geometry and are used to represent <strong>individual locations</strong> in space, such as:</p>
+<ul>
+<li>Species occurrence records<br>
+</li>
+<li>Weather stations<br>
+</li>
+<li>Field survey sites<br>
+</li>
+<li>GPS locations</li>
+</ul>
+<p>Each point is defined by a <strong>coordinate pair</strong>, typically in latitude/longitude (geographic) or projected coordinates (e.g., UTM).</p>
+<hr>
+<p><br></p>
+</section>
+<section id="creating-points-in-r-with-terra" class="level3">
+<h3 class="anchored" data-anchor-id="creating-points-in-r-with-terra">Creating points in <code>R</code> with <code>terra</code></h3>
+<p>You can create spatial points manually using <code>vect()</code> from the <code>terra</code> package:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define coordinates as a matrix for multiple cities (longitude, latitude)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fl">1.2577</span>, <span class="fl">51.7520</span>,   <span class="co"># Oxford</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fl">12.4964</span>, <span class="fl">41.9028</span>,   <span class="co"># Rome</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fl">3.9440</span>, <span class="fl">51.6214</span>,   <span class="co"># Swansea</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>   <span class="fl">8.6821</span>, <span class="fl">50.1109</span>,   <span class="co"># Frankfurt</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>   <span class="fl">8.5417</span>, <span class="fl">47.3769</span>,   <span class="co"># Zurich</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2.3522</span>, <span class="fl">48.8566</span>    <span class="co"># Paris</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>city_name <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Oxford"</span>, <span class="st">"Rome"</span>, <span class="st">"Swansea"</span>, <span class="st">"Frankfurt"</span>, <span class="st">"Zurich"</span>, <span class="st">"Paris"</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create spatial vector of points (longitude, latitude)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">vect</span>(coords, <span class="at">type =</span> <span class="st">"points"</span>, <span class="at">crs =</span> <span class="st">"EPSG:4326"</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>points<span class="sc">$</span>city <span class="ot">&lt;-</span> city_name</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the extent of the points and expand it by 10% (for plotting)</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>ext <span class="ot">&lt;-</span> <span class="fu">ext</span>(points)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>x_range <span class="ot">&lt;-</span> ext[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>y_range <span class="ot">&lt;-</span> ext[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>x_margin <span class="ot">&lt;-</span> <span class="fu">diff</span>(x_range) <span class="sc">*</span> <span class="fl">0.1</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>y_margin <span class="ot">&lt;-</span> <span class="fu">diff</span>(y_range) <span class="sc">*</span> <span class="fl">0.1</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>x_ext <span class="ot">&lt;-</span> <span class="fu">c</span>(x_range[<span class="dv">1</span>] <span class="sc">-</span> x_margin, x_range[<span class="dv">2</span>] <span class="sc">+</span> x_margin)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>y_ext <span class="ot">&lt;-</span> <span class="fu">c</span>(y_range[<span class="dv">1</span>] <span class="sc">-</span> y_margin, y_range[<span class="dv">2</span>] <span class="sc">+</span> y_margin)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the points with expanded plot extent</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(points, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">xlim =</span> x_ext, <span class="at">ylim =</span> y_ext)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(points, <span class="at">labels =</span> points<span class="sc">$</span>city, <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> <span class="st">"darkblue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check out the object</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(points)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SpatVector"
+attr(,"package")
+[1] "terra"</code></pre>
+</div>
+</div>
+<p>This example creates spatial points for Oxford, Rome, Swansea, Frankfurt, Zurich, and Paris, using their geographic coordinates (longitude, latitude), and displays them as blue dots.</p>
+<section id="coordinate-reference-systems-crs" class="level4">
+<h4 class="anchored" data-anchor-id="coordinate-reference-systems-crs">Coordinate reference systems (CRS)</h4>
+<p>Every spatial object must have an associated coordinate reference system (CRS). This defines how the coordinates relate to real-world locations. A consistent CRS ensures that all spatial layers align correctly and can be meaningfully compared for accurate mapping, analysis, and ecological interpretation. Defined CRS are also necessary to project spatial entities onto the curved surface of the Earth, translating the three-dimensional globe into a two-dimensional map. Without a proper projection, distances, areas, and spatial relationships can become distorted, leading to misleading ecological inferences or inaccurate spatial modeling.</p>
+<p>You can check and change the CRS of a vector object using:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the CRS of a spatial object</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(points)         <span class="co"># Check the CRS</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign a new CRS (e.g., UTM Zone 32N)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(points) <span class="ot">&lt;-</span> <span class="st">"EPSG:32632"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What is EPSG:4326?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The code ‘EPSG:4326’ refers to the ‘WGS84’ coordinate reference system — the global standard used by GPS. It is a geographic CRS that uses latitude and longitude in decimal degrees.</p>
+<p>You may also see this specified using an older PROJ string:</p>
+<p>‘+proj=longlat +datum=WGS84’</p>
+<p>While this still works, it’s now recommended to use the more modern and readable EPSG code (“EPSG:4326”), which ensures better compatibility across spatial tools and platforms.</p>
+<section id="other-commonly-used-crs" class="level5">
+<h5 class="anchored" data-anchor-id="other-commonly-used-crs">Other commonly used CRS</h5>
+<p>Depending on your analysis or region of interest, other major coordinate systems are often used:</p>
+<p>EPSG:3857 — Web Mercator, used by most online map services (Google, OpenStreetMap).</p>
+<p>EPSG:27700 — British National Grid, used for detailed mapping in the UK.</p>
+<p>EPSG:5070 — USA Contiguous Albers Equal Area projection, suitable for continental-scale ecological analysis.</p>
+<p>Each CRS may serve slightly different analytical needs — global navigation, web mapping, or high-accuracy regional modelling, so choosing the right one is necessary for spatial accuracy and comparability.</p>
+</section>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tip: Always check CRS compatibility
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Before combining or comparing spatial datasets, ensure they share the same CRS. Mixing different CRSs can lead to incorrect overlays, maps, or analyses.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="lines-and-polygons-in-space" class="level2">
+<h2 class="anchored" data-anchor-id="lines-and-polygons-in-space">1.2 Lines and polygons in space</h2>
+<section id="representing-spatial-features-beyond-points" class="level3">
+<h3 class="anchored" data-anchor-id="representing-spatial-features-beyond-points">Representing Spatial Features Beyond Points</h3>
+<p>In spatial data presentation and analysis, <strong>lines</strong> and <strong>polygons</strong> are used to represent more complex spatial features:</p>
+<ul>
+<li><strong>Lines</strong> can represent:
+<ul>
+<li>Animal migration paths (see <a href="https://www.movebank.org/cms/movebank-main">Movebank</a> for real-world examples)</li>
+<li>River courses</li>
+<li>Transects used during field surveys</li>
+</ul></li>
+<li><strong>Polygons</strong> are used for:
+<ul>
+<li>Protected habitat areas (e.g., national parks)</li>
+<li>Land cover classes (e.g., forest, grassland)</li>
+<li>Survey zones or administrative regions</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="example-drawing-a-migration-path-line-and-a-protected-area-polygon" class="level3">
+<h3 class="anchored" data-anchor-id="example-drawing-a-migration-path-line-and-a-protected-area-polygon">Example: Drawing a migration path (line) and a protected area (polygon)</h3>
+<p>Let’s create a <strong>line</strong> connecting a sequence of waypoints representing a bird’s migration route.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define coordinates along a hypothetical bird migration route for Greylag Goose (approximate, illustrative points)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>migration_coords <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fl">15.0</span>, <span class="fl">60.0</span>,   <span class="co"># Northern Sweden breeding region</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>   <span class="fl">9.0</span>, <span class="fl">56.0</span>,   <span class="co"># Denmark / southern Sweden stopover</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>   <span class="fl">5.0</span>, <span class="fl">52.0</span>,   <span class="co"># Northern Germany</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2.0</span>, <span class="fl">48.0</span>,   <span class="co"># Northeastern France / Alsace</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fl">1.0</span>, <span class="fl">44.0</span>,   <span class="co"># Southwestern France</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>   <span class="fl">0.0</span>, <span class="fl">40.0</span>    <span class="co"># Northern Spain / wintering area</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a spatial line object</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>migration_line <span class="ot">&lt;-</span> <span class="fu">vect</span>(migration_coords, <span class="at">type =</span> <span class="st">"lines"</span>, <span class="at">crs =</span> <span class="st">"EPSG:4326"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now let’s define a polygon representing a protected habitat area along the migration corridor (e.g., a wetland reserve in France).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define polygon coordinates (rough bounding box for an example protected area)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>reserve_coords <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fl">1.0</span>, <span class="fl">48.4</span>,   <span class="co"># NW corner</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fl">1.0</span>, <span class="fl">47.2</span>,   <span class="co"># SW corner</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.2</span>, <span class="fl">47.2</span>,   <span class="co"># Mid-south (new point to bend the shape)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3.0</span>, <span class="fl">47.4</span>,   <span class="co"># SE corner (further east)</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3.0</span>, <span class="fl">48.4</span>,   <span class="co"># NE corner</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fl">1.0</span>, <span class="fl">48.4</span>    <span class="co"># Close the polygon</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create spatial polygon</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>reserve_poly <span class="ot">&lt;-</span> <span class="fu">vect</span>(reserve_coords, <span class="at">type =</span> <span class="st">"polygons"</span>, <span class="at">crs =</span> <span class="st">"EPSG:4326"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Plotting both: Migration route + protected area</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the individual extents</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ext_poly <span class="ot">&lt;-</span> <span class="fu">ext</span>(reserve_poly)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ext_line <span class="ot">&lt;-</span> <span class="fu">ext</span>(migration_line)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine them using union</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>combined_ext <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">union</span>(ext_poly, ext_line)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the polygon with combined extent</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(reserve_poly, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">border =</span> <span class="st">"blue"</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ext =</span> combined_ext,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Migration path and protected area"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the migration line</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(migration_line, <span class="at">col =</span> <span class="st">"darkgreen"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Insight: polygon closure
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Polygons must have their first and last point identical to form a closed shape — otherwise they won’t render as expected.</p>
+<p>Always verify your coordinate order and closure when constructing polygons manually.</p>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="read-vector-data-from-files" class="level2">
+<h2 class="anchored" data-anchor-id="read-vector-data-from-files">1.3 Read Vector Data from Files</h2>
+<p>In real-world ecological and environmental projects, vector data are rarely created manually. Instead, they are typically stored in spatial file formats like:</p>
+<ul>
+<li><strong>Shapefile (<code>.shp</code>)</strong> – the most widely used format for vector data; stores geometry and attributes across multiple sidecar files</li>
+<li><strong>GeoJSON (<code>.geojson</code>)</strong> – web-friendly and human-readable</li>
+<li><strong>GPKG (GeoPackage)</strong> – a modern, single-file spatial format</li>
+<li><strong>KML</strong> – often used for visualisation in tools like Google Earth</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Insight: Common sources of vector-based biodiversity data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We live in an era of <strong>big data</strong>, where <strong>biodiversity datasets</strong> are increasingly available in digital format and at <strong>global scale</strong>. These data can come from:</p>
+<ul>
+<li>Standardised monitoring schemes<br>
+</li>
+<li>Citizen science platforms<br>
+</li>
+<li>Expert-drawn range maps</li>
+</ul>
+<p>Each data source has its own strengths and limitations. In this workshop, we’ll explore different types of spatial biodiversity data and how to load and visualise them in R.</p>
+<p>In this session, we focus on basic description of data types, more on the species and environmental data will be described in after sections of the workshop.</p>
+</div>
+</div>
+</div>
+<hr>
+<section id="base-maps-as-an-example-of-polygons-using-rnaturalearth" class="level3">
+<h3 class="anchored" data-anchor-id="base-maps-as-an-example-of-polygons-using-rnaturalearth">Base maps as an example of polygons (using <code>rnaturalearth</code>)</h3>
+<p>To provide geographic context, we often need base maps of countries, continents, or regions. The <code>rnaturalearth</code>(https://github.com/ropensci/rnaturalearth) package provides an excellent interface to the Natural Earth datasets.</p>
+<p>Below is the code used to create spatial objects for the <strong>UK</strong> and the <strong>East Wales</strong> region.<br>
+These have already been prepared in advance and saved to disk to speed up the workshop.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Code to generate the spatial layers (already done in data preparation)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load country and region maps</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>World_sf <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">"medium"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>UK_sf <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">"medium"</span>, <span class="at">country =</span> <span class="st">"United Kingdom"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>UK_admin_sf <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"United Kingdom"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset to East Wales</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>WalesEast_admin_sf <span class="ot">&lt;-</span> UK_admin_sf[UK_admin_sf<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"East Wales"</span>, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>These steps are included in the data preparation file:<br>
+👉 <a href="./page_SDM.1_DataPreparation.html">View full data preparation script</a></p>
+</div>
+</div>
+</div>
+<p><br></p>
+<section id="visualise-east-wales" class="level4">
+<h4 class="anchored" data-anchor-id="visualise-east-wales">Visualise East Wales</h4>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load saved spatial objects</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot East Wales over the UK map</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> UK_sf, <span class="at">fill =</span> <span class="st">"grey90"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> WalesEast_admin_sf, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>, <span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"East Wales within the United Kingdom"</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/plot-east-wales-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Understanding spatial data structures in R
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Familiarise yourself with the structure of <code>sp</code> and <code>sf</code> spatial data formats. In this workshop, we use modern packages like <code>sf</code> and <code>terra</code>, which follow the <strong>Simple Features</strong> standard for spatial vector data.</p>
+<p>Use the functions <code>crs()</code> (from <strong>terra</strong>) or <code>st_crs()</code> (from <strong>sf</strong>) to inspect and manipulate <strong>coordinate reference systems (CRS)</strong>. These determine how geometries relate to real-world locations and are essential when combining spatial layers.</p>
+<p>To learn more, check the <a href="https://r-spatial.github.io/sf/articles/sf1.html">Simple Features vignette</a> or run:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">"sf1"</span>, <span class="at">package =</span> <span class="st">"sf"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The website<a href="https://rspatial.org/">rspatial.org</a>, developed by a team of researchers led by Robert J. Hijmans, is an excellent resource for learning more about spatial data analysis and modeling in R.</p>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Key spatial vector workflow skills
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Use <code>terra::vect()</code> to read shapefiles (e.g., IUCN range maps)<br>
+</li>
+<li>Use <code>rnaturalearth::ne_countries()</code> to get base maps of countries or continents<br>
+</li>
+<li>Combine both to map species ranges in a geographic context<br>
+</li>
+<li>Always check file format, coordinate reference system (CRS), and attribute content when working with real-world spatial data<br>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<p><br> <br></p>
+</section>
+</section>
+</section>
+<section id="raster-data-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="raster-data-in-r">2. Raster Data in R</h2>
+<p>Raster datasets often come in file formats such as:</p>
+<ul>
+<li><p><strong>.tif (GeoTIFF)</strong> — the most widely used raster format</p></li>
+<li><p><strong>.grd</strong> — often used in older R workflows</p></li>
+<li><p><strong>.nc (NetCDF)</strong> — commonly used in climate science</p></li>
+</ul>
+<p>We use the <code>terra</code> package to read and manipulate raster data in R. From this package, the function <code>terra::rast()</code> is used to create or read <code>SpatRaster</code> objects (the primary raster data class in <code>terra</code>).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a raster from scratch</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>raster_1 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="at">ncol =</span> <span class="dv">50</span>, <span class="at">nrow =</span> <span class="dv">50</span>, <span class="at">xmin =</span> <span class="dv">0</span>, <span class="at">xmax =</span> <span class="dv">50</span>,  <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can access the attributes of each raster cell by using the function <code>terra::values()</code>. Obviously, there are no values yet in the <code>SpatRaster</code> object and thus we assign some, generating random numbers with <code>rnorm()</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the summary stats of the values in raster_1:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(terra<span class="sc">::</span><span class="fu">values</span>(raster_1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: [readValues] raster has no values</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     lyr.1     
+ Min.   : NA   
+ 1st Qu.: NA   
+ Median : NA   
+ Mean   :NaN   
+ 3rd Qu.: NA   
+ Max.   : NA   
+ NA's   :2500  </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign values (randomly drawn from normal distribution) to the SpatRaster object:</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">values</span>(raster_1) <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">ncell</span>(raster_1))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the raster</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(raster_1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Raster resolution determines the spatial grain of your data — the size of each pixel on the ground. Higher resolution (e.g., 10m) provides more detail, but is computationally heavier.</p>
+<p>This concept of spatial scale is crucial in ecology. Analyses done at fine scales may yield different insights than those at coarse scales.</p>
+<p>To demonstrate this, we aggregate the raster to a coarser resolution. With multiple raster objects at hand, combine layers into a multi-layer <code>SpatRaster</code> object using the <code>terra::rast()</code> function to concatenate the layers.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate the raster to a coarser resolution (2x2)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>raster_2 <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(raster_1, <span class="at">fact =</span> <span class="dv">2</span>, <span class="at">fun =</span> mean)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Match raster_2 (coarse) to raster_1 (fine resolution)</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>raster_2_resamp <span class="ot">&lt;-</span> <span class="fu">resample</span>(raster_2, raster_1, <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create multi-layer raster object</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>raster_multi <span class="ot">&lt;-</span> <span class="fu">c</span>(raster_1, raster_2_resamp)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign layer names</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(raster_multi) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Fine resolution"</span>, <span class="st">"Coarse resolution"</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the raster layers</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(raster_multi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="read-raster-data-from-files" class="level2">
+<h2 class="anchored" data-anchor-id="read-raster-data-from-files">2.1 Read raster data from files</h2>
+<p>In ecological and environmental research, raster data are commonly used to represent <strong>continuous environmental variables</strong> like climate, elevation, or land cover.</p>
+<p>One widely used dataset is the <strong>WorldClim v2.1 Bioclimatic Variables</strong>, which provides global climate data at multiple resolutions. You can explore the available variables <a href="https://www.worldclim.org/data/bioclim.html">here</a>. To download and use these data in R, this can be efficiently done with the <code>geodata</code> package (part of the <code>rspatial</code> site developed by the <a href="https://rspatial.org/">rspatial.org</a> group led by Robert J. Hijmans).</p>
+<section id="code-to-download-worldclim-2.1-bioclimatic-variables-already-done-in-data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="code-to-download-worldclim-2.1-bioclimatic-variables-already-done-in-data-preparation">Code to download WorldClim 2.1 bioclimatic variables (already done in data preparation)</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># download WorldClim 2.1 bioclimatic variables (10-minute resolution, this returns a SpatRaster with 19 layers, bio1 to bio19)</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>Clim_extant <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">worldclim_global</span>(<span class="at">var =</span> <span class="st">"bio"</span>, <span class="at">res =</span> <span class="dv">5</span>, <span class="at">path =</span> <span class="st">"data/"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop climate to UK</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>Clim_UK.GB <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Clim_extant, UK_sf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>These steps are included in the data preparation file:<br>
+👉 <a href="page_SDM.1_DataPreparation">View full data preparation script</a></p>
+<p>We can now extract the focal data of interest, here we crop the mean annual precipitation (bio12) data to the spatial extent of the UK.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 4</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: left</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Bioclim variable 12: annual precipitation</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>precip_UK <span class="ot">&lt;-</span> Clim_UK [[<span class="dv">12</span>]]  <span class="co"># bio12: annual precipitation in mm</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the precipitation map</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(precip_UK, <span class="at">main =</span> <span class="st">"Mean annual precipitation (bio12) - UK"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tip: Coordinate systems must match
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When working with raster and vector data together (e.g., cropping or masking), ensure both objects use the <strong>same CRS</strong>. Use <code>terra::project()</code> to reproject if needed.</p>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="manipulate-raster-data" class="level2">
+<h2 class="anchored" data-anchor-id="manipulate-raster-data">2.2 Manipulate raster data</h2>
+<section id="reproject-raster-data" class="level5">
+<h5 class="anchored" data-anchor-id="reproject-raster-data">Reproject raster data</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject raster to a different CRS (e.g. British National Grid EPSG:27700)</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>precip_UK_proj <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(precip_UK, <span class="st">"EPSG:27700"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(precip_UK_proj, <span class="at">main =</span> <span class="st">"Precipitation (Reprojected)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="raster-math-algebra" class="level5">
+<h5 class="anchored" data-anchor-id="raster-math-algebra">Raster math / algebra</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 4</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: left</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Math / algebra example: Convert mm to cm for precipitation</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>precip_cm <span class="ot">&lt;-</span> precip_UK <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Difference between original and converted</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(precip_cm <span class="sc">-</span> precip_UK, <span class="at">main =</span> <span class="st">"Difference after unit conversion"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply mean filter with 3x3 window</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>focal_mean <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">focal</span>(precip_UK, <span class="at">w =</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>), <span class="at">fun =</span> mean, <span class="at">na.policy =</span> <span class="st">"omit"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(focal_mean, <span class="at">main =</span> <span class="st">"Smoothed Precipitation (3x3 mean)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="zonal-statistics" class="level5">
+<h5 class="anchored" data-anchor-id="zonal-statistics">Zonal statistics</h5>
+<p>Summarising raster data over polygonal spatial units is a common task in ecological and environmental analysis (and the broader field of applied data science). This is known as zonal statistics. For example, we can compute and visualise mean annual precipitation across UK administrative zones using the <code>terra</code> and <code>ggplot2</code> packages:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 4</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: left</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Add an ID column to UK_admin_sf (to explicitly match IDs between zonal_means and UK_admin_sf below)</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>UK_admin_sf<span class="sc">$</span>admin_id <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(UK_admin_sf)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert UK_admin_sf to SpatVector</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>zones_vect <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">vect</span>(UK_admin_sf)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute mean precipitation by zone</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>zonal_means <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(precip_UK, zones_vect, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">ID =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview output</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(zonal_means)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID   bio_12
+1  1 1504.444
+2  2 1716.789
+3  3 1312.486
+4  4 1131.222
+5  5 1029.231
+6  6 1376.529</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace NA values with 0 for demonstration purposes</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># !Note: This should be done cautiously — replacing NA may not be appropriate depending on your analysis.</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>precip_no_na <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">classify</span>(precip_UK, <span class="fu">cbind</span>(<span class="cn">NA</span>, <span class="dv">0</span>))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge zonal means (bio12 = mean annual precipitation) back to the spatial data (ensure correct ID match)</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>UK_admin_sf<span class="sc">$</span>mean_precip_mm <span class="ot">&lt;-</span> zonal_means<span class="sc">$</span>bio_12[<span class="fu">match</span>(UK_admin_sf<span class="sc">$</span>admin_id, zonal_means<span class="sc">$</span>ID)]</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the map of mean precipitation by zone</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(UK_admin_sf) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> mean_precip_mm), <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Annual Precipitation (mm)"</span>, <span class="at">na.value =</span> <span class="st">"grey90"</span>) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Annual precipitation by UK administrative zone"</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data source: WorldClim 2.1 + Natural Earth"</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.2_SpatialDataR_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="extract-raster-values" class="level2">
+<h2 class="anchored" data-anchor-id="extract-raster-values">2.3 Extract Raster Values</h2>
+<p>Extracting raster values at specific locations is a key step in many ecological and environmental workflows, particularly in species distribution modelling. This process allows us to link spatially continuous variables—such as climate or elevation—to discrete observation points, like species occurrence records. In this section, we demonstrate how to extract raster values using the <code>terra</code> package, both for point locations and across multiple raster layers.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert UK_sf object (an sf object) into a SpatVector object</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>UK_vect <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">vect</span>(UK_sf)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate some (arbitrary) species occurrence points within the UK</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>occ_points <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">spatSample</span>(UK_vect[,<span class="dv">1</span>], <span class="at">size =</span> <span class="dv">100</span>, <span class="at">method =</span> <span class="st">"random"</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract raster values at these point locations</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>occ_precip <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(precip_UK, occ_points)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine coordinates and extracted values</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>occ_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(occ_points), <span class="at">precip_mm =</span> occ_precip[,<span class="dv">2</span>])</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(occ_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       featurecla precip_mm
+1 Admin-0 country       813
+2 Admin-0 country       897
+3 Admin-0 country       599
+4 Admin-0 country       857
+5 Admin-0 country       577
+6 Admin-0 country      1472</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract all 19 bioclim variables (multiple raster layers) for each point</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>clim_data_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(Clim_UK, occ_points)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine with species occurrence coordinates</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>clim_data_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(occ_points), clim_data_vals[,<span class="sc">-</span><span class="dv">1</span>])  <span class="co"># Remove ID column</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(clim_data_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       featurecla    bio_1    bio_2    bio_3    bio_4    bio_5     bio_6
+1 Admin-0 country 7.281042 7.019583 38.77366 413.2269 17.42100 -0.683000
+2 Admin-0 country 9.604292 7.539417 37.85608 463.8675 21.04300  1.127000
+3 Admin-0 country 9.550167 8.080500 38.05275 486.4427 21.86000  0.625000
+4 Admin-0 country 6.861417 7.221333 38.35219 432.1033 17.46600 -1.363000
+5 Admin-0 country 9.800042 6.891583 34.70257 477.9860 21.01500  1.156000
+6 Admin-0 country 8.965159 7.169326 39.33672 417.4897 19.32128  1.095745
+     bio_7     bio_8     bio_9   bio_10   bio_11 bio_12 bio_13 bio_14   bio_15
+1 18.10400  7.780500  8.499666 12.63950 2.659833    813     85     55 15.05392
+2 19.91600  5.297667 13.855500 15.54483 4.369333    897    100     52 24.57603
+3 21.23500 10.247167  5.786000 15.72250 3.987000    599     59     37 13.67015
+4 18.82900  4.599000  8.310667 12.46333 1.977000    857     94     57 18.63359
+5 19.85900  7.771833  5.868667 15.91117 4.354167    577     61     34 19.14082
+6 18.22553  4.776773 12.928192 14.33546 4.185993   1472    171     84 25.41553
+  bio_16 bio_17 bio_18 bio_19
+1    240    172    190    208
+2    298    168    175    267
+3    172    127    144    148
+4    260    174    186    233
+5    174    112    158    141
+6    483    259    285    463</code></pre>
+</div>
+</div>
+<p><br><br></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Useful sources
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Hijmans, R. J. (2023). <em>rspatial.org: Spatial Data in R</em>. <a href="https://rspatial.org/">https://rspatial.org/</a></p>
+<p>Lovelace, R., Nowosad, J., &amp; Muenchow, J. (2023). <em>Geocomputation with R</em>. <a href="https://geocompr.robinlovelace.net">https://geocompr.robinlovelace.net</a></p>
+<p>Pebesma, E. (2023). <em>Simple Features for R: Standardized Support for Spatial Vector Data</em>. <a href="https://r-spatial.github.io/sf/index.html">https://r-spatial.github.io/sf/index.html</a></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercises: Load and Inspect a Raster
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p><strong>Load and plot raster:</strong><br>
+Load the raster file <code>bioclim_01.tif</code> using the <code>terra</code> package. Plot the raster using a unique and appropriate color scale (e.g., <code>viridis</code>).</p></li>
+<li><p><strong>Extract climate values at city locations:</strong><br>
+Use coordinates of 10 cities in the UK and Italy (or any other countries you choose). Extract and compare the climate values (mean annual temperature, bio1) at these points.</p></li>
+<li><p><strong>Calculate zonal means for countries:</strong><br>
+Using polygon shapefiles of European countries or countries worldwide, calculate the zonal mean of bio1 (mean annual temperature) for each country. Visualize the result with a choropleth map.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p><br></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/konswells1\.github\.io\/SDM-Workshop");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Konstans Wells, Swansea University, 2025</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>License: <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

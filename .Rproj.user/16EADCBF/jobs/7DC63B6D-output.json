@@ -1,0 +1,8 @@
+[1,"==> quarto preview index.qmd --to html --no-watch-inputs --no-browse\n\n"]
+[1,"pandoc \n  to: html\n  output-file: index.html\n  standalone: true\n  title-prefix: SDM Workshop\n  section-divs: true\n  html-math-method: mathjax\n  wrap: none\n  default-image-extension: png\n  toc: true\n  toc-depth: 3\n  css:\n    - styles.css\n  variables: {}\n  \nmetadata\n  document-css: false\n  link-citations: true\n  date-format: long\n  lang: en\n  theme: united\n  title: Species Distribution Modelling Workshop\n  \n"]
+[1,"Output created: _site\\index.html\n\n"]
+[1,"Preparing to preview\n"]
+[1,"\nWatching files for changes\nBrowse at http://localhost:6018/\nListening on http://127.0.0.1:6018/\n"]
+[1,"GET: /\n"]
+[1,"GET: / (404: Not Found)\n"]
+[1,"ERROR: YAMLException: bad indentation of a mapping entry (E:\\Kons_backup\\SwanseaUni\\SU_Teaching\\2526_BIOM700_Research.skills.Methods\\Workshop_SDM_QMD_2510\\_quarto.yml, 36:68)\n35:       - text: \"Swansea University\"\n36:       - text: [Biodiversity and Animal Health Ecology (BAHE) group](https://konswells1.github.io)\n                                                                      ~~\n37:       - text: \"*2025*\" \n"]
