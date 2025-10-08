@@ -283,20 +283,20 @@ pa ~ s(bio_1) + s(bio_12) + s(elevation)
 
 Parametric coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept)  -1.1067     0.4739  -2.335   0.0195 *
+(Intercept)  -0.9425     0.3660  -2.575     0.01 *
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Approximate significance of smooth terms:
                edf Ref.df Chi.sq p-value    
-s(bio_1)     3.965  4.879  83.35  &lt;2e-16 ***
-s(bio_12)    5.801  6.501  43.22  &lt;2e-16 ***
-s(elevation) 2.628  3.385  67.44  &lt;2e-16 ***
+s(bio_1)     3.508  4.414  84.69  &lt;2e-16 ***
+s(bio_12)    5.280  6.091  51.68  &lt;2e-16 ***
+s(elevation) 2.050  2.634  75.33  &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-R-sq.(adj) =   0.47   Deviance explained = 42.6%
-UBRE = -0.16461  Scale est. = 1         n = 660</code></pre>
+R-sq.(adj) =   0.44   Deviance explained =   39%
+UBRE = -0.11933  Scale est. = 1         n = 663</code></pre>
 </div>
 </div>
 <p><strong>Plotting smooth effects</strong></p>
@@ -371,6 +371,89 @@ UBRE = -0.16461  Scale est. = 1         n = 660</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Incorporating spatial structure in GAMs and GLMMs
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>While the GAM example above focuses on smooth functions of environmental variables, GAMs can also include spatial effects by adding smooth terms for geographic coordinates, such as <code>s(x, y)</code>. This approach accounts for spatial autocorrelation, where observations close in space tend to be more similar than those farther apart — a common feature in ecological data.</p>
+<p>Similarly, Generalized Linear Mixed Models (GLMMs), for example using the <code>glmmTMB</code> package, can incorporate spatial random effects or spatial covariance structures to capture unmeasured spatial variation. These methods improve model fit and inference by explicitly modelling spatial dependence rather than assuming observations are independent.</p>
+<p>Recognizing and incorporating spatial structure is essential for robust species distribution models, especially when ecological processes operate across space or when sampling design introduces spatial bias.</p>
+<p>Here is a simple example of fitting a GAM with a spatial smooth term using the <code>mgcv</code> package:</p>
+<section id="example-fitting-a-gam-with-a-spatial-smooth" class="level5">
+<h5 class="anchored" data-anchor-id="example-fitting-a-gam-with-a-spatial-smooth">Example: Fitting a GAM with a spatial smooth</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit GAM with environmental predictors and spatial smooth</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>gam_spatial <span class="ot">&lt;-</span> <span class="fu">gam</span>(pa <span class="sc">~</span> <span class="fu">s</span>(bio_1) <span class="sc">+</span> <span class="fu">s</span>(bio_12) <span class="sc">+</span> <span class="fu">s</span>(elevation) <span class="sc">+</span> <span class="fu">s</span>(latitude, longitude),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the spatial smooth term (usually the last smooth)</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gam_spatial, <span class="at">select =</span> <span class="fu">length</span>(gam_spatial<span class="sc">$</span>smooth), <span class="at">shade =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Spatial smooth s(latitude, longitude)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="example-fitting-a-glmm-with-a-spatial-randnom-effects" class="level5">
+<h5 class="anchored" data-anchor-id="example-fitting-a-glmm-with-a-spatial-randnom-effects">Example: Fitting a GLMM with a spatial randnom effects</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spaMM)   <span class="co"># optional package for more advanced spatial covariance structures</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Continuous spatial random effect (distance-based covariance)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a numeric spatial factor from coordinates</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>sdm_df_clean<span class="sc">$</span>pos <span class="ot">&lt;-</span> <span class="fu">numFactor</span>(sdm_df_clean<span class="sc">$</span>longitude, sdm_df_clean<span class="sc">$</span>latitude)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a GLMM with a spatially correlated random effect</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>glmm_spatial <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> pos),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">covstruct =</span> <span class="fu">list</span>(<span class="at">pos =</span> <span class="st">"exp"</span>)  <span class="co"># exponential spatial correlation</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glmm_spatial)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Discrete spatial grouping effect (site-level random intercepts)</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a grouping factor that clusters nearby observations</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>sdm_df_clean<span class="sc">$</span>spatgroup <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(sdm_df_clean<span class="sc">$</span>latitude, <span class="dv">2</span>), <span class="st">"_"</span>,</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(sdm_df_clean<span class="sc">$</span>longitude, <span class="dv">2</span>))</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a GLMM with a random grouping effect</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>glmm_spatialgroup <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> spatgroup),</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>()</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glmm_spatialgroup)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Note: In spatial GLMMs, random spatial effects can be incorporated in two main ways:</p>
+<ol type="1">
+<li><p><strong>Continuous spatial random effects</strong>, where covariance betweens ties is a function of geographic distances (as in the ‘numFactor()’ example)</p></li>
+<li><p><strong>Discrete spatial grouping effects</strong>, where nearby observations are assigned to the same group or grid cell (as in the ‘spatgroup’ example).</p></li>
+</ol>
+<p>The first approach capture smooth, distance based spatial correlation and is closer to true geostatistical modelling, the second is simpler but often sufficient when data are highly clustered or when corrdiantes are coarse.</p>
+</section>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="machine-learningbased-sdm-methods" class="level2">
@@ -380,7 +463,7 @@ UBRE = -0.16461  Scale est. = 1         n = 660</code></pre>
 <p>This flexibility makes ML methods particularly valuable in ecological applications where relationships between species and environment may be unknown, non-linear, or influenced by multiple interacting factors. They are also well suited for large datasets with many predictors or complex structures, such as spatial or temporal autocorrelation.</p>
 <p><br></p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -389,7 +472,7 @@ UBRE = -0.16461  Scale est. = 1         n = 660</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The plot below shows a simplified example of how a machine learning algorithm (e.g.&nbsp;decision tree, random forest, or boosted tree) separates presence and absence records based on two environmental predictors. The algorithm automatically finds patterns and draws boundaries in the data space to predict species occurrence without the modeller needing to specify a particular equation. The model ‘learns’ by testing different patterns and combinations in the data, adjusting itself to improve predictions on new, unseen observations. This iterative process helps it find rules that generalize beyond the training examples.</p>
 <div class="cell">
@@ -411,22 +494,22 @@ UBRE = -0.16461  Scale est. = 1         n = 660</code></pre>
 <p>This iterative process makes BRTs highly flexible and effective at modelling complex ecological responses, including interactions and non-linear effects. They are particularly well-suited to species distribution modelling, where ecological relationships can be intricate and noisy.</p>
 <p>We will use the <code>gbm.step()</code> function from the <code>dismo</code> package, which automates parameter tuning and cross-validation for BRTs.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dismo)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Data needs to in dataframe format for dismo::gbm.step()</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>sdm_df_clean <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_clean)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure response is numeric 1-0</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>sdm_df_clean<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdm_df_clean<span class="sc">$</span>pa))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>brt_model <span class="ot">&lt;-</span> <span class="fu">gbm.step</span>(<span class="at">data =</span> sdm_df_clean,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.x =</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>),</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.y =</span> <span class="st">"pa"</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"bernoulli"</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">tree.complexity =</span> <span class="dv">3</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">learning.rate =</span> <span class="fl">0.01</span>,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">bag.fraction =</span> <span class="fl">0.5</span>,</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dismo)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Data needs to in dataframe format for dismo::gbm.step()</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>sdm_df_clean <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_clean)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure response is numeric 1-0</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>sdm_df_clean<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdm_df_clean<span class="sc">$</span>pa))</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>brt_model <span class="ot">&lt;-</span> <span class="fu">gbm.step</span>(<span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.x =</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.y =</span> <span class="st">"pa"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"bernoulli"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">tree.complexity =</span> <span class="dv">3</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">learning.rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">bag.fraction =</span> <span class="fl">0.5</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  
@@ -434,11 +517,11 @@ UBRE = -0.16461  Scale est. = 1         n = 660</code></pre>
  
 Performing cross-validation optimisation of a boosted regression tree model 
 for NA and using a family of bernoulli 
-Using 660 observations and 3 predictors 
+Using 663 observations and 3 predictors 
 creating 10 initial models of 50 trees 
 
  folds are stratified by prevalence 
-total mean deviance =  1.3852 
+total mean deviance =  1.3849 
 tolerance is fixed at  0.0014 
 now adding trees... </code></pre>
 </div>
@@ -451,7 +534,7 @@ now adding trees... </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -460,7 +543,7 @@ now adding trees... </code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>The plot shows <strong>holdout deviance</strong> (a measure of model error) on cross-validated data versus the number of trees in the Boosted Regression Tree (BRT) model.</li>
@@ -478,7 +561,7 @@ now adding trees... </code></pre>
 </div>
 <p>Once fitted, we can explore variable influence and partial dependence plots:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(brt_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(brt_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -489,11 +572,11 @@ now adding trees... </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                var  rel.inf
-bio_1         bio_1 42.16197
-elevation elevation 29.16432
-bio_12       bio_12 28.67371</code></pre>
+bio_1         bio_1 42.06221
+bio_12       bio_12 31.83654
+elevation elevation 26.10125</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gbm.plot</span>(brt_model, <span class="at">n.plots =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gbm.plot</span>(brt_model, <span class="at">n.plots =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -506,24 +589,24 @@ bio_12       bio_12 28.67371</code></pre>
 <p><strong>Predicting habitat suitability with the BRT</strong></p>
 <p>We can now project the BRT model to the environmental raster layers:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>proj_stack_sub <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(proj_stack_sub) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)  <span class="co"># ensure matching names</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict habitat suitability</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>brt_prediction <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(proj_stack_sub, brt_model, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Mask to land area (optional: using the first raster as template)</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># This sets ocean/NA areas back to NA</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>brt_prediction <span class="ot">&lt;-</span> <span class="fu">mask</span>(brt_prediction, proj_stack_sub[[<span class="dv">1</span>]])</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot with color scale emphasizing land values</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(brt_prediction,</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"BRT-predicted habitat suitability"</span>,</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">magma</span>(<span class="dv">50</span>),</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">na.col =</span> <span class="st">"lightblue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>proj_stack_sub <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(proj_stack_sub) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)  <span class="co"># ensure matching names</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict habitat suitability</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>brt_prediction <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(proj_stack_sub, brt_model, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Mask to land area (optional: using the first raster as template)</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># This sets ocean/NA areas back to NA</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>brt_prediction <span class="ot">&lt;-</span> <span class="fu">mask</span>(brt_prediction, proj_stack_sub[[<span class="dv">1</span>]])</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot with color scale emphasizing land values</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(brt_prediction,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"BRT-predicted habitat suitability"</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">magma</span>(<span class="dv">50</span>),</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">na.col =</span> <span class="st">"lightblue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -535,22 +618,22 @@ bio_12       bio_12 28.67371</code></pre>
 <p><strong>Model evaluation</strong></p>
 <p>Evaluate the model on training data using AUC:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data needs to in dataframe format for dismo::gbm.step()</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>sdm_df_train <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_train)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure response is numeric 1-0</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>sdm_df_train<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdm_df_train<span class="sc">$</span>pa))</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit BRT to training data only</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>brt_model_train <span class="ot">&lt;-</span> <span class="fu">gbm.step</span>(<span class="at">data =</span> sdm_df_train,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.x =</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>),</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.y =</span> <span class="st">"pa"</span>,</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"bernoulli"</span>,</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">tree.complexity =</span> <span class="dv">3</span>,</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">learning.rate =</span> <span class="fl">0.01</span>,</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">bag.fraction =</span> <span class="fl">0.5</span>,</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data needs to in dataframe format for dismo::gbm.step()</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>sdm_df_train <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_train)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure response is numeric 1-0</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>sdm_df_train<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdm_df_train<span class="sc">$</span>pa))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit BRT to training data only</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>brt_model_train <span class="ot">&lt;-</span> <span class="fu">gbm.step</span>(<span class="at">data =</span> sdm_df_train,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.x =</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gbm.y =</span> <span class="st">"pa"</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"bernoulli"</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">tree.complexity =</span> <span class="dv">3</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">learning.rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">bag.fraction =</span> <span class="fl">0.5</span>,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  
@@ -558,11 +641,11 @@ bio_12       bio_12 28.67371</code></pre>
  
 Performing cross-validation optimisation of a boosted regression tree model 
 for NA and using a family of bernoulli 
-Using 462 observations and 3 predictors 
+Using 465 observations and 3 predictors 
 creating 10 initial models of 50 trees 
 
  folds are stratified by prevalence 
-total mean deviance =  1.386 
+total mean deviance =  1.3863 
 tolerance is fixed at  0.0014 
 now adding trees... </code></pre>
 </div>
@@ -573,13 +656,13 @@ now adding trees... </code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test data</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>brt_predict_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(brt_model_train, </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">newdata=</span> sdm_df_test, <span class="at">n.trees =</span> brt_model_train<span class="sc">$</span>gbm.call<span class="sc">$</span>best.trees, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>roc_brt <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(sdm_df_test<span class="sc">$</span>pa, brt_predict_test)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>auc_brt <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_brt )</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_brt, <span class="at">col =</span> <span class="st">"#ff7f00"</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"BRT ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_brt, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test data</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>brt_predict_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(brt_model_train, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">newdata=</span> sdm_df_test, <span class="at">n.trees =</span> brt_model_train<span class="sc">$</span>gbm.call<span class="sc">$</span>best.trees, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>roc_brt <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(sdm_df_test<span class="sc">$</span>pa, brt_predict_test)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>auc_brt <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_brt )</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_brt, <span class="at">col =</span> <span class="st">"#ff7f00"</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"BRT ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_brt, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -596,19 +679,19 @@ now adding trees... </code></pre>
 <p>In SDM, Random Forests are valued for their high predictive accuracy, ability to handle non-linear and interactive effects, and their built-in estimates of variable importance.</p>
 <p>Below we fit a Random Forest SDM using the <code>randomForest</code> package.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure 'pa' is a factor for classification</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sdm_df_clean<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_clean<span class="sc">$</span>pa)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>rF_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation,</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> sdm_df_clean,</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> <span class="dv">500</span>,</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># View variable importance</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rF_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure 'pa' is a factor for classification</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>sdm_df_clean<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_clean<span class="sc">$</span>pa)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>rF_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> <span class="dv">500</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># View variable importance</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rF_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -617,13 +700,13 @@ Call:
                      Number of trees: 500
 No. of variables tried at each split: 1
 
-        OOB estimate of  error rate: 16.97%
+        OOB estimate of  error rate: 20.06%
 Confusion matrix:
     0   1 class.error
-0 274  67   0.1964809
-1  45 274   0.1410658</code></pre>
+0 266  78   0.2267442
+1  55 264   0.1724138</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rF_model, <span class="at">main =</span> <span class="st">"Random Forest Variable Importance"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rF_model, <span class="at">main =</span> <span class="st">"Random Forest Variable Importance"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -635,20 +718,20 @@ Confusion matrix:
 <p><strong>Predict habitat suitability using Random Forest</strong></p>
 <p>We now project the trained model onto the environmental raster layers:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare stack</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>proj_stack <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(proj_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of presence</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>rF_prediction <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(proj_stack, rF_model, <span class="at">type =</span> <span class="st">"prob"</span>, <span class="at">index =</span> <span class="dv">2</span>)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot prediction</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rF_prediction,</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Random Forest–predicted habitat suitability"</span>,</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">inferno</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare stack</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>proj_stack <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(proj_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of presence</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>rF_prediction <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(proj_stack, rF_model, <span class="at">type =</span> <span class="st">"prob"</span>, <span class="at">index =</span> <span class="dv">2</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot prediction</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rF_prediction,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Random Forest–predicted habitat suitability"</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">inferno</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -660,23 +743,23 @@ Confusion matrix:
 <p><strong>Evaluate model performance</strong></p>
 <p>We use AUC and the ROC curve to evaluate predictive performance:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure 'pa' is a factor for classification</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>sdm_df_train<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_train<span class="sc">$</span>pa)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>sdm_df_test<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_test<span class="sc">$</span>pa)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># # Fit randomForest to training data only</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>rF_model_train <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> sdm_df_train,</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> <span class="dv">500</span>,</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>rF_predict_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(rF_model_train, <span class="at">newdata=</span> sdm_df_test, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"1"</span>]</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>roc_rF <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(sdm_df_test<span class="sc">$</span>pa, rF_predict_test)</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>auc_rF <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_rF)</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_rF, <span class="at">col=</span> <span class="st">"#33a02c"</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Random Forest ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_rF, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure 'pa' is a factor for classification</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>sdm_df_train<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_train<span class="sc">$</span>pa)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>sdm_df_test<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sdm_df_test<span class="sc">$</span>pa)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># # Fit randomForest to training data only</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>rF_model_train <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> sdm_df_train,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> <span class="dv">500</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>rF_predict_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(rF_model_train, <span class="at">newdata=</span> sdm_df_test, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"1"</span>]</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>roc_rF <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(sdm_df_test<span class="sc">$</span>pa, rF_predict_test)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>auc_rF <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_rF)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_rF, <span class="at">col=</span> <span class="st">"#33a02c"</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Random Forest ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_rF, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -693,40 +776,40 @@ Confusion matrix:
 <p>In practice, Maxent contrasts environmental conditions at occurrence points against conditions across a wider background area, identifying the combination of conditions that best explains the observed presences while avoiding overfitting. This makes it particularly useful for records where absences are unreliable or unknown such citizen museum datasets or science data.</p>
 <p>Maxent can be implemented in R via the <code>maxnet</code> package, which provides a native R re-implementation of the Maxent algorithm. Unlike the <code>dismo</code> package’s interface, which requires the standalone Java-based Maxent software, <code>maxnet</code> runs entirely in R and avoids Java dependencies. It fits presence–background models using the same maximum entropy framework, but with a formula interface that allows greater flexibility and integration into R workflows.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxnet)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract environmental predictors at presence and background locations</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(target_group_sf)) <span class="sc">%&gt;%</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into one dataset</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>pa <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(presence_vals)), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(background_vals)))</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>env_vals <span class="ot">&lt;-</span> <span class="fu">rbind</span>(presence_vals, background_vals)</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with NA in predictors</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>complete_idx <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(env_vals)</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>env_vals_clean <span class="ot">&lt;-</span> env_vals[complete_idx, ]</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>pa_clean <span class="ot">&lt;-</span> pa[complete_idx]</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Maxent with maxnet</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>maxnet_model <span class="ot">&lt;-</span> <span class="fu">invisible</span>(</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">suppressMessages</span>(</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">maxnet</span>(</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">p =</span> pa_clean,</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> env_vals_clean,</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">f =</span> <span class="fu">maxnet.formula</span>(pa_clean, env_vals_clean)</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  )))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxnet)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract environmental predictors at presence and background locations</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(target_group_sf)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into one dataset</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>pa <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(presence_vals)), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(background_vals)))</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>env_vals <span class="ot">&lt;-</span> <span class="fu">rbind</span>(presence_vals, background_vals)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with NA in predictors</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>complete_idx <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(env_vals)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>env_vals_clean <span class="ot">&lt;-</span> env_vals[complete_idx, ]</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>pa_clean <span class="ot">&lt;-</span> pa[complete_idx]</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Maxent with maxnet</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>maxnet_model <span class="ot">&lt;-</span> <span class="fu">invisible</span>(</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">suppressMessages</span>(</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">maxnet</span>(</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">p =</span> pa_clean,</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> env_vals_clean,</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">f =</span> <span class="fu">maxnet.formula</span>(pa_clean, env_vals_clean)</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>  )))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The output includes model coefficients, variable contributions, and training performance metrics.</p>
 <p><strong>Visualising variable contributions</strong></p>
 <p>Maxent provides estimates of how much each predictor contributes to the model:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxnet_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxnet_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -739,27 +822,27 @@ Confusion matrix:
 <p><strong>Projecting habitat suitability with Maxent</strong></p>
 <p>Once trained, the Maxent model can be projected across geographic space to estimate habitat suitability:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxnet)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extract raster values as data.frame</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(proj_stack, <span class="at">xy =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)  <span class="co"># keep xy for plotting</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Identify rows without NA (complete cases)</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>complete_idx <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(env_df[, <span class="fu">names</span>(env_vals)])  <span class="co"># only predictor columns</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Predict with maxnet</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>pred_vals <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(env_df))  <span class="co"># initialize output</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>pred_vals[complete_idx] <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, env_df[complete_idx, <span class="fu">names</span>(env_vals)], <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Convert back to raster</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>maxent_prediction <span class="ot">&lt;-</span> proj_stack[[<span class="dv">1</span>]]  <span class="co"># take first layer as template</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(maxent_prediction) <span class="ot">&lt;-</span> pred_vals</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Plot</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxent_prediction,</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Maxent (maxnet) predicted habitat suitability"</span>,</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">cividis</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxnet)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extract raster values as data.frame</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(proj_stack, <span class="at">xy =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)  <span class="co"># keep xy for plotting</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Identify rows without NA (complete cases)</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>complete_idx <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(env_df[, <span class="fu">names</span>(env_vals)])  <span class="co"># only predictor columns</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Predict with maxnet</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>pred_vals <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(env_df))  <span class="co"># initialize output</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>pred_vals[complete_idx] <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, env_df[complete_idx, <span class="fu">names</span>(env_vals)], <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Convert back to raster</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>maxent_prediction <span class="ot">&lt;-</span> proj_stack[[<span class="dv">1</span>]]  <span class="co"># take first layer as template</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(maxent_prediction) <span class="ot">&lt;-</span> pred_vals</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Plot</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxent_prediction,</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Maxent (maxnet) predicted habitat suitability"</span>,</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">cividis</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -771,31 +854,31 @@ Confusion matrix:
 <p><strong>Evaluating model performance</strong></p>
 <p>We can evaluate the Maxent model using AUC and the ROC curve, similar to other algorithms:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract environmental values at presence and background points</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(target_group_sf)) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with NA</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> presence_vals[<span class="fu">complete.cases</span>(presence_vals), ]</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> background_vals[<span class="fu">complete.cases</span>(background_vals), ]</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># {redict with maxnet model</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>presence_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, presence_vals, <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>background_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, background_vals, <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into evaluation vectors</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>eval_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(presence_probs)), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(background_probs)))</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>eval_probs <span class="ot">&lt;-</span> <span class="fu">c</span>(presence_probs, background_probs)</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC and AUC</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>roc_maxnet <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(eval_labels, eval_probs)</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>auc_maxnet <span class="ot">&lt;-</span> roc_maxnet<span class="sc">$</span>auc</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ROC curve</span></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_maxnet, <span class="at">col =</span> <span class="st">"#6a3d9a"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Maxent (maxnet) ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_maxnet, <span class="dv">3</span>)))</span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract environmental values at presence and background points</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(target_group_sf)) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with NA</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> presence_vals[<span class="fu">complete.cases</span>(presence_vals), ]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>background_vals <span class="ot">&lt;-</span> background_vals[<span class="fu">complete.cases</span>(background_vals), ]</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># {redict with maxnet model</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>presence_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, presence_vals, <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>background_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(maxnet_model, background_vals, <span class="at">type =</span> <span class="st">"cloglog"</span>)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into evaluation vectors</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>eval_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(presence_probs)), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(background_probs)))</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>eval_probs <span class="ot">&lt;-</span> <span class="fu">c</span>(presence_probs, background_probs)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC and AUC</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>roc_maxnet <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(eval_labels, eval_probs)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>auc_maxnet <span class="ot">&lt;-</span> roc_maxnet<span class="sc">$</span>auc</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ROC curve</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_maxnet, <span class="at">col =</span> <span class="st">"#6a3d9a"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Maxent (maxnet) ROC Curve – AUC:"</span>, <span class="fu">round</span>(auc_maxnet, <span class="dv">3</span>)))</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -817,27 +900,27 @@ It defines the species’ <strong>environmental envelope</strong> by summarizing
 <p>In R, Bioclim can be fitted using the <code>bioclim()</code> function from the <code>dismo</code> package.</p>
 <p><strong>Fitting a Bioclim model</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extract predictor values at presence points</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Remove any rows with NA</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> presence_vals[<span class="fu">complete.cases</span>(presence_vals), ]</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Compute climatic envelope for each predictor</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>bioclim_min <span class="ot">&lt;-</span> <span class="fu">apply</span>(presence_vals, <span class="dv">2</span>, min)</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>bioclim_max <span class="ot">&lt;-</span> <span class="fu">apply</span>(presence_vals, <span class="dv">2</span>, max)</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>bioclim_model <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> bioclim_min,</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> bioclim_max</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>bioclim_model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extract predictor values at presence points</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(proj_stack, <span class="fu">vect</span>(presence_sf)) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Remove any rows with NA</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>presence_vals <span class="ot">&lt;-</span> presence_vals[<span class="fu">complete.cases</span>(presence_vals), ]</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Compute climatic envelope for each predictor</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>bioclim_min <span class="ot">&lt;-</span> <span class="fu">apply</span>(presence_vals, <span class="dv">2</span>, min)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>bioclim_max <span class="ot">&lt;-</span> <span class="fu">apply</span>(presence_vals, <span class="dv">2</span>, max)</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>bioclim_model <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> bioclim_min,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> bioclim_max</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>bioclim_model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$min
      bio_1     bio_12  elevation 
@@ -851,37 +934,37 @@ $max
 <p><strong>Visualising Bioclim response curves</strong></p>
 <p>We can plot the response curves to inspect the species’ environmental envelope:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert min/max ranges to long format for plotting</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictor =</span> <span class="fu">names</span>(bioclim_model<span class="sc">$</span>min),</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> bioclim_model<span class="sc">$</span>min,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> bioclim_model<span class="sc">$</span>max</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(min, max), <span class="at">names_to =</span> <span class="st">"limit"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(env_df, <span class="fu">aes</span>(<span class="at">x =</span> predictor, <span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Lines connecting min-max in gray</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> predictor), <span class="at">color =</span> <span class="st">"gray"</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Points colored by limit</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> limit), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Horizontal ticks at min and max</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(predictor)) <span class="sc">-</span> <span class="fl">0.1</span>, </span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xend =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(predictor)) <span class="sc">+</span> <span class="fl">0.1</span>,</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> value, <span class="at">yend =</span> value,</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> limit),</span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Environmental predictor"</span>,</span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Value"</span>,</span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Envelope limit"</span>) <span class="sc">+</span></span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert min/max ranges to long format for plotting</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictor =</span> <span class="fu">names</span>(bioclim_model<span class="sc">$</span>min),</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> bioclim_model<span class="sc">$</span>min,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> bioclim_model<span class="sc">$</span>max</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(min, max), <span class="at">names_to =</span> <span class="st">"limit"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(env_df, <span class="fu">aes</span>(<span class="at">x =</span> predictor, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Lines connecting min-max in gray</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> predictor), <span class="at">color =</span> <span class="st">"gray"</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Points colored by limit</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> limit), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Horizontal ticks at min and max</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(predictor)) <span class="sc">-</span> <span class="fl">0.1</span>, </span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xend =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(predictor)) <span class="sc">+</span> <span class="fl">0.1</span>,</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> value, <span class="at">yend =</span> value,</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> limit),</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Environmental predictor"</span>,</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Value"</span>,</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Envelope limit"</span>) <span class="sc">+</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -894,27 +977,27 @@ $max
 <p><strong>Projecting habitat suitability with Bioclim</strong></p>
 <p>Once fitted, the Bioclim model can be projected across the study area:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract raster values as a data.frame</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(proj_stack, <span class="at">xy =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute suitability: 1 if all predictors within min/max, 0 otherwise</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>suitability <span class="ot">&lt;-</span> <span class="fu">apply</span>(env_df[, <span class="fu">names</span>(bioclim_model<span class="sc">$</span>min)], <span class="dv">1</span>, <span class="cf">function</span>(x) {</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(x <span class="sc">&gt;=</span> bioclim_model<span class="sc">$</span>min <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> bioclim_model<span class="sc">$</span>max)</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize raster for predicted suitability</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>bioclim_prediction <span class="ot">&lt;-</span> proj_stack[[<span class="dv">1</span>]]  <span class="co"># template</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(bioclim_prediction) <span class="ot">&lt;-</span> <span class="cn">NA</span>       <span class="co"># reset</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(bioclim_prediction)[<span class="sc">!</span><span class="fu">is.na</span>(env_df[[<span class="dv">1</span>]])] <span class="ot">&lt;-</span> suitability</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot predicted suitability</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bioclim_prediction,</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Bioclim-predicted habitat suitability"</span>,</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>),</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Unsuitable"</span>, <span class="st">"Suitable"</span>), <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract raster values as a data.frame</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>env_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(proj_stack, <span class="at">xy =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute suitability: 1 if all predictors within min/max, 0 otherwise</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>suitability <span class="ot">&lt;-</span> <span class="fu">apply</span>(env_df[, <span class="fu">names</span>(bioclim_model<span class="sc">$</span>min)], <span class="dv">1</span>, <span class="cf">function</span>(x) {</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(x <span class="sc">&gt;=</span> bioclim_model<span class="sc">$</span>min <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> bioclim_model<span class="sc">$</span>max)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize raster for predicted suitability</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>bioclim_prediction <span class="ot">&lt;-</span> proj_stack[[<span class="dv">1</span>]]  <span class="co"># template</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(bioclim_prediction) <span class="ot">&lt;-</span> <span class="cn">NA</span>       <span class="co"># reset</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(bioclim_prediction)[<span class="sc">!</span><span class="fu">is.na</span>(env_df[[<span class="dv">1</span>]])] <span class="ot">&lt;-</span> suitability</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot predicted suitability</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bioclim_prediction,</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Bioclim-predicted habitat suitability"</span>,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>),</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Unsuitable"</span>, <span class="st">"Suitable"</span>), <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1016,18 +1099,18 @@ These methods offer new opportunities for handling spatial complexity, uncertain
 <p>Deviance or log-likelihood: for statistical models like GAMs.</p>
 <p>You can compile a simple table of metrics for each model:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>model_metrics <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model =</span> <span class="fu">c</span>(<span class="st">"GAM"</span>, <span class="st">"BRT"</span>, <span class="st">"Random Forest"</span>, <span class="st">"Maxent"</span>, <span class="st">"Bioclim"</span>),</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AUC =</span> <span class="fu">c</span>(</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    auc_gam,    <span class="co"># GAM</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    auc_brt,    <span class="co"># BRT</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    auc_rF,     <span class="co"># RF</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    auc_maxnet, <span class="co"># Maxnet</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NA</span>          <span class="co"># Bioclim</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(model_metrics, <span class="at">caption =</span> <span class="st">"Comparison of model performance (AUC) across SDM algorithms"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>model_metrics <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model =</span> <span class="fu">c</span>(<span class="st">"GAM"</span>, <span class="st">"BRT"</span>, <span class="st">"Random Forest"</span>, <span class="st">"Maxent"</span>, <span class="st">"Bioclim"</span>),</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AUC =</span> <span class="fu">c</span>(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    auc_gam,    <span class="co"># GAM</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    auc_brt,    <span class="co"># BRT</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    auc_rF,     <span class="co"># RF</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    auc_maxnet, <span class="co"># Maxnet</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NA</span>          <span class="co"># Bioclim</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(model_metrics, <span class="at">caption =</span> <span class="st">"Comparison of model performance (AUC) across SDM algorithms"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Comparison of model performance (AUC) across SDM algorithms</caption>
@@ -1040,15 +1123,15 @@ These methods offer new opportunities for handling spatial complexity, uncertain
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">GAM</td>
-<td style="text-align: right;">0.8625923</td>
+<td style="text-align: right;">0.8335404</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">BRT</td>
-<td style="text-align: right;">0.8903815</td>
+<td style="text-align: right;">0.8549757</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Random Forest</td>
-<td style="text-align: right;">0.8989951</td>
+<td style="text-align: right;">0.8625349</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Maxent</td>
@@ -1067,16 +1150,16 @@ These methods offer new opportunities for handling spatial complexity, uncertain
 <h3 class="anchored" data-anchor-id="performance-metrics-comparison-1">5.2 Performance metrics comparison</h3>
 <p>Visual comparison of habitat suitability maps can highlight differences in predicted distributions, smoothness, and sensitivity to rare occurrences or extreme values.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))  <span class="co"># grid layout</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(glm_suitability_map, <span class="at">main =</span> <span class="st">"GLM"</span>, <span class="at">col =</span> <span class="fu">viridis</span>(<span class="dv">50</span>, <span class="at">option =</span> <span class="st">"D"</span>))</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gam_suitability, <span class="at">main =</span> <span class="st">"GAM"</span>, <span class="at">col =</span> <span class="fu">plasma</span>(<span class="dv">50</span>))</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(brt_prediction, <span class="at">main =</span> <span class="st">"BRT"</span>, <span class="at">col =</span> <span class="fu">magma</span>(<span class="dv">50</span>))</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rF_prediction, <span class="at">main =</span> <span class="st">"Random Forest"</span>, <span class="at">col =</span> <span class="fu">inferno</span>(<span class="dv">50</span>))</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxent_prediction, <span class="at">main =</span> <span class="st">"Maxent"</span>, <span class="at">col =</span> <span class="fu">cividis</span>(<span class="dv">50</span>))</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bioclim_prediction, <span class="at">main =</span> <span class="st">"Bioclim"</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))  <span class="co"># grid layout</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(glm_suitability_map, <span class="at">main =</span> <span class="st">"GLM"</span>, <span class="at">col =</span> <span class="fu">viridis</span>(<span class="dv">50</span>, <span class="at">option =</span> <span class="st">"D"</span>))</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gam_suitability, <span class="at">main =</span> <span class="st">"GAM"</span>, <span class="at">col =</span> <span class="fu">plasma</span>(<span class="dv">50</span>))</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(brt_prediction, <span class="at">main =</span> <span class="st">"BRT"</span>, <span class="at">col =</span> <span class="fu">magma</span>(<span class="dv">50</span>))</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rF_prediction, <span class="at">main =</span> <span class="st">"Random Forest"</span>, <span class="at">col =</span> <span class="fu">inferno</span>(<span class="dv">50</span>))</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(maxent_prediction, <span class="at">main =</span> <span class="st">"Maxent"</span>, <span class="at">col =</span> <span class="fu">cividis</span>(<span class="dv">50</span>))</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bioclim_prediction, <span class="at">main =</span> <span class="st">"Bioclim"</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgrey"</span>, <span class="st">"#FFC0C0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1085,10 +1168,10 @@ These methods offer new opportunities for handling spatial complexity, uncertain
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))  <span class="co"># reset layout</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))  <span class="co"># reset layout</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1097,7 +1180,7 @@ These methods offer new opportunities for handling spatial complexity, uncertain
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Bakka, H., Rue, H., Fuglstad, G.-.A., Riebler, A., Bolin, D., Illian, J., Krainski, E., Simpson, D. &amp; Lindgren, F. (2018). <strong>Spatial modeling with R-INLA: A review.</strong> <em>WIREs Computational Statistics</em>, 10(6), e1443. doi:10.1002/wics.1443</p>
 <p>Deneu, B., Servajean, M., Bonnet, P., Botella, C., Munoz, F., &amp; Joly, A. (2021). <strong>Convolutional neural networks improve species distribution modelling by capturing the spatial structure of the environment.</strong> <em>PLOS Computational Biology</em>, 17(4), e1008856. doi:10.1371/journal.pcbi.1008856</p>
@@ -1105,6 +1188,7 @@ These methods offer new opportunities for handling spatial complexity, uncertain
 <p>Elith, J., &amp; Leathwick, J. R. (2009). <strong>Species distribution models: ecological explanation and prediction across space and time.</strong> <em>Annual Review of Ecology Evolution and Systematics</em>, 40, 677–697. doi:10.1146/annurev.ecolsys.110308.120159</p>
 <p>Kearney, M. R., &amp; Porter, W. P. (2020). <strong>NicheMapR – an R package for biophysical modelling: the ectotherm and Dynamic Energy Budget models.</strong> <em>Ecography</em>, 43(1), 85–96. doi:https://doi.org/10.1111/ecog.04680</p>
 <p>Wood, S. N. (2017). <strong>Generalized additive models. An introduction with R</strong> ( 2nd ed.). CRC Press.</p>
+<p>Pebesma, E., &amp; Bivand, R. (2025). <em>Spatial Data Science: With Applications in R.</em> <a href="https://r-spatial.org/book/" class="uri">https://r-spatial.org/book/</a></p>
 <p>Phillips, S.J., Dudík, M., Elith, J., Graham, C.H., Lehmann, A., Leathwick, J. &amp; Ferrier, S. (2009) <strong>Sample selection bias and presence-only distribution models: Implications for background and pseudo-absence data.</strong> <em>Ecological Applications</em>, 19(1), 181–197. <a href="https://doi.org/10.1890/07-2153.1">doi:10.1890/07-2153.1</a></p>
 </div>
 </div>
@@ -1519,7 +1603,7 @@ These methods offer new opportunities for handling spatial complexity, uncertain
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Konstans Wells, Swansea University, 2025</p>
+<p><a href="https://konswells1.github.io">Konstans Wells</a>, Swansea University, 2025</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

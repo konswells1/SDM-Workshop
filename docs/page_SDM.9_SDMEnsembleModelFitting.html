@@ -523,51 +523,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
   &gt; mergedData_mergedRun_mergedAlgo ensemble modeling
    &gt; Mean of probabilities by TSS ...
+            Evaluating Model stuff...
    &gt; Coef of variation of probabilities by TSS ...
-          original models scores =  0.598 0.66 0.679 0.652 0.635 0.647
-          final models weights =  0.154 0.17 0.175 0.168 0.164 0.167
-   &gt; Probabilities weighting mean by TSS ...</code></pre>
+            Evaluating Model stuff...
+          original models scores =  0.53 0.552 0.579 0.618 0.593 0.605
+          final models weights =  0.152 0.159 0.167 0.178 0.171 0.174
+   &gt; Probabilities weighting mean by TSS ...
+            Evaluating Model stuff...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Done -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</code></pre>
 </div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in {: task 1 failed - "task 1 failed - "task 1 failed - "cannot open the connection"""</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the ensemble to the projections</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>myEnsembleProj <span class="ot">&lt;-</span> <span class="fu">BIOMOD_EnsembleForecasting</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">bm.em   =</span> myEnsembleOut,         <span class="co"># ensemble modeling object</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">bm.proj =</span> model_proj             <span class="co"># projections from individual models</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the ensemble to the projections</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>myEnsembleProj <span class="ot">&lt;-</span> <span class="fu">BIOMOD_EnsembleForecasting</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">bm.em   =</span> myEnsembleOut,         <span class="co"># ensemble modeling object</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">bm.proj =</span> model_proj             <span class="co"># projections from individual models</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
--=-=-=-=-=-=-=-=-=-=-=-= Do Ensemble Models Projection -=-=-=-=-=-=-=-=-=-=-=-=</code></pre>
+-=-=-=-=-=-=-=-=-=-=-=-= Do Ensemble Models Projection -=-=-=-=-=-=-=-=-=-=-=-=
+
+Creating suitable Workdir...
+
+    &gt; Projecting Rhinolophus.hipposideros_EMmeanByTSS_mergedData_mergedRun_mergedAlgo ...
+    &gt; Projecting Rhinolophus.hipposideros_EMcvByTSS_mergedData_mergedRun_mergedAlgo ...
+    &gt; Projecting Rhinolophus.hipposideros_EMwmeanByTSS_mergedData_mergedRun_mergedAlgo ...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Done -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</code></pre>
 </div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in eval(expr, envir, enclos): object 'myEnsembleOut' not found</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise mean suitability, CV, and weigthed suitabilty onto map</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract layers from biomod2 ensemble projection</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ens_stack <span class="ot">&lt;-</span> <span class="fu">get_predictions</span>(myEnsembleProj)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename for clarity (adjust names if needed)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ens_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Suitability_mean"</span>, <span class="st">"CV"</span>, <span class="st">"Suitability_weighted"</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Make 0-values in the weighted layer transparent</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Set values of 0 to NA in the weighted layer</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>ens_stack<span class="sc">$</span>Suitability_weighted[ens_stack<span class="sc">$</span>Suitability_weighted <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot all three side-by-side</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ens_stack,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"Mean Suitability"</span>, <span class="st">"Cross-Validation Variation"</span>, <span class="st">"Weighted Suitability"</span>),</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">colNA =</span> <span class="st">"transparent"</span>,       <span class="co"># Show NA (0-values) as transparent</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">nc =</span> <span class="dv">3</span>,                      <span class="co"># Number of columns in layout</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">4</span>))         <span class="co"># Margins</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.9_SDMEnsembleModelFitting_files/figure-html/biomod2-ensemble-and-project-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise mean suitability, CV, and weigthed suitabilty onto map</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract layers from biomod2 ensemble projection</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>ens_stack <span class="ot">&lt;-</span> <span class="fu">get_predictions</span>(myEnsembleProj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'obj' in selecting a method for function 'get_predictions': object 'myEnsembleProj' not found</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename for clarity (adjust names if needed)</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ens_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Suitability_mean"</span>, <span class="st">"CV"</span>, <span class="st">"Suitability_weighted"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error: object 'ens_stack' not found</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make 0-values in the weighted layer transparent</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set values of 0 to NA in the weighted layer</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>ens_stack<span class="sc">$</span>Suitability_weighted[ens_stack<span class="sc">$</span>Suitability_weighted <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error: object 'ens_stack' not found</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot all three side-by-side</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ens_stack,</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"Mean Suitability"</span>, <span class="st">"Cross-Validation Variation"</span>, <span class="st">"Weighted Suitability"</span>),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">colNA =</span> <span class="st">"transparent"</span>,       <span class="co"># Show NA (0-values) as transparent</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">nc =</span> <span class="dv">3</span>,                      <span class="co"># Number of columns in layout</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">4</span>))         <span class="co"># Margins</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'plot': object 'ens_stack' not found</code></pre>
 </div>
 </div>
 </section>
@@ -591,56 +594,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sdm-step-1-format-the-input-data" class="level5">
 <h5 class="anchored" data-anchor-id="sdm-step-1-format-the-input-data"><code>sdm</code> step 1: Format the input data</h5>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdm)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert tibbles of pre-prepared sdm training and testing data subsets to base data.frames</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>sdmData_df_train <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_train)[, <span class="fu">c</span>(<span class="st">"pa"</span>, <span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>sdmData_df_test  <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_test)[, <span class="fu">c</span>(<span class="st">"pa"</span>, <span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure response variable is numeric</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>sdmData_df_train<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdmData_df_train<span class="sc">$</span>pa))</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>sdmData_df_test<span class="sc">$</span>pa  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdmData_df_test<span class="sc">$</span>pa))</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Define formula using only selected predictors</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>formula_selected <span class="ot">&lt;-</span> pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sdmData object using the pre-prepared sdm training and testing data subsets</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>sdmData_df <span class="ot">&lt;-</span> sdm<span class="sc">::</span><span class="fu">sdmData</span>(</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  pa <span class="sc">~</span> bio_1<span class="sc">+</span>bio_12<span class="sc">+</span>elevation,</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">train =</span> sdmData_df_train,</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">test =</span> sdmData_df_test</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sdm)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert tibbles of pre-prepared sdm training and testing data subsets to base data.frames</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>sdmData_df_train <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_train)[, <span class="fu">c</span>(<span class="st">"pa"</span>, <span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>sdmData_df_test  <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sdm_df_test)[, <span class="fu">c</span>(<span class="st">"pa"</span>, <span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure response variable is numeric</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>sdmData_df_train<span class="sc">$</span>pa <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdmData_df_train<span class="sc">$</span>pa))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>sdmData_df_test<span class="sc">$</span>pa  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(sdmData_df_test<span class="sc">$</span>pa))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Define formula using only selected predictors</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>formula_selected <span class="ot">&lt;-</span> pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sdmData object using the pre-prepared sdm training and testing data subsets</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>sdmData_df <span class="ot">&lt;-</span> sdm<span class="sc">::</span><span class="fu">sdmData</span>(</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  pa <span class="sc">~</span> bio_1<span class="sc">+</span>bio_12<span class="sc">+</span>elevation,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">train =</span> sdmData_df_train,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">test =</span> sdmData_df_test</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sdm-step-2-fit-models-with-cross-validation" class="level5">
 <h5 class="anchored" data-anchor-id="sdm-step-2-fit-models-with-cross-validation"><code>sdm</code> step 2: Fit models with cross-validation</h5>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit SDMs using multiple algorithms with replication (e.g., CV)</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Available algorithms: 'glm', 'rf', 'brt', 'svm', 'mars', 'gam', etc.</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>sdm_model <span class="ot">&lt;-</span> sdm<span class="sc">::</span><span class="fu">sdm</span>(</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sdmData_df,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">methods =</span> <span class="fu">c</span>(<span class="st">"glm"</span>, <span class="st">"gam"</span>, <span class="st">"rf"</span>, <span class="st">"brt"</span>),         <span class="co"># SDM algorithms</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="at">test.percent =</span> <span class="dv">0</span>   <span class="co"># use external test data supplied in sdmData_df</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit SDMs using multiple algorithms with replication (e.g., CV)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Available algorithms: 'glm', 'rf', 'brt', 'svm', 'mars', 'gam', etc.</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>sdm_model <span class="ot">&lt;-</span> sdm<span class="sc">::</span><span class="fu">sdm</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> pa <span class="sc">~</span> bio_1 <span class="sc">+</span> bio_12 <span class="sc">+</span> elevation,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sdmData_df,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">methods =</span> <span class="fu">c</span>(<span class="st">"glm"</span>, <span class="st">"gam"</span>, <span class="st">"rf"</span>, <span class="st">"brt"</span>),         <span class="co"># SDM algorithms</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="at">test.percent =</span> <span class="dv">0</span>   <span class="co"># use external test data supplied in sdmData_df</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sdm-step-3-evaluate-model-performance" class="level5">
 <h5 class="anchored" data-anchor-id="sdm-step-3-evaluate-model-performance"><code>sdm</code> step 3: Evaluate model performance</h5>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View evaluation metrics: AUC, TSS, ...</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>eval_sdm <span class="ot">&lt;-</span> sdm<span class="sc">::</span><span class="fu">getEvaluation</span>(sdm_model, <span class="at">stat =</span> <span class="fu">c</span>(<span class="st">"AUC"</span>, <span class="st">"TSS"</span>, <span class="st">"sensitivity"</span>, <span class="st">"specificity"</span>))</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eval_sdm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View evaluation metrics: AUC, TSS, ...</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>eval_sdm <span class="ot">&lt;-</span> sdm<span class="sc">::</span><span class="fu">getEvaluation</span>(sdm_model, <span class="at">stat =</span> <span class="fu">c</span>(<span class="st">"AUC"</span>, <span class="st">"TSS"</span>, <span class="st">"sensitivity"</span>, <span class="st">"specificity"</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eval_sdm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  modelID   AUC    TSS sensitivity specificity
-1       1 0.817 0.5189      0.9114      0.6075
-2       2 0.871 0.6591      0.9114      0.7477
-3       3 0.896 0.6497      0.9114      0.7383
-4       4 0.860 0.6018      0.8354      0.7664</code></pre>
+1       1 0.764 0.4811      0.8052      0.6759
+2       2 0.799 0.5720      0.8961      0.6759
+3       3 0.867 0.5832      0.9351      0.6481
+4       4 0.814 0.5088      0.7403      0.7685</code></pre>
 </div>
 </div>
 <p>All four algorithms perform reasonably well at predicting species presence and absence, but there are differences in their strengths. The GLM (model 1) has very high sensitivity, meaning it rarely misses actual presences, but lower specificity, so it predicts some false presences. In contrast, the Random Forest (model 3) achieves the best overall balance (highest TSS) and good AUC, indicating it correctly predicts both presences and absences reliably. This illustrates why no single model is perfect, and why ensemble modelling — combining predictions from multiple algorithms — can improve robustness and account for different strengths and weaknesses of individual models.</p>
@@ -648,9 +651,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sdm-step-4-variable-importance" class="level5">
 <h5 class="anchored" data-anchor-id="sdm-step-4-variable-importance"><code>sdm</code> step 4: Variable importance</h5>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assess variable importance</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>varimp_sdm <span class="ot">&lt;-</span> <span class="fu">getVarImp</span>(sdm_model, <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)  <span class="co"># Adjust ID to match your models if needed</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(varimp_sdm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assess variable importance</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>varimp_sdm <span class="ot">&lt;-</span> <span class="fu">getVarImp</span>(sdm_model, <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)  <span class="co"># Adjust ID to match your models if needed</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(varimp_sdm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -663,14 +666,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sdm-step-5-project-model-spatially" class="level5">
 <h5 class="anchored" data-anchor-id="sdm-step-5-project-model-spatially"><code>sdm</code> step 5: Project model spatially</h5>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select focal environmental layers</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>env_select <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Project model onto environmental space</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>sdm_proj <span class="ot">&lt;-</span> <span class="fu">predict</span>(sdm_model, <span class="at">newdata =</span> env_select, <span class="at">type=</span><span class="st">"ensemble"</span>)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot predictions</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdm_proj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select focal environmental layers</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>env_select <span class="ot">&lt;-</span> Env_UK_stack[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)]]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Project model onto environmental space</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>sdm_proj <span class="ot">&lt;-</span> <span class="fu">predict</span>(sdm_model, <span class="at">newdata =</span> env_select, <span class="at">type=</span><span class="st">"ensemble"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot predictions</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdm_proj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1112,7 +1115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Konstans Wells, Swansea University, 2025</p>
+<p><a href="https://konswells1.github.io">Konstans Wells</a>, Swansea University, 2025</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

@@ -44,7 +44,7 @@ website:
             file: page_SDM.9_SDMEnsembleModelFitting.qmd
 
   page-footer: 
-    left: "Konstans Wells, Swansea University, 2025"
+    left: "[Konstans Wells](https://konswells1.github.io), Swansea University, 2025"
     right: "License: [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)"
 
 format: 
@@ -55,6 +55,7 @@ format:
     toc-location: left
     page-layout: full 
     code-copy: true
+    allow-html: true
     css: styles.css
 
   pdf:

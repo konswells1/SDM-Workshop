@@ -1,5 +1,5 @@
 ---
-title: " "
+title: ""
 format:
   html:
     toc: true
@@ -64,12 +64,17 @@ source("scripts/load_packages.R")
 
   <!-- Short Description --> 
     <p style="max-width: 700px; font-size: 1.1em; margin-bottom: 1.5em; color: #555;"> 
-    This workshop introduces Species Distribution Modeling using R and open datasets. Explore spatial data, species occurrences,        environmental predictors, and learn to fit, assess, and compare species distribution models including GLMs, Random Forests, and     MaxEnt. Build your skills to generate predictions and ensemble models confidently. </p> 
+    This workshop introduces Species Distribution Modeling using R and open datasets. Explore spatial data, species occurrences,        environmental predictors, and learn to fit, assess, and compare species distribution models including GLMs, Random Forests, and     MaxEnt. Build your skills to generate predictions and ensemble models confidently. 
+    </p> 
 
   <!-- Instructor and Research Group Info --> 
   <div style="max-width: 700px; font-size: 1em; color: #333; margin-top: 1em;"> 
-  <p><strong>Konstans Wells</strong></p>
-  <p><strong><a href="https://konswells1.github.io" target="_blank">Biodiversity and Animal Health Ecology (BAHE) Group</a></strong>, Swansea      University</p>
+  <p>
+    <strong>Konstans Wells</strong>
+  </p>
+  <p>
+    <strong><a href="https://konswells1.github.io" target="_blank">Biodiversity and Animal Health Ecology (BAHE) Group</a></strong>, Swansea University
+  </p>
 
   <!-- Logo -->
   <img src="images/SU-uni-logo.jpg" alt="SDM Workshop Logo" style="width:120px; max-width: 100%; margin-bottom: 1em; border-radius:   5px;"/>

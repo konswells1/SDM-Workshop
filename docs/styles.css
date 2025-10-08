@@ -242,3 +242,39 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+
+/* Dropdown background matching navbar blue but slightly darker for contrast */
+.dropdown-menu {
+  background-color: #3a78c2 !important; /* slightly darker blue */
+  color: #f8f9fa !important; /* light text */
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Dropdown links */
+.dropdown-menu a.dropdown-item {
+  color: #f8f9fa !important; /* light text */
+}
+
+/* Hover/focus color: lighter blue highlight */
+.dropdown-menu a.dropdown-item:hover,
+.dropdown-menu a.dropdown-item:focus {
+  background-color: #5a9bf3 !important; /* lighter blue */
+  color: #ffc107 !important;
+}
+
+/* On small screens, full width and padding */
+@media (max-width: 576px) {
+  .dropdown-menu {
+    background-color: #3a78c2 !important;
+    width: 100vw; /* full viewport width */
+    left: 0 !important;
+    right: 0 !important;
+    border-radius: 0 !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+

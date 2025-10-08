@@ -22,7 +22,17 @@ Elev_UK <- terra::rast("data/Elev_UK.tif")
 
 <br>
 
+The **natural world is fundamentally spatial**. No organism exists in isolation; every ecological interaction occurs within a specific environmental context. Scientific observations gain meaning only when viewed within their spatial and temporal frame. Organisms are subject to the environmental conditions of their specific place and time. Whether prey is consumed and transformed through digestion or a leaf decomposes and returns to the soil, both processes follow fundamental pathways of pools and fluxes within the spatial and temporal fabric of life.
+
+<br>
+
+![Animated illustration of predator–prey movements across an environmental gradient, showing how ecological interactions unfold in space and time.](images/predator_prey_spatial.gif){width="500px"}
+
 **Spatial data** form the foundation of **geographical analysis** and **ecological modeling**. In **R**, spatial data are typically managed in two primary formats: **vector** and **raster**.
+
+<br>
+
+Recognizing this perspective is essential in environmental science. Understanding nature’s patterns requires data that are organized with space and time in mind. Fortunately, modern data science in R offers an excellent toolkit for mapping these relationships and reminding us that even data, like organisms, thrive best in the right environment.
 
 Beyond data structure, it is increasingly recognized that ecological observations must be interpreted within an appropriate **spatiotemporal context**. Species responses depend not only on local environmental conditions, but also on **spatial patterns**, temporal dynamics, and **scale-dependent processes**. Ignoring these dimensions can obscure ecological signals or lead to misleading inferences about species–environment relationships.
 
@@ -641,14 +651,14 @@ head(clim_data_df)
 ::: {.callout-note collapse="true" icon="book"}
 ### Useful sources
 
-Hijmans, R. J. (2023). *rspatial.org: Spatial Data in R*. [https://rspatial.org/](https://rspatial.org/)
+Hijmans, R. J. (2023). *rspatial.org: Spatial Data in R*. <https://rspatial.org/>
 
-Lovelace, R., Nowosad, J., & Muenchow, J. (2023). *Geocomputation with R*. [https://geocompr.robinlovelace.net](https://geocompr.robinlovelace.net)
+Lovelace, R., Nowosad, J., & Muenchow, J. (2023). *Geocomputation with R*. <https://geocompr.robinlovelace.net>
 
-Pebesma, E. (2023). *Simple Features for R: Standardized Support for Spatial Vector Data*. [https://r-spatial.github.io/sf/index.html](https://r-spatial.github.io/sf/index.html)
+Pebesma, E. (2023). *Simple Features for R: Standardized Support for Spatial Vector Data*. <https://r-spatial.github.io/sf/index.html>
 
+Pebesma, E., & Bivand, R. (2025). *Spatial Data Science: With Applications in R.* <https://r-spatial.org/book/>
 :::
-
 
 ::: {.callout-note collapse="true" icon="info"}
 ### Exercises: Load and Inspect a Raster

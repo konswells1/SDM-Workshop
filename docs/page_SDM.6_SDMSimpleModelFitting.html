@@ -302,7 +302,7 @@ Figure&nbsp;1: Illustration of presence–absence data for bats collected across
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>mu_y <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>mu_y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.08</code></pre>
+<pre><code>[1] 0.04</code></pre>
 </div>
 </div>
 <p>This observed mean can be estimated with a logistic regression model. A model with no predictors is an intercept-only model:</p>
@@ -376,17 +376,17 @@ glm(formula = y ~ 1, family = "binomial")
 
 Coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -2.4423     0.5213  -4.685  2.8e-06 ***
+(Intercept)  -3.1781     0.7217  -4.404 1.06e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 27.877  on 49  degrees of freedom
-Residual deviance: 27.877  on 49  degrees of freedom
-AIC: 29.877
+    Null deviance: 16.794  on 49  degrees of freedom
+Residual deviance: 16.794  on 49  degrees of freedom
+AIC: 18.794
 
-Number of Fisher Scoring iterations: 5</code></pre>
+Number of Fisher Scoring iterations: 6</code></pre>
 </div>
 </div>
 <p>Because logistic regression uses the logit link, model coefficients are on the log-odds scale. To convert to probabilities, we apply the inverse-logit (or logistic) function:</p>
@@ -399,7 +399,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>mu_mod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept) 
-       0.08 </code></pre>
+       0.04 </code></pre>
 </div>
 </div>
 <p>This simple model demonstrates how GLMs estimate the expected occurrence probability of a binary outcome. Understanding this structure is essential for interpreting more complex SDMs where environmental covariates explain spatial patterns in species occurrence.</p>
@@ -436,19 +436,17 @@ glm(formula = pa ~ elevation, family = binomial(link = "logit"),
     data = sdm_df_clean)
 
 Coefficients:
-              Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept)  0.1347145  0.1338897   1.006   0.3143  
-elevation   -0.0011801  0.0006495  -1.817   0.0692 .
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+              Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept) -0.0213497  0.1318450  -0.162    0.871
+elevation   -0.0002444  0.0006585  -0.371    0.711
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 912.90  on 658  degrees of freedom
-Residual deviance: 909.55  on 657  degrees of freedom
-AIC: 913.55
+    Null deviance: 911.57  on 657  degrees of freedom
+Residual deviance: 911.44  on 656  degrees of freedom
+AIC: 915.44
 
-Number of Fisher Scoring iterations: 4</code></pre>
+Number of Fisher Scoring iterations: 3</code></pre>
 </div>
 </div>
 <p>The coefficients from a logistic regression are expressed on the log-odds scale. The intercept can be transformed with the logistic (inverse-logit) function to give the baseline probability of occurrence (at predictor = 0). For slope terms, exponentiation (exp()) gives the odds ratio associated with a one-unit change in the predictor, rather than a direct probability</p>
@@ -460,13 +458,13 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">invlogit</span>(<span class="fu">coef</span>(glm_elev)[<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept) 
-  0.5336278 </code></pre>
+  0.4946628 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds ratio for 1-unit change in elevation</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(glm_elev)[<span class="st">"elevation"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>elevation 
-0.9988206 </code></pre>
+0.9997557 </code></pre>
 </div>
 </div>
 <p>Visualising the fitted response curve</p>
@@ -543,17 +541,17 @@ glm(formula = pa ~ poly(elevation, 2), family = binomial(link = "logit"),
 
 Coefficients:
                      Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)          -0.11654    0.08254  -1.412  0.15796    
-poly(elevation, 2)1  -8.33379    2.87411  -2.900  0.00374 ** 
-poly(elevation, 2)2 -16.61301    3.40390  -4.881 1.06e-06 ***
+(Intercept)          -0.11160    0.08225  -1.357   0.1748    
+poly(elevation, 2)1  -5.62441    2.79403  -2.013   0.0441 *  
+poly(elevation, 2)2 -19.26549    3.62144  -5.320 1.04e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 912.90  on 658  degrees of freedom
-Residual deviance: 876.27  on 656  degrees of freedom
-AIC: 882.27
+    Null deviance: 911.57  on 657  degrees of freedom
+Residual deviance: 871.93  on 655  degrees of freedom
+AIC: 877.93
 
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
@@ -682,20 +680,20 @@ Figure&nbsp;3: Quadratic logistic regression showing unimodal response of <em>R.
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>high_corr_pairs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 146 × 3
+<pre><code># A tibble: 140 × 3
    var1  var2           r
    &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;
- 1 bio_1 bio_5      0.803
- 2 bio_1 bio_6      0.860
- 3 bio_1 bio_10     0.951
- 4 bio_1 bio_11     0.941
- 5 bio_1 bio_14    -0.701
- 6 bio_1 elevation -0.831
- 7 bio_2 bio_4      0.798
- 8 bio_2 bio_7      0.936
- 9 bio_2 bio_15    -0.725
-10 bio_4 bio_2      0.798
-# ℹ 136 more rows</code></pre>
+ 1 bio_1 bio_5      0.780
+ 2 bio_1 bio_6      0.844
+ 3 bio_1 bio_10     0.941
+ 4 bio_1 bio_11     0.931
+ 5 bio_1 elevation -0.795
+ 6 bio_2 bio_4      0.819
+ 7 bio_2 bio_5      0.722
+ 8 bio_2 bio_7      0.941
+ 9 bio_2 bio_15    -0.752
+10 bio_4 bio_2      0.819
+# ℹ 130 more rows</code></pre>
 </div>
 </div>
 <p><strong>Step 3: Decide which variables to keep</strong></p>
@@ -716,26 +714,26 @@ Figure&nbsp;3: Quadratic logistic regression showing unimodal response of <em>R.
 <pre><code># A tibble: 20 × 2
    variable    AIC
    &lt;chr&gt;     &lt;dbl&gt;
- 1 bio_11     795.
- 2 bio_9      811.
- 3 bio_1      815.
- 4 bio_6      830.
+ 1 bio_9      785.
+ 2 bio_11     814.
+ 3 bio_1      823.
+ 4 bio_6      847.
  5 bio_10     847.
- 6 bio_5      876.
- 7 bio_8      895.
- 8 bio_18     901.
- 9 bio_12     903.
-10 bio_13     905.
-11 bio_19     906.
-12 bio_14     906.
-13 bio_16     906.
-14 bio_17     909.
-15 bio_3      912.
-16 elevation  914.
-17 bio_15     916.
-18 bio_7      916.
-19 bio_4      917.
-20 bio_2      917.</code></pre>
+ 6 bio_5      872.
+ 7 bio_18     907.
+ 8 bio_12     909.
+ 9 bio_13     911.
+10 bio_16     911.
+11 bio_19     912.
+12 bio_3      912.
+13 bio_14     912.
+14 bio_8      913.
+15 bio_7      914.
+16 bio_17     914.
+17 bio_2      915.
+18 elevation  915.
+19 bio_15     915.
+20 bio_4      916.</code></pre>
 </div>
 </div>
 <p><strong>Step 4: Reduce predictors for multivariable GLM</strong></p>
@@ -765,21 +763,21 @@ glm(formula = pa ~ poly(elevation, 2) + poly(bio_1, 2) + poly(bio_12,
 
 Coefficients:
                     Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)          -1.4916     0.2656  -5.617 1.95e-08 ***
-poly(elevation, 2)1  93.3200    12.7078   7.344 2.08e-13 ***
-poly(elevation, 2)2  24.7608     8.8285   2.805  0.00504 ** 
-poly(bio_1, 2)1     125.1616    16.2360   7.709 1.27e-14 ***
-poly(bio_1, 2)2     -46.5758    10.7501  -4.333 1.47e-05 ***
-poly(bio_12, 2)1    -75.8114    15.8212  -4.792 1.65e-06 ***
-poly(bio_12, 2)2    -67.5172    11.8905  -5.678 1.36e-08 ***
+(Intercept)          -0.9408     0.2023  -4.651 3.30e-06 ***
+poly(elevation, 2)1  71.5509     9.7449   7.342 2.10e-13 ***
+poly(elevation, 2)2  10.0132     7.5562   1.325 0.185117    
+poly(bio_1, 2)1      95.4288    12.3970   7.698 1.39e-14 ***
+poly(bio_1, 2)2     -31.4333     8.8478  -3.553 0.000381 ***
+poly(bio_12, 2)1    -42.8446    11.2737  -3.800 0.000144 ***
+poly(bio_12, 2)2    -44.4531     9.2969  -4.781 1.74e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 912.90  on 658  degrees of freedom
-Residual deviance: 573.82  on 652  degrees of freedom
-AIC: 587.82
+    Null deviance: 911.57  on 657  degrees of freedom
+Residual deviance: 581.84  on 651  degrees of freedom
+AIC: 595.84
 
 Number of Fisher Scoring iterations: 7</code></pre>
 </div>
@@ -831,42 +829,42 @@ glm(formula = pa ~ poly(elevation, 2) + poly(bio_1, 2) + poly(bio_12,
 
 Coefficients:
                     Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)          -1.4916     0.2656  -5.617 1.95e-08 ***
-poly(elevation, 2)1  93.3200    12.7078   7.344 2.08e-13 ***
-poly(elevation, 2)2  24.7608     8.8285   2.805  0.00504 ** 
-poly(bio_1, 2)1     125.1616    16.2360   7.709 1.27e-14 ***
-poly(bio_1, 2)2     -46.5758    10.7501  -4.333 1.47e-05 ***
-poly(bio_12, 2)1    -75.8114    15.8212  -4.792 1.65e-06 ***
-poly(bio_12, 2)2    -67.5172    11.8905  -5.678 1.36e-08 ***
+(Intercept)          -0.9408     0.2023  -4.651 3.30e-06 ***
+poly(elevation, 2)1  71.5509     9.7449   7.342 2.10e-13 ***
+poly(elevation, 2)2  10.0132     7.5562   1.325 0.185117    
+poly(bio_1, 2)1      95.4288    12.3970   7.698 1.39e-14 ***
+poly(bio_1, 2)2     -31.4333     8.8478  -3.553 0.000381 ***
+poly(bio_12, 2)1    -42.8446    11.2737  -3.800 0.000144 ***
+poly(bio_12, 2)2    -44.4531     9.2969  -4.781 1.74e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 912.90  on 658  degrees of freedom
-Residual deviance: 573.82  on 652  degrees of freedom
-AIC: 587.82
+    Null deviance: 911.57  on 657  degrees of freedom
+Residual deviance: 581.84  on 651  degrees of freedom
+AIC: 595.84
 
 Number of Fisher Scoring iterations: 7</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Compute diagnostics on selected model</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Residual deviance:"</span>, glm_step<span class="sc">$</span>deviance, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Residual deviance: 573.8213 </code></pre>
+<pre><code>Residual deviance: 581.8427 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null deviance:"</span>, glm_step<span class="sc">$</span>null.deviance, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Null deviance: 912.8987 </code></pre>
+<pre><code>Null deviance: 911.5737 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC:"</span>, <span class="fu">AIC</span>(glm_step), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>AIC: 587.8213 </code></pre>
+<pre><code>AIC: 595.8427 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># McFadden's pseudo-R²</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>pseudo_r2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> glm_step<span class="sc">$</span>deviance <span class="sc">/</span> glm_step<span class="sc">$</span>null.deviance</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"McFadden's pseudo-R²:"</span>, pseudo_r2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>McFadden's pseudo-R²: 0.3714294 </code></pre>
+<pre><code>McFadden's pseudo-R²: 0.3617162 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1368,7 +1366,7 @@ Refit a GLM using ‘scale()’ to standardise all continuous predictors. Compar
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Konstans Wells, Swansea University, 2025</p>
+<p><a href="https://konswells1.github.io">Konstans Wells</a>, Swansea University, 2025</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

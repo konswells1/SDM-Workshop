@@ -278,13 +278,12 @@ print(Env_UK_stack)
 ::: {.callout-note collapse="true" icon="info"}
 ### Exercises: Exploring environmental data
 
-1. **Map climate variables across a region:**  
-   Use `geodata::worldclim_global()` to download bioclimatic variables. Crop to a country of your choice and plot maps of temperature and precipitation. What spatial patterns do you observe?
+1.  **Map climate variables across a region:**\
+    Use `geodata::worldclim_global()` to download bioclimatic variables. Crop to a country of your choice and plot maps of temperature and precipitation. What spatial patterns do you observe?
 
-2. **Extract climate at occurrence points:**  
-   Use `terra::extract()` to get climate and elevation values at species occurrence points. Plot environmental gradients (e.g., temp vs. elevation). How might these relate to the species' ecology?
+2.  **Extract climate at occurrence points:**\
+    Use `terra::extract()` to get climate and elevation values at species occurrence points. Plot environmental gradients (e.g., temp vs. elevation). How might these relate to the species' ecology?
 
-3. **Compare present vs. future climate:**  
-   Extract current and CMIP6 future climate (e.g., `bio1`) at occurrence locations. Calculate and map differences. Where is the largest projected change?
+3.  **Compare present vs. future climate:**\
+    Extract current and CMIP6 future climate (e.g., `bio1`) at occurrence locations. Calculate and map differences. Where is the largest projected change?
 :::
-

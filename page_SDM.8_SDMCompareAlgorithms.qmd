@@ -141,6 +141,95 @@ auc_gam <- pROC::auc(roc_gam)
 plot(roc_gam, col = "#1f78b4", main = paste("GAM ROC Curve – AUC:", round(auc_gam, 3)))
 ```
 
+::: {.callout-tip collapse="true" icon="lightbulb"}
+#### Incorporating spatial structure in GAMs and GLMMs
+
+While the GAM example above focuses on smooth functions of environmental variables, GAMs can also include spatial effects by adding smooth terms for geographic coordinates, such as `s(x, y)`. This approach accounts for spatial autocorrelation, where observations close in space tend to be more similar than those farther apart — a common feature in ecological data.
+
+Similarly, Generalized Linear Mixed Models (GLMMs), for example using the `glmmTMB` package, can incorporate spatial random effects or spatial covariance structures to capture unmeasured spatial variation. These methods improve model fit and inference by explicitly modelling spatial dependence rather than assuming observations are independent.
+
+Recognizing and incorporating spatial structure is essential for robust species distribution models, especially when ecological processes operate across space or when sampling design introduces spatial bias.
+
+Here is a simple example of fitting a GAM with a spatial smooth term using the `mgcv` package:
+
+##### Example: Fitting a GAM with a spatial smooth
+
+```{r}
+#| label: gam-spatial
+#| eval: false
+#| message: false
+#| warning: false
+
+
+library(mgcv)
+
+# Fit GAM with environmental predictors and spatial smooth
+gam_spatial <- gam(pa ~ s(bio_1) + s(bio_12) + s(elevation) + s(latitude, longitude),
+                   data = sdm_df_clean,
+                   family = binomial(link = "logit"))
+
+# Plot the spatial smooth term (usually the last smooth)
+plot(gam_spatial, select = length(gam_spatial$smooth), shade = TRUE,
+     main = "Spatial smooth s(latitude, longitude)")
+```
+
+##### Example: Fitting a GLMM with a spatial randnom effects
+
+```{r}
+#| label: glmmTMB-spatial
+#| eval: false
+#| message: false
+#| warning: false
+
+library(glmmTMB)
+library(spaMM)   # optional package for more advanced spatial covariance structures
+
+# -----------------
+# 1. Continuous spatial random effect (distance-based covariance)
+# -----------------
+
+# Define a numeric spatial factor from coordinates
+sdm_df_clean$pos <- numFactor(sdm_df_clean$longitude, sdm_df_clean$latitude)
+
+# Fit a GLMM with a spatially correlated random effect
+glmm_spatial <- glmmTMB(
+  pa ~ bio_1 + bio_12 + elevation + (1 | pos),
+  data = sdm_df_clean,
+  family = binomial(),
+  covstruct = list(pos = "exp")  # exponential spatial correlation
+)
+
+summary(glmm_spatial)
+
+# -----------------
+# 2. Discrete spatial grouping effect (site-level random intercepts)
+# -----------------
+
+# Create a grouping factor that clusters nearby observations
+sdm_df_clean$spatgroup <- factor(paste0(
+  round(sdm_df_clean$latitude, 2), "_",
+  round(sdm_df_clean$longitude, 2))
+)
+
+# Fit a GLMM with a random grouping effect
+glmm_spatialgroup <- glmmTMB(
+  pa ~ bio_1 + bio_12 + elevation + (1 | spatgroup),
+  data = sdm_df_clean,
+  family = binomial()
+)
+
+summary(glmm_spatialgroup)
+```
+
+Note: In spatial GLMMs, random spatial effects can be incorporated in two main ways: 
+
+1) **Continuous spatial random effects**, where covariance betweens ties is a function of geographic distances (as in the 'numFactor()' example) 
+
+2) **Discrete spatial grouping effects**, where nearby observations are assigned to the same group or grid cell (as in the 'spatgroup' example).
+
+The first approach capture smooth, distance based spatial correlation and is closer to true geostatistical modelling, the second is simpler but often sufficient when data are highly clustered or when corrdiantes are coarse.
+:::
+
 ## 2. Machine Learning–Based SDM Methods
 
 Machine learning (ML) methods have become increasingly popular in species distribution modelling due to their ability to model complex, non-linear relationships between species occurrence and environmental variables. Unlike traditional regression-based approaches (such as GLMs or GAMs), which require the modeller to explicitly define the form of each predictor (e.g., linear terms, polynomial terms, or smooth functions), machine learning models can automatically learn patterns, thresholds, and interactions from the data.
@@ -812,6 +901,8 @@ Elith, J., & Leathwick, J. R. (2009). **Species distribution models: ecological 
 Kearney, M. R., & Porter, W. P. (2020). **NicheMapR – an R package for biophysical modelling: the ectotherm and Dynamic Energy Budget models.** *Ecography*, 43(1), 85–96. doi:https://doi.org/10.1111/ecog.04680
 
 Wood, S. N. (2017). **Generalized additive models. An introduction with R** ( 2nd ed.). CRC Press.
+
+Pebesma, E., & Bivand, R. (2025). *Spatial Data Science: With Applications in R.* <https://r-spatial.org/book/>
 
 Phillips, S.J., Dudík, M., Elith, J., Graham, C.H., Lehmann, A., Leathwick, J. & Ferrier, S. (2009) **Sample selection bias and presence-only distribution models: Implications for background and pseudo-absence data.** *Ecological Applications*, 19(1), 181–197. [doi:10.1890/07-2153.1](https://doi.org/10.1890/07-2153.1)
 :::
