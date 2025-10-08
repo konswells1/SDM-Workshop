@@ -55,6 +55,7 @@ format:
     toc-location: left
     page-layout: full 
     code-copy: true
+    allow-html: true
     css: styles.css
 
   pdf:
