@@ -283,20 +283,20 @@ pa ~ s(bio_1) + s(bio_12) + s(elevation)
 
 Parametric coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept)  -0.9425     0.3660  -2.575     0.01 *
+(Intercept)  -0.7553     0.2964  -2.548   0.0108 *
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Approximate significance of smooth terms:
-               edf Ref.df Chi.sq p-value    
-s(bio_1)     3.508  4.414  84.69  &lt;2e-16 ***
-s(bio_12)    5.280  6.091  51.68  &lt;2e-16 ***
-s(elevation) 2.050  2.634  75.33  &lt;2e-16 ***
+               edf Ref.df Chi.sq  p-value    
+s(bio_1)     3.606  4.527  69.36  &lt; 2e-16 ***
+s(bio_12)    5.018  5.984  41.26 2.28e-06 ***
+s(elevation) 3.093  3.933  66.84  &lt; 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-R-sq.(adj) =   0.44   Deviance explained =   39%
-UBRE = -0.11933  Scale est. = 1         n = 663</code></pre>
+R-sq.(adj) =  0.412   Deviance explained = 37.4%
+UBRE = -0.093788  Scale est. = 1         n = 658</code></pre>
 </div>
 </div>
 <p><strong>Plotting smooth effects</strong></p>
@@ -517,11 +517,11 @@ UBRE = -0.11933  Scale est. = 1         n = 663</code></pre>
  
 Performing cross-validation optimisation of a boosted regression tree model 
 for NA and using a family of bernoulli 
-Using 663 observations and 3 predictors 
+Using 658 observations and 3 predictors 
 creating 10 initial models of 50 trees 
 
  folds are stratified by prevalence 
-total mean deviance =  1.3849 
+total mean deviance =  1.3854 
 tolerance is fixed at  0.0014 
 now adding trees... </code></pre>
 </div>
@@ -572,9 +572,9 @@ now adding trees... </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                var  rel.inf
-bio_1         bio_1 42.06221
-bio_12       bio_12 31.83654
-elevation elevation 26.10125</code></pre>
+bio_1         bio_1 44.65389
+bio_12       bio_12 27.81199
+elevation elevation 27.53412</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gbm.plot</span>(brt_model, <span class="at">n.plots =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -641,7 +641,7 @@ elevation elevation 26.10125</code></pre>
  
 Performing cross-validation optimisation of a boosted regression tree model 
 for NA and using a family of bernoulli 
-Using 465 observations and 3 predictors 
+Using 461 observations and 3 predictors 
 creating 10 initial models of 50 trees 
 
  folds are stratified by prevalence 
@@ -700,11 +700,11 @@ Call:
                      Number of trees: 500
 No. of variables tried at each split: 1
 
-        OOB estimate of  error rate: 20.06%
+        OOB estimate of  error rate: 19.3%
 Confusion matrix:
     0   1 class.error
-0 266  78   0.2267442
-1  55 264   0.1724138</code></pre>
+0 262  77   0.2271386
+1  50 269   0.1567398</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rF_model, <span class="at">main =</span> <span class="st">"Random Forest Variable Importance"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -1123,15 +1123,15 @@ These methods offer new opportunities for handling spatial complexity, uncertain
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">GAM</td>
-<td style="text-align: right;">0.8335404</td>
+<td style="text-align: right;">0.8128901</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">BRT</td>
-<td style="text-align: right;">0.8549757</td>
+<td style="text-align: right;">0.8602268</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Random Forest</td>
-<td style="text-align: right;">0.8625349</td>
+<td style="text-align: right;">0.8686538</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Maxent</td>

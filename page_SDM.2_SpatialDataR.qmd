@@ -86,7 +86,7 @@ Unlike vector data, **raster datasets do not store coordinates for each cell**. 
 These three components allow computational software like `R` to calculate the position of every cell efficiently.
 
 ::: {.callout-tip collapse="true" icon="compass"}
-### Insight: Raster and pixels
+### Raster and pixels
 
 Just like digital images, **raster datasets** can vary in **resolution**, which directly affects both **spatial detail** and **file size**.
 
@@ -648,18 +648,6 @@ head(clim_data_df)
 
 <br><br>
 
-::: {.callout-note collapse="true" icon="book"}
-### Useful sources
-
-Hijmans, R. J. (2023). *rspatial.org: Spatial Data in R*. <https://rspatial.org/>
-
-Lovelace, R., Nowosad, J., & Muenchow, J. (2023). *Geocomputation with R*. <https://geocompr.robinlovelace.net>
-
-Pebesma, E. (2023). *Simple Features for R: Standardized Support for Spatial Vector Data*. <https://r-spatial.github.io/sf/index.html>
-
-Pebesma, E., & Bivand, R. (2025). *Spatial Data Science: With Applications in R.* <https://r-spatial.org/book/>
-:::
-
 ::: {.callout-note collapse="true" icon="info"}
 ### Exercises: Load and Inspect a Raster
 
@@ -672,5 +660,20 @@ Pebesma, E., & Bivand, R. (2025). *Spatial Data Science: With Applications in R.
 3.  **Calculate zonal means for countries:**\
     Using polygon shapefiles of European countries or countries worldwide, calculate the zonal mean of bio1 (mean annual temperature) for each country. Visualize the result with a choropleth map.
 :::
+
+
+::: {.callout-note collapse="true" icon="book"}
+### Useful sources
+
+Hijmans, R. J. (2023). *rspatial.org: Spatial Data in R*. <https://rspatial.org/>
+
+Lovelace, R., Nowosad, J., & Muenchow, J. (2023). *Geocomputation with R*. <https://geocompr.robinlovelace.net>
+
+Pebesma, E. (2023). *Simple Features for R: Standardized Support for Spatial Vector Data*. <https://r-spatial.github.io/sf/index.html>
+
+Pebesma, E., & Bivand, R. (2025). *Spatial Data Science: With Applications in R.* <https://r-spatial.org/book/>
+:::
+
+
 
 <br>

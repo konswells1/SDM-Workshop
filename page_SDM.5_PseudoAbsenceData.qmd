@@ -27,20 +27,20 @@ Species distribution modelling (SDM) relies on comparing where a species occurs 
 
 Over the past decade, numerous approaches have been developed for generating background or pseudo-absence data. Early methods focused on simple random sampling of points across a study region, or on excluding presence cells. More recent advances emphasise accounting for spatial sampling bias (e.g., target-group selection, bias weighting) and ecological representativeness (e.g., sampling in environmental space). These innovations recognise that poorly chosen background data can bias response curves, inflate model accuracy, and limit transferability. State-of-the-art methods now include hybrid strategies that combine geographic, environmental, and effort-based information, as well as point process frameworks that embed background generation into a statistically principled likelihood. Despite this progress, there is still no universal solution: the most appropriate strategy depends on study goals, data sources, and the ecological processes under investigation.
 
-We will look at two major ways of creating background/pseudo-absence data: • random selection of points within study area • accounting for spatial sampling bias using target-group selection
+We will look at two major ways of creating background/pseudo-absence data: random selection of points within study area, and, accounting for spatial sampling bias using target-group selection
 
 <br>
 
 ::: {.callout-note collapse="true" icon="lightbulb"}
 ### Why true absence data are so difficult to obtain
 
-Imperfect detectability and survey effort. A non-detection at a site does not imply true absence; detectability varies with observer skill, time of day/season, survey method and effort. Many occurrence databases (e.g., opportunistic citizen science or museum records) lack repeat surveys that would allow occupancy/detection modelling.
+**Imperfect detectability and survey effort**: A non-detection at a site does not imply true absence; detectability varies with observer skill, time of day/season, survey method and effort. Many occurrence databases (e.g., opportunistic citizen science or museum records) lack repeat surveys that would allow occupancy/detection modelling.
 
-Sampling bias. Areas that are more accessible, near roads, near research stations or urban centres tend to be oversampled. That produces presence records that reflect observer effort rather than the species' true ecological niche.
+**Sampling bias**: Areas that are more accessible, near roads, near research stations or urban centres tend to be oversampled. That produces presence records that reflect observer effort rather than the species' true ecological niche.
 
-Scale mismatch. True absence at one spatial grain (e.g., 1 km) may be false at a finer grain (microhabitat), which complicates how absence is defined relative to predictors.
+**Scale mismatch**: True absence at one spatial grain (e.g., 1 km) may be false at a finer grain (microhabitat), which complicates how absence is defined relative to predictors.
 
-Logistical & cost constraints. Systematic presence-absence surveys are expensive and rarely available for many taxa and regions; hence reliance on presence-only data is common in applied SDMs.
+**Logistical & cost constraints**: Systematic presence-absence surveys are expensive and rarely available for many taxa and regions; hence reliance on presence-only data is common in applied SDMs.
 
 These limitations motivate careful design of background/pseudo-absence strategies so that the data used for "absence" (or availability) reflect the ecological process of interest (and do not simply encode observer bias).
 :::

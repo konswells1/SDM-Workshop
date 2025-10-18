@@ -57,8 +57,6 @@ Before continuing, make sure the following R packages are installed and loaded:
 -   `sf` – for handling vector data in simple features (sf) format
 -   `geodata` – easy access to global environmental raster layers
 
-You can automatically install any missing packages by running the code below:
-
 ```{r}
 #| label: packages
 #| echo: false

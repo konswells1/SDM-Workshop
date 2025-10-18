@@ -426,6 +426,10 @@ leaflet(data = inat_df) %>%
 :::
 
 ::: {.callout-note collapse="true" icon="info"}
+
+
+<br>
+
 ### Exercises: Examing different species data
 
 1.  **Download and map a different species:**\
@@ -444,9 +448,9 @@ Baker, D. J., Maclean, I. M. D., & Gaston, K. J. (2024). **Effective strategies 
 
 Inman, R., Franklin, J., Esque, T., & Nussear, K. (2021). **Comparing sample bias correction methods for species distribution modeling using virtual species**. *Ecosphere*, 12(3), e03422. [doi:10.1002/ecs2.3422](https://doi.org/10.1002/ecs2.3422)
 
+Johnston, A., Hochachka, W. M., Strimas-Mackey, M. E., Ruiz Gutierrez, V., Robinson, O. J., Miller, E. T., Auer, T., Kelling, S. T. & Fink, D. (2021). Analytical guidelines to increase the value of community science data: An example using eBird data to estimate species distributions. Diversity and Distributions, 27(7), 1265–1277. [doi:10.1111/ddi.13271](https://doi.org/10.1111/ddi.13271)
+
 Steen, V. A., Tingley, M. W., Paton, P. W. C., & Elphick, C. S. (2021). **Spatial thinning and class balancing: Key choices lead to variation in the performance of species distribution models with citizen science data**. *Methods in Ecology and Evolution*, 12(2), 216–226. [doi:10.1111/2041-210X.13525](https://doi.org/10.1111/2041-210X.13525)
 
 Zizka, A., Silvestro, D., Andermann, T., Azevedo, J., Duarte Ritter, C., Edler, D., Farooq, H., Herdean, A., Ariza, M., Scharn, R., Svantesson, S., Wengström, N., Zizka, V. & Antonelli, A. (2019). **CoordinateCleaner: Standardized cleaning of occurrence records from biological collection databases**. *Methods in Ecology and Evolution*, 10(5), 744–751. [doi:10.1111/2041-210X.13152](https://doi.org/10.1111/2041-210X.13152)
 :::
-
-

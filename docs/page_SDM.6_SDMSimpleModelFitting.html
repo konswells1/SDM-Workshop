@@ -236,7 +236,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Is the model too simple or overly complex?</p>
 <p>Are we modelling for understanding, mapping, or future projection?</p>
 <p>In this session, we will fit a logistic regression model using key bioclimatic and topographic predictors. You will explore how to interpret model coefficients, predict across environmental space, and visualise suitability maps. This exercise lays the foundation for more advanced techniques — including model validation, spatial transfer, and ensembling, which we will explore in subsequent sessions.</p>
-<p>For further background, see foundational SDM texts such as Elith &amp; Leathwick (2009), and Franklin (2010), and methodological overviews and tutorials (e.g., Zurell et al.&nbsp;2020, Araújo et al.&nbsp;2019).</p>
+<p>For further background, see foundational SDM texts such as <a href="https://www.annualreviews.org/content/journals/10.1146/annurev.ecolsys.110308.120159">Elith &amp; Leathwick (2009)</a>, and <a href="https://doi.org/10.1111/j.1472-4642.2010.00641.x">Franklin (2010)</a>, and methodological overviews and tutorials (e.g., <a href="https://doi.org/10.1111/ecog.04960">Zurell et al.&nbsp;2020</a>, <a href="https://www.science.org/doi/10.1126/sciadv.aat4858">Araújo et al.&nbsp;2019)</a>).</p>
+<p><br></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -264,15 +265,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="fit-a-basic-binomial-glm-logistic-regression" class="level2">
 <h2 class="anchored" data-anchor-id="fit-a-basic-binomial-glm-logistic-regression">1. Fit a basic binomial GLM (logistic regression)</h2>
 <p><br></p>
-<div class="cell" data-layout-align="center" data-number="false">
+<div class="cell">
 <div class="cell-output-display">
-<div id="fig-glm-illustration" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-glm-illustration" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-glm-illustration-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/glm_illustration.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+<img src="images/glm_illustration.jpg" class="img-fluid figure-img" width="632">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-glm-illustration-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Illustration of presence–absence data for bats collected across forest stands differing in structure and rainfall. The biological questions can be framed verbally or represented in a generalised linear model (GLM) using relevant environmental predictors.
+Figure&nbsp;1: Illustration of presence–absence data for bats collected across forest stands differing in structure and rainfall. This figure conceptually represents how species distribution modelling (SDM) explores patterns of habitat suitability by linking species occurrence to environmental conditions. Scientific questions, such as ‘Which environmental factors influence bat presence?’, should guide the selection of predictors and model structure. These questions can be formalised using a generalised linear model (GLM), where presence–absence data are modelled as a function of habitat characteristics like forest type, or rainfall.
 </figcaption>
 </figure>
 </div>
@@ -302,7 +303,7 @@ Figure&nbsp;1: Illustration of presence–absence data for bats collected across
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>mu_y <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>mu_y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.04</code></pre>
+<pre><code>[1] 0.1</code></pre>
 </div>
 </div>
 <p>This observed mean can be estimated with a logistic regression model. A model with no predictors is an intercept-only model:</p>
@@ -376,17 +377,17 @@ glm(formula = y ~ 1, family = "binomial")
 
 Coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -3.1781     0.7217  -4.404 1.06e-05 ***
+(Intercept)  -2.1972     0.4714  -4.661 3.14e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 16.794  on 49  degrees of freedom
-Residual deviance: 16.794  on 49  degrees of freedom
-AIC: 18.794
+    Null deviance: 32.508  on 49  degrees of freedom
+Residual deviance: 32.508  on 49  degrees of freedom
+AIC: 34.508
 
-Number of Fisher Scoring iterations: 6</code></pre>
+Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
 <p>Because logistic regression uses the logit link, model coefficients are on the log-odds scale. To convert to probabilities, we apply the inverse-logit (or logistic) function:</p>
@@ -399,7 +400,7 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>mu_mod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept) 
-       0.04 </code></pre>
+        0.1 </code></pre>
 </div>
 </div>
 <p>This simple model demonstrates how GLMs estimate the expected occurrence probability of a binary outcome. Understanding this structure is essential for interpreting more complex SDMs where environmental covariates explain spatial patterns in species occurrence.</p>
@@ -410,7 +411,7 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <section id="fitting-the-first-glm-a-single-environmental-predictor" class="level3">
 <h3 class="anchored" data-anchor-id="fitting-the-first-glm-a-single-environmental-predictor">1.1 Fitting the first GLM: a single environmental predictor</h3>
 <p>We now fit our first statistical species distribution model: a <strong>generalised linear model (GLM)</strong> with a <strong>logit link</strong> function and a <strong>binomial error distribution</strong>.</p>
-<p>GLMs extend ordinary least squares regression by allowing non-Gaussian responses and link functions that map probabilities to the real line. In our case:</p>
+<p>Generalised linear models (GLMs) extend ordinary least squares regression by allowing response variables with non-normal distributions and by using link functions to relate the expected value of the response to a linear combination of predictors. In our case:</p>
 <ul>
 <li><strong>Response variable</strong>: species occurrence (<code>pa</code>, 1 = presence, 0 = pseudo-absence)<br>
 </li>
@@ -437,14 +438,14 @@ glm(formula = pa ~ elevation, family = binomial(link = "logit"),
 
 Coefficients:
               Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept) -0.0213497  0.1318450  -0.162    0.871
-elevation   -0.0002444  0.0006585  -0.371    0.711
+(Intercept)  0.0194626  0.1323770   0.147    0.883
+elevation   -0.0005446  0.0006553  -0.831    0.406
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 911.57  on 657  degrees of freedom
-Residual deviance: 911.44  on 656  degrees of freedom
-AIC: 915.44
+    Null deviance: 915.54  on 660  degrees of freedom
+Residual deviance: 914.85  on 659  degrees of freedom
+AIC: 918.85
 
 Number of Fisher Scoring iterations: 3</code></pre>
 </div>
@@ -458,13 +459,13 @@ Number of Fisher Scoring iterations: 3</code></pre>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">invlogit</span>(<span class="fu">coef</span>(glm_elev)[<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept) 
-  0.4946628 </code></pre>
+  0.5048655 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds ratio for 1-unit change in elevation</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(glm_elev)[<span class="st">"elevation"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>elevation 
-0.9997557 </code></pre>
+0.9994556 </code></pre>
 </div>
 </div>
 <p>Visualising the fitted response curve</p>
@@ -541,17 +542,17 @@ glm(formula = pa ~ poly(elevation, 2), family = binomial(link = "logit"),
 
 Coefficients:
                      Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)          -0.11160    0.08225  -1.357   0.1748    
-poly(elevation, 2)1  -5.62441    2.79403  -2.013   0.0441 *  
-poly(elevation, 2)2 -19.26549    3.62144  -5.320 1.04e-07 ***
+(Intercept)          -0.11888    0.08196  -1.450   0.1469    
+poly(elevation, 2)1  -6.26886    2.76314  -2.269   0.0233 *  
+poly(elevation, 2)2 -18.28766    3.49749  -5.229 1.71e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 911.57  on 657  degrees of freedom
-Residual deviance: 871.93  on 655  degrees of freedom
-AIC: 877.93
+    Null deviance: 915.54  on 660  degrees of freedom
+Residual deviance: 877.43  on 658  degrees of freedom
+AIC: 883.43
 
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
@@ -567,17 +568,13 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sdm_df_clean, <span class="fu">aes</span>(<span class="at">x =</span> elevation, <span class="at">y =</span> pa)) <span class="sc">+</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="fl">0.05</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">colour =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> elev_seq, <span class="fu">aes</span>(<span class="at">x =</span> elevation, <span class="at">y =</span> pred_prob),</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="st">"firebrick"</span>, <span class="at">size =</span> <span class="fl">1.1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="st">"firebrick"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> elev_seq, <span class="fu">aes</span>(<span class="at">x =</span> elevation, <span class="at">y =</span> pred_prob_poly),</span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="st">"forestgreen"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Elevation (m)"</span>,</span>
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Habitat suitability (scaled 0–1)"</span>,</span>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"GLM with linear vs quadratic elevation effect"</span>) <span class="sc">+</span></span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <div id="fig-glm-elev-poly" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -615,11 +612,12 @@ Figure&nbsp;3: Quadratic logistic regression showing unimodal response of <em>R.
 <h3 class="anchored" data-anchor-id="glms-with-multiple-predictors">1.3 GLMs with multiple predictors</h3>
 <p>While single-variable models are useful for learning, most species distributions are shaped by multiple interacting environmental drivers. Extending GLMs to include several predictors allows us to capture more realistic ecological responses.</p>
 <p>Key considerations for multivariable GLMs:</p>
-<p>Ecological relevance: Select predictors based on natural history knowledge (e.g., bats depend on both climate and topography, not just elevation).</p>
-<p>Multicollinearity: strongly correlated predictors inflate variance and obscure interpretation. Tools like variance inflation factor (VIF), pairwise correlation checks, or principal component analysis (PCA) help diagnose and reduce collinearity.</p>
-<p>Scaling and centering: standardising continuous predictors (e.g., scale()) improves interpretability and numerical stability.</p>
-<p>Interactions: consider biologically plausible interactions (e.g., the effect of temperature may depend on rainfall).</p>
-<p>Interpretation: each coefficient reflects the effect of a predictor while holding the others constant.</p>
+<p><strong>Ecological relevance</strong>: Select predictors based on natural history knowledge (e.g., bats depend on both climate and topography, not just elevation).</p>
+<p><strong>Multicollinearity</strong>: strongly correlated predictors inflate variance and obscure interpretation. Tools like variance inflation factor (VIF), pairwise correlation checks, or principal component analysis (PCA) help diagnose and reduce collinearity.</p>
+<p><strong>Scaling and centering</strong>: standardising continuous predictors (e.g., scale()) improves interpretability and numerical stability.</p>
+<p><strong>Interactions</strong>: consider biologically plausible interactions (e.g., the effect of temperature may depend on rainfall).</p>
+<p><strong>Interpretation</strong>: each coefficient reflects the effect of a predictor while holding the others constant.</p>
+<p><br></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -635,29 +633,29 @@ Figure&nbsp;3: Quadratic logistic regression showing unimodal response of <em>R.
 <p>Before fitting multivariable GLMs, it is crucial to examine correlations among predictors. Highly correlated variables can inflate standard errors, obscure interpretation, and lead to unstable models.</p>
 <p><strong>Step 1: Compute correlations</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrr)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Select environmental predictors</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>env_vars <span class="ot">&lt;-</span> sdm_df_clean <span class="sc">%&gt;%</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"bio_"</span>), elevation)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute correlation matrix</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">correlate</span>(env_vars)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Stretch to long format</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>cor_long <span class="ot">&lt;-</span> <span class="fu">stretch</span>(cor_matrix)  <span class="co"># columns: x, y, r</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise correlation matrix directly</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>ggcorrplot<span class="sc">::</span><span class="fu">ggcorrplot</span>(<span class="fu">cor</span>(env_vars, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>                       <span class="at">hc.order =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">"lower"</span>,</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>                       <span class="at">lab =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>                       <span class="at">lab_size =</span> <span class="dv">3</span>,</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method =</span> <span class="st">"circle"</span>,</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>                       <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"white"</span>, <span class="st">"red"</span>),</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>                       <span class="at">title =</span> <span class="st">"Pairwise correlations among predictors"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrr)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Select environmental predictors</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>env_vars <span class="ot">&lt;-</span> sdm_df_clean <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"bio_"</span>), elevation)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute correlation matrix</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">correlate</span>(env_vars)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Stretch to long format</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>cor_long <span class="ot">&lt;-</span> <span class="fu">stretch</span>(cor_matrix)  <span class="co"># columns: x, y, r</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise correlation matrix directly</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>ggcorrplot<span class="sc">::</span><span class="fu">ggcorrplot</span>(<span class="fu">cor</span>(env_vars, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>                       <span class="at">hc.order =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">"lower"</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>                       <span class="at">lab =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>                       <span class="at">lab_size =</span> <span class="dv">3</span>,</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method =</span> <span class="st">"circle"</span>,</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>                       <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"white"</span>, <span class="st">"red"</span>),</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>                       <span class="at">title =</span> <span class="st">"Pairwise correlations among predictors"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -668,31 +666,31 @@ Figure&nbsp;3: Quadratic logistic regression showing unimodal response of <em>R.
 </div>
 <p><strong>Step 2: Identify highly correlated pairs</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Threshold for "high correlation"</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>high_corr_thresh <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find pairs above threshold</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>high_corr_pairs <span class="ot">&lt;-</span> <span class="fu">cor</span>(env_vars, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"var1"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span>var1, <span class="at">names_to =</span> <span class="st">"var2"</span>, <span class="at">values_to =</span> <span class="st">"r"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">abs</span>(r) <span class="sc">&gt;</span> high_corr_thresh <span class="sc">&amp;</span> var1 <span class="sc">!=</span> var2)</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>high_corr_pairs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Threshold for "high correlation"</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>high_corr_thresh <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find pairs above threshold</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>high_corr_pairs <span class="ot">&lt;-</span> <span class="fu">cor</span>(env_vars, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"var1"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span>var1, <span class="at">names_to =</span> <span class="st">"var2"</span>, <span class="at">values_to =</span> <span class="st">"r"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">abs</span>(r) <span class="sc">&gt;</span> high_corr_thresh <span class="sc">&amp;</span> var1 <span class="sc">!=</span> var2)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>high_corr_pairs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 140 × 3
    var1  var2           r
    &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;
- 1 bio_1 bio_5      0.780
- 2 bio_1 bio_6      0.844
- 3 bio_1 bio_10     0.941
- 4 bio_1 bio_11     0.931
- 5 bio_1 elevation -0.795
- 6 bio_2 bio_4      0.819
- 7 bio_2 bio_5      0.722
- 8 bio_2 bio_7      0.941
- 9 bio_2 bio_15    -0.752
-10 bio_4 bio_2      0.819
+ 1 bio_1 bio_5      0.808
+ 2 bio_1 bio_6      0.862
+ 3 bio_1 bio_10     0.949
+ 4 bio_1 bio_11     0.939
+ 5 bio_1 bio_14    -0.704
+ 6 bio_1 elevation -0.798
+ 7 bio_2 bio_4      0.790
+ 8 bio_2 bio_5      0.710
+ 9 bio_2 bio_7      0.930
+10 bio_2 bio_15    -0.734
 # ℹ 130 more rows</code></pre>
 </div>
 </div>
@@ -702,38 +700,38 @@ Figure&nbsp;3: Quadratic logistic regression showing unimodal response of <em>R.
 <p>Univariate model importance: Fit GLMs individually and rank by AIC or explained deviance.</p>
 <p>Automated selection: Dormann et al.&nbsp;(2013) suggest removing the variable with lower univariate importance from each highly correlated pair.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: compute AIC for univariate GLMs</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>univ_aic <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">names</span>(env_vars), <span class="cf">function</span>(v) {</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> ., <span class="at">data =</span> <span class="fu">cbind</span>(<span class="at">pa =</span> sdm_df_clean<span class="sc">$</span>pa, env_vars[v]), <span class="at">family =</span> binomial)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AIC</span>(mod)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">variable =</span> <span class="fu">names</span>(univ_aic), <span class="at">AIC =</span> univ_aic) <span class="sc">%&gt;%</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AIC)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: compute AIC for univariate GLMs</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>univ_aic <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">names</span>(env_vars), <span class="cf">function</span>(v) {</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> ., <span class="at">data =</span> <span class="fu">cbind</span>(<span class="at">pa =</span> sdm_df_clean<span class="sc">$</span>pa, env_vars[v]), <span class="at">family =</span> binomial)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AIC</span>(mod)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">variable =</span> <span class="fu">names</span>(univ_aic), <span class="at">AIC =</span> univ_aic) <span class="sc">%&gt;%</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AIC)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20 × 2
    variable    AIC
    &lt;chr&gt;     &lt;dbl&gt;
- 1 bio_9      785.
- 2 bio_11     814.
- 3 bio_1      823.
+ 1 bio_11     822.
+ 2 bio_9      825.
+ 3 bio_1      832.
  4 bio_6      847.
- 5 bio_10     847.
- 6 bio_5      872.
- 7 bio_18     907.
- 8 bio_12     909.
- 9 bio_13     911.
-10 bio_16     911.
-11 bio_19     912.
-12 bio_3      912.
-13 bio_14     912.
-14 bio_8      913.
-15 bio_7      914.
-16 bio_17     914.
-17 bio_2      915.
-18 elevation  915.
-19 bio_15     915.
-20 bio_4      916.</code></pre>
+ 5 bio_10     855.
+ 6 bio_5      879.
+ 7 bio_18     910.
+ 8 bio_12     911.
+ 9 bio_13     912.
+10 bio_3      912.
+11 bio_8      912.
+12 bio_19     913.
+13 bio_16     913.
+14 bio_14     913.
+15 bio_17     916.
+16 bio_7      918.
+17 elevation  919.
+18 bio_15     919.
+19 bio_2      920.
+20 bio_4      920.</code></pre>
 </div>
 </div>
 <p><strong>Step 4: Reduce predictors for multivariable GLM</strong></p>
@@ -744,17 +742,17 @@ Figure&nbsp;3: Quadratic logistic regression showing unimodal response of <em>R.
 <section id="example-glm-with-elevation-and-climate-variables" class="level5">
 <h5 class="anchored" data-anchor-id="example-glm-with-elevation-and-climate-variables">Example: GLM with elevation and climate variables</h5>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression with multiple predictors</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>glm_multi_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> elevation <span class="sc">+</span> bio_1 <span class="sc">+</span> bio_12,</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> sdm_df_clean,</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> binomial)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, fit logistic regression with multiple predictors as polynomial terms</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>glm_multi <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> <span class="fu">poly</span>(elevation, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">poly</span>(bio_1, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">poly</span>(bio_12, <span class="dv">2</span>),</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> sdm_df_clean,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> binomial)</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm_multi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression with multiple predictors</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>glm_multi_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> elevation <span class="sc">+</span> bio_1 <span class="sc">+</span> bio_12,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> binomial)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, fit logistic regression with multiple predictors as polynomial terms</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>glm_multi <span class="ot">&lt;-</span> <span class="fu">glm</span>(pa <span class="sc">~</span> <span class="fu">poly</span>(elevation, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">poly</span>(bio_1, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">poly</span>(bio_12, <span class="dv">2</span>),</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> sdm_df_clean,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> binomial)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm_multi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -763,21 +761,21 @@ glm(formula = pa ~ poly(elevation, 2) + poly(bio_1, 2) + poly(bio_12,
 
 Coefficients:
                     Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)          -0.9408     0.2023  -4.651 3.30e-06 ***
-poly(elevation, 2)1  71.5509     9.7449   7.342 2.10e-13 ***
-poly(elevation, 2)2  10.0132     7.5562   1.325 0.185117    
-poly(bio_1, 2)1      95.4288    12.3970   7.698 1.39e-14 ***
-poly(bio_1, 2)2     -31.4333     8.8478  -3.553 0.000381 ***
-poly(bio_12, 2)1    -42.8446    11.2737  -3.800 0.000144 ***
-poly(bio_12, 2)2    -44.4531     9.2969  -4.781 1.74e-06 ***
+(Intercept)          -1.6453     0.2649  -6.211 5.28e-10 ***
+poly(elevation, 2)1  89.4801    12.0552   7.423 1.15e-13 ***
+poly(elevation, 2)2  33.3148     8.9698   3.714 0.000204 ***
+poly(bio_1, 2)1     125.6396    16.4834   7.622 2.49e-14 ***
+poly(bio_1, 2)2     -61.5547    11.4366  -5.382 7.36e-08 ***
+poly(bio_12, 2)1    -74.7509    14.6844  -5.091 3.57e-07 ***
+poly(bio_12, 2)2    -71.1143    11.6026  -6.129 8.83e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 911.57  on 657  degrees of freedom
-Residual deviance: 581.84  on 651  degrees of freedom
-AIC: 595.84
+    Null deviance: 915.54  on 660  degrees of freedom
+Residual deviance: 596.72  on 654  degrees of freedom
+AIC: 610.72
 
 Number of Fisher Scoring iterations: 7</code></pre>
 </div>
@@ -792,15 +790,15 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <h5 class="anchored" data-anchor-id="visualising-effects">Visualising effects</h5>
 <p>For models with several predictors, it is often more useful to visualise marginal effects rather than raw coefficients:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load package for partial effects</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effects)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot marginal effect of each predictor</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(glm_multi))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load package for partial effects</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effects)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot marginal effect of each predictor</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(glm_multi))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="page_SDM.6_SDMSimpleModelFitting_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="page_SDM.6_SDMSimpleModelFitting_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -816,11 +814,11 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <h3 class="anchored" data-anchor-id="model-diagnostics">1.4 Model diagnostics</h3>
 <p>After fitting a GLM, it is essential to evaluate its performance and understand how well it captures species–environment relationships. Key diagnostics include <strong>deviance, pseudo-R², and effect plots</strong>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform stepwise variable selection (forward/backward/both based on AIC)</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>glm_step <span class="ot">&lt;-</span> <span class="fu">step</span>(glm_multi, <span class="at">direction =</span> <span class="st">"both"</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect selected model</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm_step)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform stepwise variable selection (forward/backward/both based on AIC)</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>glm_step <span class="ot">&lt;-</span> <span class="fu">step</span>(glm_multi, <span class="at">direction =</span> <span class="st">"both"</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect selected model</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm_step)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -829,42 +827,42 @@ glm(formula = pa ~ poly(elevation, 2) + poly(bio_1, 2) + poly(bio_12,
 
 Coefficients:
                     Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)          -0.9408     0.2023  -4.651 3.30e-06 ***
-poly(elevation, 2)1  71.5509     9.7449   7.342 2.10e-13 ***
-poly(elevation, 2)2  10.0132     7.5562   1.325 0.185117    
-poly(bio_1, 2)1      95.4288    12.3970   7.698 1.39e-14 ***
-poly(bio_1, 2)2     -31.4333     8.8478  -3.553 0.000381 ***
-poly(bio_12, 2)1    -42.8446    11.2737  -3.800 0.000144 ***
-poly(bio_12, 2)2    -44.4531     9.2969  -4.781 1.74e-06 ***
+(Intercept)          -1.6453     0.2649  -6.211 5.28e-10 ***
+poly(elevation, 2)1  89.4801    12.0552   7.423 1.15e-13 ***
+poly(elevation, 2)2  33.3148     8.9698   3.714 0.000204 ***
+poly(bio_1, 2)1     125.6396    16.4834   7.622 2.49e-14 ***
+poly(bio_1, 2)2     -61.5547    11.4366  -5.382 7.36e-08 ***
+poly(bio_12, 2)1    -74.7509    14.6844  -5.091 3.57e-07 ***
+poly(bio_12, 2)2    -71.1143    11.6026  -6.129 8.83e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 911.57  on 657  degrees of freedom
-Residual deviance: 581.84  on 651  degrees of freedom
-AIC: 595.84
+    Null deviance: 915.54  on 660  degrees of freedom
+Residual deviance: 596.72  on 654  degrees of freedom
+AIC: 610.72
 
 Number of Fisher Scoring iterations: 7</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Compute diagnostics on selected model</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Residual deviance:"</span>, glm_step<span class="sc">$</span>deviance, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Compute diagnostics on selected model</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Residual deviance:"</span>, glm_step<span class="sc">$</span>deviance, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Residual deviance: 581.8427 </code></pre>
+<pre><code>Residual deviance: 596.7221 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null deviance:"</span>, glm_step<span class="sc">$</span>null.deviance, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null deviance:"</span>, glm_step<span class="sc">$</span>null.deviance, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Null deviance: 911.5737 </code></pre>
+<pre><code>Null deviance: 915.5401 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC:"</span>, <span class="fu">AIC</span>(glm_step), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC:"</span>, <span class="fu">AIC</span>(glm_step), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>AIC: 595.8427 </code></pre>
+<pre><code>AIC: 610.7221 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># McFadden's pseudo-R²</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>pseudo_r2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> glm_step<span class="sc">$</span>deviance <span class="sc">/</span> glm_step<span class="sc">$</span>null.deviance</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"McFadden's pseudo-R²:"</span>, pseudo_r2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># McFadden's pseudo-R²</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>pseudo_r2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> glm_step<span class="sc">$</span>deviance <span class="sc">/</span> glm_step<span class="sc">$</span>null.deviance</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"McFadden's pseudo-R²:"</span>, pseudo_r2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>McFadden's pseudo-R²: 0.3617162 </code></pre>
+<pre><code>McFadden's pseudo-R²: 0.3482294 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
