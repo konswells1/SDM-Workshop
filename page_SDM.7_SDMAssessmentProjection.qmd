@@ -24,14 +24,15 @@ source("scripts/shared_sdm_models.R")
 
 <br>
 
-After a species distribution model (SDM) has been fitted, the next critical steps are to **assess its performance** and **project it across space or time**. Model assessment ensures that the relationships identified between species occurrences and environmental predictors are robust, interpretable, and generalisable. Projection then allows us to translate these relationships into maps of habitat suitability, either under current conditions or for future scenarios such as climate change.
+After a species distribution model (SDM) has been fitted, the next critical steps are to **assess its performance** and **project it across space or time**. Model assessment ensures that the relationships identified between species occurrences and environmental predictors are robust, interpretable, and generalisable and not just artefacts of the training data. Projection then allows us to translate these relationships into maps of habitat suitability, either under current conditions or for future scenarios such as climate change.
 
-**Model assessment** involves several interconnected steps:\
-**Model fit**: Examining how well the model explains the training data.\
-**Model validation**: Testing model predictions on independent data (data not used for fitting) to avoid overfitting and assess generalization.\
-**Model evaluation**: Calculating quantitative performance metrics on the validation data to objectively judge model quality.\
+**Model assessment involves several interconnected steps:**\
+**Model fit**: Examining how well the model explains the training data used to build it. This often involves metrics like deviance or R² computed on the training set.\
+**Model performance**: Testing the model’s predictions on independent data, i.e. data that were not used in any way during model fitting. This step helps check for overfitting and assess how well the model generalizes. Performance is measured using quantitative metrics to objectively judge model quality.\
 
-A common and recommended approach is to **split the available data into training and testing sets** or use **cross-validation** methods. This ensures that evaluation statistics such as AUC or TSS reflect the model’s predictive ability rather than just its capacity to reproduce the training data.
+This step is crucial in professional applications because ***good fit does not guarantee good predictions — always test on new data***.
+
+A common and recommended approach is to **split the available data into training and testing sets** or use **cross-validation** methods. This ensures that evaluation statistics such as AUC (*Area Under the Curve*) or TSS (*True Skill Statistic*) reflect the model’s predictive ability rather than just its capacity to reproduce the training data.
 
 Evaluation metrics fall into two main types:\
 **Threshold-independent metrics** like AUC and Continuous Boyce Index evaluate the model’s discrimination ability without requiring a binary classification.\
@@ -42,7 +43,7 @@ Together, these evaluation metrics, when applied on validation data, provide a c
 **Projection** extends model application by using fitted relationships to predict species distributions across geographic space, or under different environmental conditions. This is particularly powerful for biodiversity monitoring, invasive species risk mapping, and forecasting impacts of global change. However, projections must always be interpreted in light of uncertainties stemming from data quality, model choice, and environmental scenarios.
 
 ::: {.callout-note collapse="true" icon="info"}
-### Essential SDM Workflow: Fitting, Validating, Evaluation and Projection
+### Essential SDM Workflow: Fitting, Validating, and Projection
 
 When building species distribution models (SDMs), it's essential to distinguish between **model fit**, **model validation**, **model evaluation**, and **final projection**. These are distinct but interconnected steps in a robust modelling workflow.
 
@@ -50,34 +51,28 @@ When building species distribution models (SDMs), it's essential to distinguish 
 
 #### **Model fit**
 
-Refers to how well a model explains the data it was **trained on**. This can be assessed using residuals, likelihood measures, or internal performance statistics. However, good fit to training data does **not guarantee predictive accuracy** — models can overfit, especially with small sample sizes or many predictors.
+Refers to how well a model explains the data it was **trained on**. This can be assessed using residuals, likelihood measures, or internal performance statistics. However, good fit to training data does **not guarantee predictive accuracy**. Models can overfit, especially with small sample sizes or many predictors.
 
 ------------------------------------------------------------------------
 
-#### **Model validation**
+#### **Model performance**
 
-Evaluates how well the model **generalizes to new data**. This requires testing predictions on **data not used for model fitting**, typically via: - **Data splitting** (e.g., 70% training, 30% testing), or\
-- **Cross-validation** (e.g., k-fold, spatial block).
+After fitting a model, it is essential to assess how well it can **generalise to new data**, and not just reproduce the training set. This is typically done by testing the model’s predictions on data that were *not* used for model fitting.
 
-Validation ensures the model's performance is **not just memorizing patterns in the training data**, but reflects true predictive power.
+Common approaches include:
+- **Data splitting** (e.g., 70% training, 30% testing)
+- **Cross-validation**, such as k-fold or spatial block cross-validation
 
-------------------------------------------------------------------------
-
-#### **Model evaluation**
-
-Involves calculating quantitative performance metrics (e.g., AUC, TSS, Boyce Index) on the **validation (test) data**. This step quantifies how well the model distinguishes presences from absences, both: - **Threshold-independently** (e.g., AUC, Boyce), and\
-- **Threshold-dependently** (e.g., sensitivity, specificity, TSS).
-
-Evaluation provides **objective evidence** of model reliability.
+Once predictions are made on test data, we assess performance using quantitative evaluation metrics (e.g., AUC, TSS, Boyce index). These metrics quantify how well the model distinguishes presences from absences (or background).
 
 ------------------------------------------------------------------------
 
 #### **Final projection**
 
-Once the model has been validated and evaluated: - You can **refit the final model using all available data** (training + test) to maximize information. - Use this full model to **project species distributions** across space (e.g., habitat suitability maps) or time (e.g., future climate scenarios).
+Once the model has been validated and evaluated: - You can **refit the final model using all available data** (training + test) to maximize information. Use this full model to **project species distributions** across space (e.g., habitat suitability maps) or time (e.g., future climate scenarios).
 
 **Why refit with all data?**\
-To improve accuracy of projections, especially for rare species or sparse datasets. But remember: this projection step should **only happen after validation** is complete.
+To improve accuracy of projections, especially for rare species or sparse datasets. But remember: this projection step should **only happen after validation** is complete. Together, these steps provide objective evidence of how reliable and useful the model is for prediction, a critical part of any SDM workflow.
 
 ------------------------------------------------------------------------
 
@@ -94,7 +89,7 @@ This approach supports both **scientific rigor** and **reliable application** of
 
 <br>
 
-### 1. Model evaluation
+## 1. Model evaluation
 
 Model evaluation is a key step in SDM analysis. Since SDMs typically predict a continuous probability of occurrence or relative suitability, while field data are often binary (presence vs. absence/pseudo-absence), we need appropriate metrics to judge model quality.
 
@@ -131,9 +126,10 @@ glm_step_train <- step(glm_multi_train , direction = "both", trace = FALSE)
 
 ```
 
-#### 1.1 Threshold-independent evaluation
+### 1.1 Threshold-independent evaluation
 
-The most widely used threshold-independent measure is the **area under the ROC curve (AUC)**. AUC evaluates how well the model distinguishes presences from absences across all possible thresholds. An AUC of 0.5 indicates random performance, while values above 0.7 are typically considered fair, and above 0.9 excellent (Araujo et al. 2005).
+The most widely used threshold-independent measure is the **area under the Receiver Operating Characteristic curve (AUC)**. AUC evaluates how well the model distinguishes presences from absences across all possible thresholds. 
+In practical terms, it reflects the probability that a randomly selected presence site will be ranked higher in predicted suitability than a randomly selected absence or background site. An AUC of 0.5 indicates performance no better than random, while values above 0.7 are generally considered acceptable, and values above 0.9 indicate excellent discrimination ([Araujo et al. 2005]( https://doi.org/10.1111/j.1365-2486.2005.01000.x)).
 
 ```{r}
 #| label: auc-eval
@@ -164,23 +160,27 @@ abline(a = 0, b = 1, lty = 2, col = "grey")
 ::: {.callout-note collapse="true" icon="info-circle"}
 ### How to interpret the ROC curve
 
--   The ROC curve plots **sensitivity (true positive rate)** against **1 – specificity (false positive rate)** across all thresholds.\
--   A model with **no predictive ability** follows the diagonal line (AUC ≈ 0.5).\
+-   The **ROC curve** plots **sensitivity** (*true positive rate*) against **1 – specificity** (*false positive rate*) across all thresholds.\
+-   A model with no predictive ability follows the diagonal line (AUC ≈ 0.5).\
 -   Curves that **bow towards the upper-left corner** indicate stronger discrimination between presences and absences.\
 -   The **area under the curve (AUC)** provides a summary metric:
-    -   **AUC = 0.5** → random predictions\
-    -   **0.7 ≤ AUC \< 0.8** → fair\
-    -   **0.8 ≤ AUC \< 0.9** → good\
-    -   **AUC ≥ 0.9** → excellent
+    -   AUC = 0.5 → random predictions\
+    -   0.7 ≤ AUC \< 0.8 → fair\
+    -   0.8 ≤ AUC \< 0.9 → good\
+    -   AUC ≥ 0.9 → excellent
 
-Always interpret AUC together with ecological reasoning and other evaluation measures\
+*Note:* Always interpret AUC together with ecological reasoning and other evaluation measures\
 (e.g., TSS, Boyce index), since AUC alone can be misleading if prevalence is unbalanced\
-or sampling design introduces bias.
+or sampling design introduces bias. For example, a model can show a high AUC just by picking up differences between sampled presence and background points, even if those differences don't reflect true habitat suitability. If sampling is biased — for instance, if presences come mostly from well-surveyed areas — the model may seem accurate but is actually learning where we looked, not where the species occurs.
 :::
 
 <br>
 
-The **Continuous Boyce Index (CBI)** is an evaluation metric used for species distribution models (SDMs) and habitat suitability models that are built using presence-only data. The CBI is particularly useful for SDMs, as it directly evaluates how predictions for observed presences deviate from a random distribution of available habitat suitability values. It ranges from -1 (counter-predictive), to 0 (no better than random), to +1 (perfect agreement between model predictions and presence distribution).
+The **Continuous Boyce Index (CBI)** is an evaluation metric used for species distribution models (SDMs) and habitat suitability models that are built using presence-only data.
+
+Unlike AUC, which compares presences to absences or background points, CBI focuses only on how well the model ranks habitat suitability at known presence sites. It evaluates whether the model assigns higher predicted suitability to locations where the species is actually observed, compared to what would be expected by chance.
+The index ranges from –1 (predictions are worse than random), to 0 (no better than random), to +1 (perfect match between predicted suitability and observed presences).
+Because CBI is independent of absences or background sampling, it can be more informative than AUC when dealing with biased, incomplete, or presence-only data, making it particularly valuable for large-scale or opportunistic datasets that only report presence records (e.g., museum collections or citizen science data), compared to more detailed field surveys that include both presences and absences.
 
 ```{r}
 #| label: boyce-eval
@@ -197,8 +197,10 @@ boyce_res <- ecospat.boyce(
   nclass = 0,                  # automatic binning
   window.w = "default"         # default moving window
 )
+abline(h = 1, col = "grey50", lty = 2)
 
-boyce_res$Spearman.cor
+# Extracts the continuous Boyce Index value (Spearman correlation)
+boyce_res$cor
 ```
 
 ::: {.callout-note collapse="true" icon="info-circle"}
@@ -212,20 +214,18 @@ boyce_res$Spearman.cor
 - An increasing curve, with ratios **\>1** in high suitability bins → good model performance.\
 - Ratios **\<1** in high suitability bins → the model may be misleading.
 
-While P/E ratios in the plot may exceed 1, the Boyce Index correlation ranges from -1 to +1..
+While P/E ratios in the plot may exceed 1, the Boyce Index correlation ranges from -1 to +1.
 :::
 
 <br>
 
-#### 1.2 Threshold-dependent evaluation
+### 1.2 Threshold-dependent evaluation
 
-To compute threshold-dependent metrics, we need to choose a threshold that converts continuous probabilities into binary predictions. Several rules exist (see Liu et al., 2005), such as:
+To compute threshold-dependent metrics, we need to choose a threshold that converts continuous probabilities into binary predictions. Several rules exist (see [Liu et al., 2005](https://doi.org/10.1111/j.0906-7590.2005.03957.x)), such as:
 
-Maximizing sensitivity + specificity
-
-Equal sensitivity and specificity
-
-Fixed probability cutoffs (e.g., 0.5)
+- Maximizing sensitivity + specificity
+- Equal sensitivity and specificity
+- Fixed probability cutoffs (e.g., 0.5)
 
 Here we use the `PresenceAbsence` package to determine an optimal threshold and then compute metrics like sensitivity, specificity, and the True Skill Statistic (TSS).
 
@@ -237,7 +237,7 @@ Here we use the `PresenceAbsence` package to determine an optimal threshold and 
 
 library(PresenceAbsence)
 
-# Construct PresenceAbsence dataframe
+# Construct 'PresenceAbsence' dataframe
 # Ensure observed and predicted values are numeric
 pa_df_test <- data.frame(
   ID = seq_along(obs_test),
@@ -337,17 +337,8 @@ It is good practice to report **multiple thresholds**.\
 This ensures transparency, allows comparison across studies, and lets end-users (e.g., conservation managers) choose the threshold best suited to their objectives (e.g., maximizing detection vs. minimizing false alarms).
 :::
 
-**Interpretation**
 
-**AUC**: reflects overall discriminatory ability, independent of any threshold.
-
-**Threshold-dependent metrics**: provide information about model performance in classifying presences vs. absences at a chosen threshold.
-
-**TSS**: balances sensitivity and specificity, commonly used in SDM studies.
-
-In practice, both perspectives are valuable. Threshold-independent measures provide a broad sense of predictive skill, while threshold-dependent measures allow for more concrete classification performance.
-
-### 2. Projection across space and time
+## 2. Projection across space and time
 
 Once a species distribution model has been calibrated and evaluated, the next step is projection: predicting habitat suitability across geographic space or future environmental scenarios. Projections enable us to identify potential ranges, assess climate change impacts, and inform conservation planning.
 
@@ -358,7 +349,7 @@ There are two main projection contexts:
 **Temporal projection**: applying the model to future climate scenarios (e.g., CMIP6 SSPs) to forecast potential range shifts.
 
 ::: {.callout-tip collapse="true" icon="globe"}\
-\### Important considerations when projecting SDMs
+### Important considerations when projecting SDMs
 
 Ensure predictor variables in the projection layers match the model in units, resolution, and extent.
 
@@ -370,7 +361,7 @@ When projecting to future climates, using ensembles of GCMs helps capture uncert
 
 <br>
 
-#### 2.1 Projecting the fitted GLM across current environmental layers
+### 2.1 Projecting the fitted GLM across current environmental layers
 
 ```{r}
 #| label: projection_current
@@ -522,7 +513,7 @@ leaflet() |>
 ```
 :::
 
-#### 2.2 Projecting under future climate scenarios
+### 2.2 Projecting under future climate scenarios
 
 ```{r}
 
@@ -556,13 +547,13 @@ plot(future_suitability,
 ::: {.callout-note collapse="true" icon="lightbulb"}
 ### Literature
 
-Araujo, M. B., Pearson, R. G., Thuiller, W., & Erhard, M. (2005). **Validation of species-climate impact models under climate change.** *Global Change Biology*, 11(9), 1504–1513. [doi:10.1111/j.1365-2486.2005.001000.x](https://doi.org/10.1111/j.1365-2486.2005.001000.x)
+Araujo, M. B., Pearson, R. G., Thuiller, W., & Erhard, M. (2005). **Validation of species-climate impact models under climate change.** *Global Change Biology*, 11(9), 1504–1513. [doi:10.1111/j.1365-2486.2005.001000.x]( https://doi.org/10.1111/j.1365-2486.2005.01000.x)
 
 Hirzel, A. H., Le Lay, G., Helfer, V., Randin, C., & Guisan, A. (2006). **Evaluating the ability of habitat suitability models to predict species presences.** *Ecological Modelling*, 199(2), 142–152. [doi:10.1016/j.ecolmodel.2006.05.017](https://doi.org/10.1016/j.ecolmodel.2006.05.017)
 
-Liu, C., Berry, P. M., Dawson, T. P., & Pearson, R. G. (2005). **Selecting thresholds of occurrence in the prediction of species distributions.** *Ecography*, 28(3), 385–393. doi:  [doi:10.1111/j.0906-7590.2005.03957.x](https://doi.org/10.1111/j.0906-7590.2005.03957.x)
+Liu, C., Berry, P. M., Dawson, T. P., & Pearson, R. G. (2005). **Selecting thresholds of occurrence in the prediction of species distributions.** *Ecography*, 28(3), 385–393. doi: [doi:10.1111/j.0906-7590.2005.03957.x](https://doi.org/10.1111/j.0906-7590.2005.03957.x)
 
-Smith, A. B., & Santos, M. J. (2020). **Testing the ability of species distribution models to infer variable importance.** *Ecography*, 43(12), 1801–1813. [doi:10.1111/ecog.05317] (https://doi.org/10.1111/ecog.05317)
+Smith, A. B., & Santos, M. J. (2020). **Testing the ability of species distribution models to infer variable importance.** *Ecography*, 43(12), 1801–1813. \[doi:10.1111/ecog.05317\] (https://doi.org/10.1111/ecog.05317)
 
 Wilson, K. A., Westphal, M. I., Possingham, H. P., & Elith, J. (2005). **Sensitivity of conservation planning to different approaches to using predicted species distribution data.** *Biological Conservation*, 122(1), 99–112.
 

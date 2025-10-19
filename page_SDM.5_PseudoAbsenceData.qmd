@@ -185,14 +185,13 @@ library(ggplot2)
 buffer_dist = 5000
 
 # Define a function to generate background points near presence points
-# Define a function to generate background points near presence points
 generate_background_constr <- function(presence_sf, study_area, buffer_distance, n_points) {
   # Create a buffer around each presence point
   presence_buffer <- sf::st_buffer(presence_sf, dist = buffer_distance)
   
   # Combine all buffers into a single geometry
-  combined_buffer <- sf::st_union(presence_buffer)
-  combined_buffer <- sf::st_make_valid(combined_buffer)
+  combined_buffer <- sf::st_union(presence_buffer)        # Merge all geometries into one
+  combined_buffer <- sf::st_make_valid(combined_buffer)   # Ensure the geometry is valid     
   
   # Intersect buffer with study area to constrain background to that zone
   constrained_area <- sf::st_intersection(combined_buffer, study_area)
@@ -240,13 +239,10 @@ We now generate background points for *Rhinolophus hipposideros* using other GBI
 
 We define the target group as **all bat species** recorded in Great Britain. You can adapt this list depending on your study needs.
 
-::: {.callout-note collapse="true"}
-### Code to generate the target group species background points (already done in data preparation)
 
 ```{r}
 #| label: rgbif-targetpts
 #| eval: false
-#| include: false
 #| warning: false
 #| message: false
 
@@ -260,7 +256,7 @@ bat_occ <- rgbif::occ_search(
   taxonKey = bat_taxon_key,
   country = "GB",
   hasCoordinate = TRUE,
-  limit = 2000  # increase if needed, but beware GBIF limits
+  limit = 5000  # increase if needed, but beware GBIF limits
 )
 
 # Extract data
@@ -280,9 +276,6 @@ target_group_sf <- st_as_sf(
 )
 ```
 
-These steps are included in the data preparation file:\
-👉 [View full data preparation script](page_SDM.1_DataPreparation)
-:::
 
 <br>
 
@@ -319,7 +312,10 @@ ggplot() +
 ::: {.callout-note collapse="true"}
 ### When to use target-group background?
 
-Target-group background is especially useful when: - Presence data are from opportunistic, bias-prone sources like GBIF or citizen science. - The focal species is part of a well-studied taxonomic group with sufficient records. - You want to reduce the impact of spatial sampling effort on model results.
+Target-group background is especially useful when: 
+- Presence data are from opportunistic, bias-prone sources like GBIF or citizen science. 
+- The focal species is part of a well-studied taxonomic group with sufficient records. 
+- You want to reduce the impact of spatial sampling effort on model results.
 
 It works best when the target group was sampled using the same methods, in the same places, and during the same time as the focal species. Poorly matched target groups can **worsen** bias, so always inspect their spatial distribution.
 :::

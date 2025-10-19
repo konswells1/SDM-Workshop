@@ -294,11 +294,54 @@ ggplot(sdm_df_clean, aes(x = elevation, y = pa)) +
 ```
 
 ::: {.callout-note collapse="true" title="Why quadratic terms matter"}
-Many ecological responses are unimodal (species thrive at intermediate values).
+Many ecological responses are **unimodal**, that is species thrive at intermediate values (e.g., mid-range temperature or elevation), while extreme conditions are typically unsuitable, except for a few highly specialized organismsa.
 
-Quadratic GLMs provide a simple way to capture these shapes while retaining interpretability.
+**Linear models cannot capture these ecological thresholds**, so across broad gradients, they may overpredict suitability in extreme environments where the species is absent.
 
-Later, we will compare models formally using AIC or cross-validation to assess whether the quadratic term improves predictive performance.
+Quadratic GLMs capture this with simple terms like **`x + x^2`**, which allow curved response shapes while remaining easy to interpret.
+
+Although `x` and `x^2` are mathematically correlated, this is *usually not a problem* for prediction or model fitting. However, it can make *coefficient interpretation* less straightforward.
+
+An alternative is to use **`poly(x, 2)`**, which fits **orthogonal polynomials**. These reduce numerical correlation between terms, which: - Can improve model stability, especially when predictors are on wide or skewed scales - Are useful for model selection workflows (e.g. AIC) - But have less interpretable coefficients
+
+```{r}
+#| label: glm-quad-plot
+#| echo: true
+#| message: false
+#| warning: false
+
+# Generate a sequence
+x <- seq(0, 1, length.out = 100)
+
+# Terms to plot
+linear_term <- x
+quad_simple <- x^2
+quad_poly <- poly(x, 2)[, 2]  # 2nd-degree orthogonal polynomial
+
+# Determine y-axis range to fit all curves
+ymin <- min(c(linear_term, quad_simple, quad_poly))
+ymax <- max(c(linear_term, quad_simple, quad_poly))
+
+# Plot the simple quadratic term first
+plot(x, quad_simple, type = "l", col = "blue", lwd = 2,
+     ylab = "Value", xlab = "x", main = "Linear vs quadratic terms",
+     ylim = c(ymin, ymax))
+
+# Add linear term
+lines(x, linear_term, col = "black", lwd = 2, lty = 3)
+
+# Add orthogonal polynomial term
+lines(x, quad_poly, col = "red", lwd = 2, lty = 2)
+
+# Add a legend
+legend("topleft",
+       legend = c("Linear (x)", "Quadratic (x^2)", "Orthogonal poly(x, 2)"),
+       col = c("black", "blue", "red"),
+       lty = c(3, 1, 2),
+       lwd = 2)
+```
+
+Model selection tools like AIC or cross-validation can be used to evaluate whether including a quadratic term improves predictive performance.
 :::
 
 <br>
@@ -386,7 +429,7 @@ Prior knowledge: Retain ecologically relevant variables.
 
 Univariate model importance: Fit GLMs individually and rank by AIC or explained deviance.
 
-Automated selection: Dormann et al. (2013) suggest removing the variable with lower univariate importance from each highly correlated pair.
+Automated selection: [Dormann et al. (2013)](https://doi.org/10.1111/j.1600-0587.2012.07348.x) suggest removing the variable with lower univariate importance from each highly correlated pair.
 
 ```{r}
 #| label: univariate-glm-aic
@@ -464,6 +507,8 @@ Always check whether fitted responses make ecological sense, not just statistica
 
 After fitting a GLM, it is essential to evaluate its performance and understand how well it captures species–environment relationships. Key diagnostics include **deviance, pseudo-R², and effect plots**.
 
+**Deviance** measures how well the model fits the observed data compared to a perfect (saturated) model. Lower deviance indicates better fit. **Pseudo-R²** provides an approximate measure of explained variation, similar to the R² statistic in linear regression, but adapted for models like GLMs. Different versions exist (e.g., McFadden’s), and they help quantify how much of the variation in the response is accounted for by the predictors. **Effect plots** visualise the relationship between predictor variables and the response, showing how changes in environmental variables affect predicted species occurrence or abundance. These plots aid interpretation by revealing the shape and strength of species–environment relationships.
+
 ```{r}
 #| label: glm-diagnostics
 #| echo: true
@@ -505,8 +550,8 @@ Key points to remember:
 
 While GLMs offer interpretable models, many modern SDM studies use **machine learning (ML) algorithms** to capture complex, non-linear relationships and interactions among predictors. Common approaches include:
 
--   **MaxEnt** – Uses presence-only data with background points; widely used for species distribution modelling.\
--   **Random Forests (RF)** – Ensemble of decision trees; handles non-linearities and interactions automatically.\
+-   **MaxEnt** – Uses presence-only data with background points; widely used for species distribution modelling.
+-   **Random Forests (RF)** – Ensemble of decision trees; handles non-linearities and interactions automatically.
 -   **Boosted Regression Trees (BRT / GBM)** – Sequential ensemble of weak learners to improve predictive performance.
 
 These methods are particularly useful when ecological responses are complex or highly non-linear. They complement GLMs and will be explored further in the **“SDM Ensemble Models”** section.
@@ -529,6 +574,8 @@ These methods are particularly useful when ecological responses are complex or h
 ### Literature
 
 Araújo, M.B., Anderson, R.P., Márcia Barbosa, A., Beale, C.M., Dormann, C.F., Early, R., Garcia, R.A., Guisan, A., Maiorano, L., Naimi, B., O’Hara, R.B., Zimmermann, N.E. & Rahbek, C. (2019). **Standards for distribution models in biodiversity assessments.** *Science Advances*, 5(1), eaat4858. [doi:10.1126/sciadv.aat4858](https://doi.org/10.1126/sciadv.aat4858)
+
+Dormann, C.F., Elith, J., Bacher, S., Buchmann, C., Carl, G., Carré, G., Marquéz, J.R.G., Gruber, B., Lafourcade, B., Leitão, P.J., Münkemüller, T., McClean, C., Osborne, P.E., Reineking, B., Schröder, B., Skidmore, A.K., Zurell, D., & Lautenbach, S. (2013). **Collinearity: a review of methods to deal with it and a simulation study evaluating their performance.** *Ecography*, 36, 27–46. <https://doi.org/10.1111/j.1600-0587.2012.07348.x>
 
 Elith, J., & Leathwick, J. R. (2009). **Species distribution models: ecological explanation and prediction across space and time.** *Annual Review of Ecology Evolution and Systematics*, 40, 677–697. [doi:10.1146/annurev.ecolsys.110308.120159](https://doi.org/10.1146/annurev.ecolsys.110308.120159)
 
