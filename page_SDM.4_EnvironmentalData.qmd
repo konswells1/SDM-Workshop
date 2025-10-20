@@ -209,7 +209,26 @@ There is no single "best” model or scenario for future climates. Best practice
 
 <br><br>
 
-## 2. Land cover data
+
+## 2. Elevation data
+
+Elevation data are available from different sources, the 'geodata' package offers a direct download of Shuttle Radar Topography Mission (SRTM) data.
+
+```{r}
+#| label: elevation-data
+#| warning: false
+#| message: false
+
+library(geodata)
+
+# Download elevation data
+Elev_UK <- geodata::elevation_30s(country = "GB", path = tmp_dir)
+
+```
+
+
+
+## 3. Land cover data
 
 Land cover is an essential environmental predictor in species distribution modelling (SDM), representing the physical surface of the Earth—such as forests, grasslands, wetlands, croplands, and urban areas. It provides crucial information about habitat availability, fragmentation, and human impacts on ecosystems.
 
@@ -236,7 +255,7 @@ lc_trees <- geodata::landcover(var = "trees")
 
 ------------------------------------------------------------------------
 
-# 3. Joining different datasets
+# 4. Joining different datasets
 
 In species distribution modelling (SDM) and related geospatial applications in environmental sciences, we often work with multiple types and layers of data, including different environmental variables, species occurrence records, and related metadata.
 

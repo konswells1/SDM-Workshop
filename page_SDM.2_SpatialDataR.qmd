@@ -1,4 +1,3 @@
----
 title: "Spatial Data in R"
 format: html
 editor: visual
@@ -506,7 +505,7 @@ library(geodata)
 Clim_extant <- geodata::worldclim_global(var = "bio", res = 5, path = "data/")
 
 # Crop climate to UK
-Clim_UK.GB <- terra::crop(Clim_extant, UK_sf)
+Clim_UK <- terra::crop(Clim_extant, UK_sf)
 
 ```
 
@@ -522,7 +521,7 @@ We can now extract the focal data of interest, here we crop the mean annual prec
 #| fig-align: left
 
 # Extract Bioclim variable 12: annual precipitation
-precip_UK <- Clim_UK [[12]]  # bio12: annual precipitation in mm
+precip_UK <- Clim_UK[[12]]  # bio12: annual precipitation in mm
 
 # Plot the precipitation map
 terra::plot(precip_UK, main = "Mean annual precipitation (bio12) - UK")
@@ -661,7 +660,6 @@ head(clim_data_df)
     Using polygon shapefiles of European countries or countries worldwide, calculate the zonal mean of bio1 (mean annual temperature) for each country. Visualize the result with a choropleth map.
 :::
 
-
 ::: {.callout-note collapse="true" icon="book"}
 ### Useful sources
 
@@ -673,7 +671,5 @@ Pebesma, E. (2023). *Simple Features for R: Standardized Support for Spatial Vec
 
 Pebesma, E., & Bivand, R. (2025). *Spatial Data Science: With Applications in R.* <https://r-spatial.org/book/>
 :::
-
-
 
 <br>
