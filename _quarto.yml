@@ -58,12 +58,6 @@ format:
     allow-html: true
     css: styles.css
 
-  pdf:
-    documentclass: book
-    toc: true
-    toc-depth: 3
-    output-file: SDM_Workshop.pdf
-
 execute:
   setup: scripts/load_packages.R
   error: true

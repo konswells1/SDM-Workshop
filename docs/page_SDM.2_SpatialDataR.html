@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Spatial Data in R – SDM Workshop</title>
+<title>page_sdm.2_spatialdatar – SDM Workshop</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -221,27 +221,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Spatial Data in R</h1>
-</div>
+<main class="content column-page-right" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta column-page-right">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
+<p>title: “Spatial Data in R” format: html editor: visual —</p>
 <p><br></p>
 <p>The <strong>natural world is fundamentally spatial</strong>. No organism exists in isolation; every ecological interaction occurs within a specific environmental context. Scientific observations gain meaning only when viewed within their spatial and temporal frame. Organisms are subject to the environmental conditions of their specific place and time. Whether prey is consumed and transformed through digestion or a leaf decomposes and returns to the soil, both processes follow fundamental pathways of pools and fluxes within the spatial and temporal fabric of life.</p>
 <p><br></p>
@@ -803,7 +788,7 @@ These have already been prepared in advance and saved to disk to speed up the wo
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>Clim_extant <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">worldclim_global</span>(<span class="at">var =</span> <span class="st">"bio"</span>, <span class="at">res =</span> <span class="dv">5</span>, <span class="at">path =</span> <span class="st">"data/"</span>)</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop climate to UK</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>Clim_UK.GB <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Clim_extant, UK_sf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>Clim_UK <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Clim_extant, UK_sf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>These steps are included in the data preparation file:<br>
 👉 <a href="page_SDM.1_DataPreparation">View full data preparation script</a></p>
@@ -814,7 +799,7 @@ These have already been prepared in advance and saved to disk to speed up the wo
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: left</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Bioclim variable 12: annual precipitation</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>precip_UK <span class="ot">&lt;-</span> Clim_UK [[<span class="dv">12</span>]]  <span class="co"># bio12: annual precipitation in mm</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>precip_UK <span class="ot">&lt;-</span> Clim_UK[[<span class="dv">12</span>]]  <span class="co"># bio12: annual precipitation in mm</span></span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the precipitation map</span></span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(precip_UK, <span class="at">main =</span> <span class="st">"Mean annual precipitation (bio12) - UK"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

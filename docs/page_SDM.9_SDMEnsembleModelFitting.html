@@ -526,8 +526,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             Evaluating Model stuff...
    &gt; Coef of variation of probabilities by TSS ...
             Evaluating Model stuff...
-          original models scores =  0.51 0.533 0.606 0.606
-          final models weights =  0.226 0.236 0.269 0.269
+          original models scores =  0.673 0.689 0.68 0.664 0.68 0.691
+          final models weights =  0.165 0.169 0.167 0.163 0.167 0.169
    &gt; Probabilities weighting mean by TSS ...
             Evaluating Model stuff...
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Done -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</code></pre>
@@ -640,10 +640,10 @@ Creating suitable Workdir...
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(eval_sdm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  modelID   AUC    TSS sensitivity specificity
-1       1 0.786 0.5146      0.9091      0.6055
-2       2 0.833 0.5788      0.9091      0.6697
-3       3 0.868 0.5743      0.8312      0.7431
-4       4 0.828 0.5590      0.7792      0.7798</code></pre>
+1       1 0.854 0.6126      0.9367      0.6759
+2       2 0.860 0.6194      0.9620      0.6574
+3       3 0.892 0.6799      0.9114      0.7685
+4       4 0.858 0.5762      0.8354      0.7407</code></pre>
 </div>
 </div>
 <p>All four algorithms perform reasonably well at predicting species presence and absence, but there are differences in their strengths. The GLM (model 1) has very high sensitivity, meaning it rarely misses actual presences, but lower specificity, so it predicts some false presences. In contrast, the Random Forest (model 3) achieves the best overall balance (highest TSS) and good AUC, indicating it correctly predicts both presences and absences reliably. This illustrates why no single model is perfect, and why ensemble modelling — combining predictions from multiple algorithms — can improve robustness and account for different strengths and weaknesses of individual models.</p>

@@ -192,11 +192,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#climate-data" id="toc-climate-data" class="nav-link active" data-scroll-target="#climate-data">1. Climate data</a></li>
-  <li><a href="#land-cover-data" id="toc-land-cover-data" class="nav-link" data-scroll-target="#land-cover-data">2. Land cover data</a>
+  <li><a href="#elevation-data" id="toc-elevation-data" class="nav-link" data-scroll-target="#elevation-data">2. Elevation data</a></li>
+  <li><a href="#land-cover-data" id="toc-land-cover-data" class="nav-link" data-scroll-target="#land-cover-data">3. Land cover data</a>
   <ul class="collapse">
   <li><a href="#accessing-global-land-cover-data" id="toc-accessing-global-land-cover-data" class="nav-link" data-scroll-target="#accessing-global-land-cover-data">Accessing Global Land Cover Data</a></li>
   </ul></li>
-  <li><a href="#joining-different-datasets" id="toc-joining-different-datasets" class="nav-link" data-scroll-target="#joining-different-datasets">3. Joining different datasets</a></li>
+  <li><a href="#joining-different-datasets" id="toc-joining-different-datasets" class="nav-link" data-scroll-target="#joining-different-datasets">4. Joining different datasets</a></li>
   </ul>
 </nav>
 </nav>
@@ -385,8 +386,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><br><br></p>
 </section>
 </section>
+<section id="elevation-data" class="level2">
+<h2 class="anchored" data-anchor-id="elevation-data">2. Elevation data</h2>
+<p>Elevation data are available from different sources, the ‘geodata’ package offers a direct download of Shuttle Radar Topography Mission (SRTM) data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Download elevation data</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Elev_UK <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">elevation_30s</span>(<span class="at">country =</span> <span class="st">"GB"</span>, <span class="at">path =</span> tmp_dir)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error: object 'tmp_dir' not found</code></pre>
+</div>
+</div>
+</section>
 <section id="land-cover-data" class="level2">
-<h2 class="anchored" data-anchor-id="land-cover-data">2. Land cover data</h2>
+<h2 class="anchored" data-anchor-id="land-cover-data">3. Land cover data</h2>
 <p>Land cover is an essential environmental predictor in species distribution modelling (SDM), representing the physical surface of the Earth—such as forests, grasslands, wetlands, croplands, and urban areas. It provides crucial information about habitat availability, fragmentation, and human impacts on ecosystems.</p>
 <p>In R, land cover data can be accessed and processed using remote sensing-derived datasets and spatial packages.</p>
 <hr>
@@ -402,44 +416,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Among these, the ESA WorldCover dataset can be accessed and downloaded using the <code>geodata</code> R package. However, this direct download option is not available for all land cover datasets.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># EDS land cover data (variable selected: trees) for the UK</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lc_trees <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">landcover</span>(<span class="at">var =</span> <span class="st">"trees"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># EDS land cover data (variable selected: trees) for the UK</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lc_trees <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">landcover</span>(<span class="at">var =</span> <span class="st">"trees"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
 </section>
 </section>
 <section id="joining-different-datasets" class="level1">
-<h1>3. Joining different datasets</h1>
+<h1>4. Joining different datasets</h1>
 <p>In species distribution modelling (SDM) and related geospatial applications in environmental sciences, we often work with multiple types and layers of data, including different environmental variables, species occurrence records, and related metadata.</p>
 <p>Before building robust and biologically meaningful models, it is critical to properly <strong>prepare and join</strong> these datasets. This involves ensuring that environmental raster layers are first <strong>aligned and stacked</strong>, that is, standardized to the same spatial resolution, extent, and coordinate reference system so that they can be consistently and efficiently used together. Following this, species data and other attributes must be spatially and temporally aligned and <strong>joined</strong> across formats (e.g., raster versus vector data).</p>
 <p>There are two primary types of joins you’ll typically perform: 1. <strong>Spatial joins</strong>: Linking species occurrences to environmental conditions, for example, by extracting temperature or land cover values at occurrence points. 2. <strong>Attribute joins</strong>: Merging additional non-spatial data, such as species traits or survey metadata, based on common identifiers.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check CRS and resolution for the two raster files of climate and elevation data</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">crs</span>(Clim_UK))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check CRS and resolution for the two raster files of climate and elevation data</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">crs</span>(Clim_UK))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\"],\n        MEMBER[\"World Geodetic System 1984 (G730)\"],\n        MEMBER[\"World Geodetic System 1984 (G873)\"],\n        MEMBER[\"World Geodetic System 1984 (G1150)\"],\n        MEMBER[\"World Geodetic System 1984 (G1674)\"],\n        MEMBER[\"World Geodetic System 1984 (G1762)\"],\n        MEMBER[\"World Geodetic System 1984 (G2139)\"],\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]],\n        ENSEMBLEACCURACY[2.0]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    USAGE[\n        SCOPE[\"Horizontal component of 3D system.\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]],\n    ID[\"EPSG\",4326]]"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">crs</span>(Elev_UK))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">crs</span>(Elev_UK))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\"],\n        MEMBER[\"World Geodetic System 1984 (G730)\"],\n        MEMBER[\"World Geodetic System 1984 (G873)\"],\n        MEMBER[\"World Geodetic System 1984 (G1150)\"],\n        MEMBER[\"World Geodetic System 1984 (G1674)\"],\n        MEMBER[\"World Geodetic System 1984 (G1762)\"],\n        MEMBER[\"World Geodetic System 1984 (G2139)\"],\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]],\n        ENSEMBLEACCURACY[2.0]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    USAGE[\n        SCOPE[\"Horizontal component of 3D system.\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]],\n    ID[\"EPSG\",4326]]"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample Elev_UK raster to match Clim_UK raster</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Elev_UK_aligned <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">resample</span>(Elev_UK, Clim_UK, <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop to common extent</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>common_extent <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">ext</span>(Clim_UK), <span class="fu">ext</span>(Elev_UK_aligned))</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Clim_UK_crop2 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Clim_UK, common_extent)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Elev_UK_crop2 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Elev_UK_aligned, common_extent)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack layers and name variables</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>Env_UK_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(Clim_UK_crop2 , Elev_UK_crop2)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Env_UK_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sub</span>(<span class="st">"^wc2</span><span class="sc">\\</span><span class="st">.1_10m_"</span>, <span class="st">""</span>, <span class="fu">names</span>(Clim_UK)), <span class="st">"elevation"</span>)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print stack summary</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Env_UK_stack)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample Elev_UK raster to match Clim_UK raster</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Elev_UK_aligned <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">resample</span>(Elev_UK, Clim_UK, <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop to common extent</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>common_extent <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">ext</span>(Clim_UK), <span class="fu">ext</span>(Elev_UK_aligned))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Clim_UK_crop2 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Clim_UK, common_extent)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>Elev_UK_crop2 <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(Elev_UK_aligned, common_extent)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack layers and name variables</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>Env_UK_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(Clim_UK_crop2 , Elev_UK_crop2)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Env_UK_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sub</span>(<span class="st">"^wc2</span><span class="sc">\\</span><span class="st">.1_10m_"</span>, <span class="st">""</span>, <span class="fu">names</span>(Clim_UK)), <span class="st">"elevation"</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print stack summary</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Env_UK_stack)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
 size        : 130, 119, 20  (nrow, ncol, nlyr)
