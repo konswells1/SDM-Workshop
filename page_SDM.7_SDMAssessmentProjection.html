@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Assessment and Projection – SDM Workshop</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/sdm_favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9859d952baf36b9a7db628bbb9f3169e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="site_libs/leaflet-binding-2.2.3/leaflet.js"></script>
+
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo light-content">
+    <img src="./images/sdm_favicon.png" alt="SDM Workshop Logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">SDM Workshop</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-spatial-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Spatial Data</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-spatial-data">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.2_SpatialDataR.html">
+ <span class="dropdown-text">Spatial Data in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.3_SpeciesData.html">
+ <span class="dropdown-text">Species Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.4_EnvironmentalData.html">
+ <span class="dropdown-text">Environmental Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.5_PseudoAbsenceData.html">
+ <span class="dropdown-text">Background &amp; Pseudo-Absence Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-species-distribution-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Species Distribution Models</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-species-distribution-models">    
+        <li>
+    <a class="dropdown-item" href="./page_SDM.6_SDMSimpleModelFitting.html">
+ <span class="dropdown-text">Simple Model Fitting (GLM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.7_SDMAssessmentProjection.html">
+ <span class="dropdown-text">Assessment &amp; Projection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.8_SDMCompareAlgorithms.html">
+ <span class="dropdown-text">Fitting &amp; Comparing Algorithms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./page_SDM.9_SDMEnsembleModelFitting.html">
+ <span class="dropdown-text">Ensemble Modelling</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#from-a-fitted-model-to-an-informed-interpretation" id="toc-from-a-fitted-model-to-an-informed-interpretation" class="nav-link active" data-scroll-target="#from-a-fitted-model-to-an-informed-interpretation">From a fitted model to an informed interpretation</a>
+  <ul class="collapse">
+  <li><a href="#start-in-your-own-rstudio-project" id="toc-start-in-your-own-rstudio-project" class="nav-link" data-scroll-target="#start-in-your-own-rstudio-project">Start in your own RStudio project</a></li>
+  <li><a href="#assess-the-glm-using-held-out-data" id="toc-assess-the-glm-using-held-out-data" class="nav-link" data-scroll-target="#assess-the-glm-using-held-out-data">1. Assess the GLM using held-out data</a>
+  <ul class="collapse">
+  <li><a href="#predict-the-test-records" id="toc-predict-the-test-records" class="nav-link" data-scroll-target="#predict-the-test-records">1.1 Predict the test records</a></li>
+  <li><a href="#examine-the-roc-curve-and-auc" id="toc-examine-the-roc-curve-and-auc" class="nav-link" data-scroll-target="#examine-the-roc-curve-and-auc">1.2 Examine the ROC curve and AUC</a></li>
+  </ul></li>
+  <li><a href="#thresholds-sensitivity-specificity-and-tss" id="toc-thresholds-sensitivity-specificity-and-tss" class="nav-link" data-scroll-target="#thresholds-sensitivity-specificity-and-tss">2. Thresholds, sensitivity, specificity and TSS</a>
+  <ul class="collapse">
+  <li><a href="#select-a-threshold-from-training-predictions" id="toc-select-a-threshold-from-training-predictions" class="nav-link" data-scroll-target="#select-a-threshold-from-training-predictions">2.1 Select a threshold from training predictions</a></li>
+  <li><a href="#apply-the-threshold-to-the-test-data" id="toc-apply-the-threshold-to-the-test-data" class="nav-link" data-scroll-target="#apply-the-threshold-to-the-test-data">2.2 Apply the threshold to the test data</a></li>
+  </ul></li>
+  <li><a href="#project-the-model-across-current-environmental-conditions" id="toc-project-the-model-across-current-environmental-conditions" class="nav-link" data-scroll-target="#project-the-model-across-current-environmental-conditions">3. Project the model across current environmental conditions</a>
+  <ul class="collapse">
+  <li><a href="#map-continuous-suitability-scores" id="toc-map-continuous-suitability-scores" class="nav-link" data-scroll-target="#map-continuous-suitability-scores">3.1 Map continuous suitability scores</a></li>
+  <li><a href="#map-the-thresholded-score-classes" id="toc-map-the-thresholded-score-classes" class="nav-link" data-scroll-target="#map-the-thresholded-score-classes">3.2 Map the thresholded score classes</a></li>
+  </ul></li>
+  <li><a href="#project-under-future-climate-cmip6-ssp1-2.6" id="toc-project-under-future-climate-cmip6-ssp1-2.6" class="nav-link" data-scroll-target="#project-under-future-climate-cmip6-ssp1-2.6">4. Project under future climate: CMIP6 SSP1-2.6</a>
+  <ul class="collapse">
+  <li><a href="#load-and-check-the-prepared-future-climate-data" id="toc-load-and-check-the-prepared-future-climate-data" class="nav-link" data-scroll-target="#load-and-check-the-prepared-future-climate-data">4.1 Load and check the prepared future climate data</a></li>
+  <li><a href="#supply-future-climate-to-the-fitted-glm" id="toc-supply-future-climate-to-the-fitted-glm" class="nav-link" data-scroll-target="#supply-future-climate-to-the-fitted-glm">4.2 Supply future climate to the fitted GLM</a></li>
+  <li><a href="#compare-current-and-future-modelled-suitability" id="toc-compare-current-and-future-modelled-suitability" class="nav-link" data-scroll-target="#compare-current-and-future-modelled-suitability">4.3 Compare current and future modelled suitability</a></li>
+  <li><a href="#research-extension-check-for-unfamiliar-future-conditions" id="toc-research-extension-check-for-unfamiliar-future-conditions" class="nav-link" data-scroll-target="#research-extension-check-for-unfamiliar-future-conditions">4.4 Research extension: check for unfamiliar future conditions</a></li>
+  </ul></li>
+  <li><a href="#additional-research-approaches" id="toc-additional-research-approaches" class="nav-link" data-scroll-target="#additional-research-approaches">5. Additional research approaches</a></li>
+  <li><a href="#practise-interpret-and-extend" id="toc-practise-interpret-and-extend" class="nav-link" data-scroll-target="#practise-interpret-and-extend">6. Practise, interpret and extend</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Assessment and Projection</h1>
+<p class="subtitle lead">Evaluating a GLM and exploring current and future suitability</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="from-a-fitted-model-to-an-informed-interpretation" class="level1">
+<h1>From a fitted model to an informed interpretation</h1>
+<p>In <a href="./page_SDM.6_SDMSimpleModelFitting.html">Fitting your first species distribution model</a>, we fitted a <strong>binomial generalised linear model (GLM)</strong> to records of the lesser horseshoe bat (<em>Rhinolophus hipposideros</em>) and environmental conditions in the UK. We compared recorded presences with sampled background locations and mapped the fitted <strong>relative presence–background scores</strong>.</p>
+<p>A fitted model is only the beginning. Before interpreting a map, we need to ask <strong>how well the model distinguishes observations it has not seen</strong>, what its evaluation measures actually represent, and how cautiously its relationships can be applied to another place or time.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Learning outcomes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of the <strong>core practical</strong>, you should be able to:</p>
+<ul>
+<li>Explain the difference between model fit on training data and assessment using held-out test data.</li>
+<li>Calculate and interpret an ROC curve and AUC for a presence–background GLM.</li>
+<li>Select a score threshold using <strong>training data</strong>, then calculate sensitivity, specificity and TSS on <strong>test data</strong>.</li>
+<li>Interpret continuous and thresholded suitability maps without labelling background sites as confirmed absences.</li>
+<li>Apply the same GLM to verified <strong>2041–2060 SSP1-2.6 climate data</strong>, and explain limitations of that projection.</li>
+</ul>
+<p>Optional research extensions introduce the Continuous Boyce Index, interactive mapping, checks for novel climate conditions and spatially separated validation.</p>
+</div>
+</div>
+<section id="start-in-your-own-rstudio-project" class="level2">
+<h2 class="anchored" data-anchor-id="start-in-your-own-rstudio-project">Start in your own RStudio project</h2>
+<p>Continue working in your own RStudio project and add the code to your annotated <code>.R</code> script. If you have completed Chapter 6 in the <strong>same R session</strong>, retain the fitted <code>glm_multi</code> and the objects <code>sdm_df_train</code>, <code>sdm_df_test</code> and <code>proj_stack</code>.</p>
+<p>Each website page must also be able to run independently. The following setup reconstructs the <strong>standard teaching inputs</strong> and the same training split and model formula from Chapter 6 <strong>only when needed</strong>. It does not install packages, download data or fit unrelated algorithms. If you changed the background-sampling procedure or selected a different model in your own script, rerun your own preceding steps to preserve those choices.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Optional: continue from a saved Chapter 6 checkpoint
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If you saved the checkpoint described in Chapter 6, you can <strong>run this code first in your own RStudio script</strong> to restore the fitted model and test data from that analysis. The main setup below will then reuse these objects without refitting the standard GLM.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>chapter6_checkpoint <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/checkpoints/glm_chapter6_results.rds"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sdm_df_train <span class="ot">&lt;-</span> chapter6_checkpoint<span class="sc">$</span>sdm_df_train</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>sdm_df_test <span class="ot">&lt;-</span> chapter6_checkpoint<span class="sc">$</span>sdm_df_test</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>glm_multi <span class="ot">&lt;-</span> chapter6_checkpoint<span class="sc">$</span>glm_multi</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>proj_stack <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/checkpoints/SDM_predictors_current.tif"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The files must come from the <strong>same</strong> Chapter 6 analysis; mixing a GLM with a different sampling design or raster predictor set would invalidate the comparison. If you did not save a checkpoint, simply continue with the standard setup.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Do not silently mix a model, split or predictor grid from different runs.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>has_train <span class="ot">&lt;-</span> <span class="fu">exists</span>(<span class="st">"sdm_df_train"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>has_test <span class="ot">&lt;-</span> <span class="fu">exists</span>(<span class="st">"sdm_df_test"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">xor</span>(has_train, has_test)) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Only one of the Chapter 6 train/test objects is present. "</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Rerun Chapter 6 or restore both from the same checkpoint."</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (has_train <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">exists</span>(<span class="st">"proj_stack"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>)) {</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Training/test records exist but proj_stack is missing. "</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Rerun Chapter 6 or restore its matching predictor checkpoint."</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">"glm_multi"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>) <span class="sc">&amp;&amp;</span> <span class="sc">!</span>has_train) {</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"A fitted glm_multi exists without the Chapter 6 training data. "</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Restore the full checkpoint or rerun the GLM practical."</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># If model inputs were not kept from the previous chapter,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># recreate its standard teaching data with the supplied helper.</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"proj_stack"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>) <span class="sc">||</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"sdm_df_train"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>) <span class="sc">||</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>     <span class="sc">!</span><span class="fu">exists</span>(<span class="st">"sdm_df_test"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>)) <span class="sc">&amp;&amp;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">exists</span>(<span class="st">"sdm_df_clean"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>)) {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">source</span>(<span class="st">"scripts/prepare_glm_inputs.R"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproduce the SAME stratified 70/30 split as Chapter 6 when needed.</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"sdm_df_train"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>) <span class="sc">||</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">exists</span>(<span class="st">"sdm_df_test"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>)) {</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">exists</span>(<span class="st">"sdm_df_clean"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  presence_rows <span class="ot">&lt;-</span> <span class="fu">which</span>(sdm_df_clean<span class="sc">$</span>pa <span class="sc">==</span> <span class="dv">1</span>L)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  background_rows <span class="ot">&lt;-</span> <span class="fu">which</span>(sdm_df_clean<span class="sc">$</span>pa <span class="sc">==</span> <span class="dv">0</span>L)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(presence_rows) <span class="sc">&gt;=</span> <span class="dv">5</span>L,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="fu">length</span>(background_rows) <span class="sc">&gt;=</span> <span class="dv">5</span>L)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  trainIndex <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">c</span>(</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(presence_rows, <span class="fu">floor</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">length</span>(presence_rows))),</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(background_rows, <span class="fu">floor</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">length</span>(background_rows)))</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  sdm_df_train <span class="ot">&lt;-</span> sdm_df_clean[trainIndex, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  sdm_df_test <span class="ot">&lt;-</span> sdm_df_clean[<span class="sc">-</span>trainIndex, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit the Chapter 6 teaching formula only if no fitted model exists.</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"glm_multi"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>)) {</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  glm_multi <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    pa <span class="sc">~</span> <span class="fu">poly</span>(elevation, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">poly</span>(bio_1, <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>      <span class="fu">poly</span>(bio_12, <span class="dv">2</span>),</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> sdm_df_train,</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>model_predictors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>, <span class="st">"elevation"</span>)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inherits</span>(glm_multi, <span class="st">"glm"</span>),</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inherits</span>(proj_stack, <span class="st">"SpatRaster"</span>),</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(model_predictors <span class="sc">%in%</span> <span class="fu">names</span>(proj_stack)),</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">c</span>(<span class="st">"pa"</span>, model_predictors) <span class="sc">%in%</span> <span class="fu">names</span>(sdm_df_train)),</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">c</span>(<span class="st">"pa"</span>, model_predictors) <span class="sc">%in%</span> <span class="fu">names</span>(sdm_df_test)),</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(sdm_df_train<span class="sc">$</span>pa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)),</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(sdm_df_test<span class="sc">$</span>pa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)),</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">%in%</span> sdm_df_test<span class="sc">$</span>pa)</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="at">Training =</span> sdm_df_train<span class="sc">$</span>pa)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Training
+  0   1 
+216 216 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="at">Test =</span> sdm_df_test<span class="sc">$</span>pa)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Test
+ 0  1 
+93 93 </code></pre>
+</div>
+</div>
+<p><strong>The test subset stays separate.</strong> Do not use its results to choose predictor variables, decide which GLM to keep or tune a classification threshold. The same distinction applies when you design spatial cross-validation for an independent research project.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Model fit, assessment and projection
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Model fit:</strong> How closely does the GLM describe the observations used to estimate its coefficients? Chapter 6 examined training-data results such as deviance and AIC.</p>
+<p><strong>Model assessment:</strong> How well does the fitted model distinguish the labels of previously unseen records? Here, our test data are held out from the same presence–background dataset.</p>
+<p><strong>Projection:</strong> What score does the fitted model assign to every grid cell when we supply environmental predictors for that location or a future scenario?</p>
+<p>Our <strong>random split is a teaching demonstration</strong>. Nearby bat records and background cells can have similar conditions, so randomly held-out data may still overstate performance in an independent geographic region. Spatially separated evaluation and independent surveys are important research alternatives.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="assess-the-glm-using-held-out-data" class="level2">
+<h2 class="anchored" data-anchor-id="assess-the-glm-using-held-out-data">1. Assess the GLM using held-out data</h2>
+<section id="predict-the-test-records" class="level3">
+<h3 class="anchored" data-anchor-id="predict-the-test-records">1.1 Predict the test records</h3>
+<p>Our GLM was fitted with <code>family = binomial(link = "logit")</code>. Calling <code>predict(..., type = "response")</code> gives a value between 0 and 1 for each test record, representing the fitted <strong>presence-versus-background classification score under our sampling design</strong>. This is not a verified probability of species occurrence.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>obs_test <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">as.character</span>(sdm_df_test<span class="sc">$</span>pa))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>glm_predict_test <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">predict</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  glm_multi, <span class="at">newdata =</span> sdm_df_test, <span class="at">type =</span> <span class="st">"response"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">is.finite</span>(glm_predict_test)),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(glm_predict_test <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> glm_predict_test <span class="sc">&lt;=</span> <span class="dv">1</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">observed_label =</span> obs_test,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">predicted_score =</span> <span class="fu">round</span>(glm_predict_test, <span class="dv">3</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  observed_label predicted_score
+1              1           0.671
+2              1           0.366
+3              1           0.448
+4              1           0.683
+5              1           0.606
+6              1           0.740</code></pre>
+</div>
+</div>
+<p><strong>Inspect:</strong> Do the test records labelled <code>pa = 1</code> generally receive higher fitted scores than the test records labelled <code>pa = 0</code>? Remember that <code>pa = 0</code> means a sampled background location, <strong>not</strong> that a bat was proven absent.</p>
+</section>
+<section id="examine-the-roc-curve-and-auc" class="level3">
+<h3 class="anchored" data-anchor-id="examine-the-roc-curve-and-auc">1.2 Examine the ROC curve and AUC</h3>
+<p>The <strong>receiver operating characteristic (ROC) curve</strong> compares sensitivity and the false-positive rate across possible score thresholds. The <strong>area under the curve (AUC)</strong> summarises how successfully the model ranks test presences above test background points.</p>
+<p>An AUC of approximately 0.5 indicates little ranking discrimination; 1 indicates perfect separation <strong>for the evaluated sample</strong>. There is no universally reliable AUC cut-off that establishes ecological validity. Scores depend on the study region, sampling and test design.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"pROC"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Install the 'pROC' package using the workshop homepage instructions."</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>roc_glm <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">response =</span> obs_test,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictor =</span> glm_predict_test,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),   <span class="co"># background = controls; presence = cases</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">direction =</span> <span class="st">"&lt;"</span>,   <span class="co"># larger scores should indicate presence labels</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">quiet =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>auc_glm <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(pROC<span class="sc">::</span><span class="fu">auc</span>(roc_glm))</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Held-out test AUC:"</span>, <span class="fu">round</span>(auc_glm, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Held-out test AUC: 0.883 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_glm, <span class="at">col =</span> <span class="st">"#426d8b"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"ROC curve: held-out presence/background records"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">legacy.axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey50"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/assessment-roc-auc-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpret:</strong> What does AUC tell us about distinguishing <em>sampled presences from sampled background locations</em>? Could a spatially clustered dataset appear easier to predict when nearby sites are split at random between training and test sets?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>How to read the ROC curve
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Sensitivity</strong> is the fraction of recorded presences ranked above a chosen threshold.</li>
+<li><strong>Specificity</strong> is the fraction of sampled background locations ranked below that threshold. It is <strong>not</strong> the proportion of confirmed biological absences correctly identified.</li>
+<li>The ROC curve shows the trade-off between sensitivity and <strong>1 − specificity</strong> as the threshold changes.</li>
+<li>AUC measures discrimination across these thresholds. It does <strong>not</strong> establish that a model is well calibrated, causally correct or transferable under future climate.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="thresholds-sensitivity-specificity-and-tss" class="level2">
+<h2 class="anchored" data-anchor-id="thresholds-sensitivity-specificity-and-tss">2. Thresholds, sensitivity, specificity and TSS</h2>
+<p>Some applications require a simplified classification such as <strong>higher versus lower modelled suitability</strong>. Converting a continuous GLM score into two classes requires a threshold, and different thresholds lead to different classifications.</p>
+<p><strong>Core practical.</strong> We choose the threshold using the <strong>training subset</strong>, then apply that fixed threshold to the held-out test subset. Choosing whichever threshold produces the best <em>test</em> result would make the assessment overly optimistic.</p>
+<section id="select-a-threshold-from-training-predictions" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-threshold-from-training-predictions">2.1 Select a threshold from training predictions</h3>
+<p>Here we select the threshold maximising <strong>sensitivity + specificity − 1</strong> (Youden’s J, also equivalent to the training-set TSS). This is a convenient demonstration, <strong>not</strong> a universally preferable conservation threshold.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>obs_train <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">as.character</span>(sdm_df_train<span class="sc">$</span>pa))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>train_scores <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">predict</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  glm_multi, <span class="at">newdata =</span> sdm_df_train, <span class="at">type =</span> <span class="st">"response"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">is.finite</span>(train_scores)),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(<span class="fu">c</span>(<span class="dv">0</span>L, <span class="dv">1</span>L) <span class="sc">%in%</span> obs_train))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider each distinct score as a potential threshold.</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>candidate_thresholds <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(train_scores))</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>training_sensitivity <span class="ot">&lt;-</span> <span class="fu">vapply</span>(candidate_thresholds, <span class="cf">function</span>(t) {</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(train_scores[obs_train <span class="sc">==</span> <span class="dv">1</span>L] <span class="sc">&gt;=</span> t)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>training_specificity <span class="ot">&lt;-</span> <span class="fu">vapply</span>(candidate_thresholds, <span class="cf">function</span>(t) {</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(train_scores[obs_train <span class="sc">==</span> <span class="dv">0</span>L] <span class="sc">&lt;</span> t)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>best_threshold_index <span class="ot">&lt;-</span> <span class="fu">which.max</span>(</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  training_sensitivity <span class="sc">+</span> training_specificity <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>chosen_thresh <span class="ot">&lt;-</span> candidate_thresholds[best_threshold_index]</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training-selected score threshold:"</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(chosen_thresh, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Training-selected score threshold: 0.374 </code></pre>
+</div>
+</div>
+</section>
+<section id="apply-the-threshold-to-the-test-data" class="level3">
+<h3 class="anchored" data-anchor-id="apply-the-threshold-to-the-test-data">2.2 Apply the threshold to the test data</h3>
+<p>We now compute a confusion table and the <strong>True Skill Statistic (TSS)</strong>. With presence–background data, the calculation assesses discrimination of the <em>assigned labels</em>, not verified biological presence and absence.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pred_binary <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(glm_predict_test <span class="sc">&gt;=</span> chosen_thresh)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">table</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Observed =</span> <span class="fu">factor</span>(obs_test, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Background"</span>, <span class="st">"Presence"</span>)),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Predicted =</span> <span class="fu">factor</span>(pred_binary, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Lower score"</span>, <span class="st">"Higher score"</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Predicted
+Observed     Lower score Higher score
+  Background          63           30
+  Presence             5           88</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>test_sensitivity <span class="ot">&lt;-</span> <span class="fu">mean</span>(pred_binary[obs_test <span class="sc">==</span> <span class="dv">1</span>L] <span class="sc">==</span> <span class="dv">1</span>L)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>test_specificity <span class="ot">&lt;-</span> <span class="fu">mean</span>(pred_binary[obs_test <span class="sc">==</span> <span class="dv">0</span>L] <span class="sc">==</span> <span class="dv">0</span>L)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>test_tss <span class="ot">&lt;-</span> test_sensitivity <span class="sc">+</span> test_specificity <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sensitivity =</span> <span class="fu">round</span>(test_sensitivity, <span class="dv">3</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Specificity =</span> <span class="fu">round</span>(test_specificity, <span class="dv">3</span>),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">TSS =</span> <span class="fu">round</span>(test_tss, <span class="dv">3</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sensitivity Specificity   TSS
+1       0.946       0.677 0.624</code></pre>
+</div>
+</div>
+<p><strong>Inspect:</strong> How many recorded presences were classified above the threshold? What does an incorrectly classified <em>background</em> sample mean, given that the site may actually be suitable or occupied?</p>
+<p><strong>Change:</strong> Try a slightly higher or lower threshold in your own script <strong>without using this comparison to retune the model against the test set</strong>. What happens to the balance between sensitivity and specificity? For applied work, document the threshold-selection rule in advance or choose it on training/validation data according to the decision being made.</p>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Why a threshold is not an ecological boundary
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A binary map divides the <em>model’s predicted scores</em> into higher and lower categories. It does not demonstrate that a species is present on one side of the threshold and absent on the other. Thresholding also discards differences among locations with similar scores. Retain and interpret the <strong>continuous map</strong> alongside any binary classification.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="project-the-model-across-current-environmental-conditions" class="level2">
+<h2 class="anchored" data-anchor-id="project-the-model-across-current-environmental-conditions">3. Project the model across current environmental conditions</h2>
+<p>The three predictors in <code>proj_stack</code>—annual mean temperature (<code>bio_1</code>), annual precipitation (<code>bio_12</code>) and elevation—have matching names and spatial grids. We can apply the <strong>same training-fitted GLM</strong> to each cell containing complete predictor data.</p>
+<section id="map-continuous-suitability-scores" class="level3">
+<h3 class="anchored" data-anchor-id="map-continuous-suitability-scores">3.1 Map continuous suitability scores</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"glm_suitability_map"</span>, <span class="at">inherits =</span> <span class="cn">FALSE</span>)) {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  glm_suitability_map <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    proj_stack, glm_multi, <span class="at">type =</span> <span class="st">"response"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(glm_suitability_map) <span class="ot">&lt;-</span> <span class="st">"relative_suitability"</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(glm_suitability_map,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Current-climate GLM: relative suitability score"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/assessment-current-projection-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The continuous map represents <strong>relative scores conditional on the model and background-sampling design</strong>. It is not an independently observed bat distribution and is not a map of absolute occupancy probability.</p>
+</section>
+<section id="map-the-thresholded-score-classes" class="level3">
+<h3 class="anchored" data-anchor-id="map-the-thresholded-score-classes">3.2 Map the thresholded score classes</h3>
+<p>We can apply the <strong>training-selected threshold</strong> to the same raster. The categories are labelled <em>higher</em> and <em>lower</em> relative scores, not <em>presence</em> and <em>absence</em>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>binary_map <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">ifel</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  glm_suitability_map <span class="sc">&gt;=</span> chosen_thresh, <span class="dv">1</span>, <span class="dv">0</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(binary_map) <span class="ot">&lt;-</span> <span class="st">"score_class"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(binary_map,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#e5e5e5"</span>, <span class="st">"#327c57"</span>),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1.5</span>),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Current climate: model score above/below threshold"</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Below threshold"</span>, <span class="st">"At/above threshold"</span>),</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"#e5e5e5"</span>, <span class="st">"#327c57"</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/assessment-binary-projection-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Inspect:</strong> Which parts of the UK receive higher modelled scores? Do the thresholded classes conceal important variation visible in the continuous map? Consider climate, observation effort and the model’s assumptions before drawing ecological conclusions.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Research extension: explore an interactive map
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The interactive map overlays the <strong>two model outputs</strong>, rather than displaying precise occurrence coordinates on a public website. It uses the standard OpenStreetMap basemap (<code>addTiles()</code>), which does not require a CARTO API key. Map tiles still require an internet connection, whereas the static maps above are available directly in the rendered page.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-126fe85841ab185e63db" style="width:100%;height:557px;"></div>
+<script type="application/json" data-for="htmlwidget-126fe85841ab185e63db">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addRasterImage","args":["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHcAAACCCAYAAAB8ZlcgAAAgAElEQVR4nO29eZRc133f+bn3vqX26uoNjcYOggC4kyI5oqgtkiiT1uLIPpYn4yh2JjORLU/siR2fxBPNJDP2GXvGUZJzlGSUiWUlPnOsSM7YikRSokhFEklQErUMqYULQAAEiL33pba33PubP25VowFhIwkQ3QC+ODjdXfWqq+t932+5v9/3d58SEa7hUmGPwHZ1ud49uFxvfOVizzJruXzEAujL+eZXNrarU4l+43HNcl8Xdgv0jXO5lfa/v2a5qxg7TiPv8sbY03GN3IuC5S749K+XD+patvxasPu0k7bcWFeO5V6Lua8Jy93x5bfQs+Ga5V50rJy4e81yLxr6FrwyiIVrCdVFxsohFq6Re0XjWsy9gnHNcq9gXCP3CsY1cl8zTi9krDxci7lXMK5Z7hWMa+SeBpEXrhhXds0tX8G4isqPZ2usX7m4yt3yys94Xw+uMrd8entO+Gk1xZWDq8Qtr7yOzRuBq8Qt90ld7oZXbpP9YuEqc8tXF64StwwrSSz+RmGFkrucCMEvYfoKQ58ECbvFM6SWHdP/eg1wydzy8tj2WrPRs8XEi0HgNct91RBeFIXi9RULzpfoXBW8XBS8bnJPEgoKjbeslbh+vDqsdTle41Jot/Rdr2Kn8qZ28tyJOP+VF1+Fz98jl2Z5sl1djcTCa4q5y2u0AIL0voInVqsbL4E7frW4OgldjteYUJ2pjKcQHIiAUih2voqTe7GIXYnh4PLhdWTLp68bL1aJ79US3T/8Gqmn4yKUH5fPor4aYs9UCnw1oxgCbFeCeI9xDT+F12S5PkPWvL6lzsWaPBecWACUUihuuGbBPVwwubn8SAJ160U8ca+PWEEQsedN3pZn7K8uD1j9OC+5Vn4sCo2THMGhlOH8JJ+vjvt6LXa7EnZLP96eTprICyIISmlOZvYnS5Rq6TH/cz/f7yeDoJYd89Pv/fr+9jcO5y1iGHWLSt33RcQRm//qAkg934c/PfF6LUTvFhELCFrdpIS+qK1XTFF6GTXqLF/7xRZPpSx/aun5VcPjGXFBCZWIQ7DnOGLPGZKjsz2//LHXQuzJky7YpfivMD17W17+PBM5suy5Uy8BdQrxqx8XRK4jX0pazox+cnShLuv17PbiX6JVgFFxr+QJJ0k/k4X+9OvP9tjJC6T/2uWvXz0uGS4woUrsdyU2ddwFJDBntsbTyX89Mfdc7vJiuFIfg0+Nuf2W4+rCBZMb6ALmgrPlyylhOR/B57s4ln935oRtteCCukJOMqwYzAV/xHNlyBfDes+GC7Hccz1/0h2rU35enbggcovBW1/lpzxbKfJSu7YLddfLk6rz/Z7V5477OKdbTuzTYnTxAta1Z8LZEqzLrTp8NXF59RILl1X9eLlJvhCsbnLPuhRK3Q8u4cm/RuwbgUtsuedaFp3p8bO95vXgTG54+VucicPVTyxc5ImDzD1zFmKWn6zTyeu3Ci+WzMb/CtcrT/pHnP8vtlcj7/87efyZ/9bVjddtuc/NPiQ3NT5wAYnTmQhePuZx8c5pv78rPSL71qswvbrzmd7rymv2v0EJ1bnccL8/vPMi9Xc9/No8xUpCqCtoFSBiERxG3XLFEXkmvEEx91wynJOE9q3s1OL/hUFwOMlxkiLievXwHCtdYjMAQKTvUk6eX3q/1ybkWz24ZOQKL8i5VBFOnhetLu40i2CxLsFKSqCLS27YtwcVQs653fOV5Zov65Sfk5+IVtHr+A2niGqXdYh6SZQIVhK0Mvj3cTixKDRa3aj6Ko3VWjs+Hy7TINhu8cNcDicZWoWc7MacOYE/tVOzpJ3oPeJoZkdJXYvpribSQiOOKAdr0Mr443vJlVE3LxF5pZLaxyUdvk7t909zC3tEesSm7vuiCBAcVhIv4fmpP2e7Orm0SbGSLmXCyxvzCkMlGMcJPHo4YnP1g6oe3a8Cfbs60TlA6lpodZNaTmwfTp6XK2l7ouV4w9yyT2S8LAZ8TF6SxbBT+RhsOLXJvkP1hXlOnhNQ9OP0ySUOWJdATzNlJWWicwwncKKjKQXCxkqRQBX8eymDUTFGRSxppZZ0U31cGbH3krjlI60HpRrGVML1WOn0liKG5SctsQsUTIPMtQk1NPMj1ML3qsQ+LU5yisFbVeaekVCX8Rm1InULdPIpOlYoGCHUZUJdQaEIdAGtIhQBQ/Egx9ozaAUbKwUKZohAF5ayaC/L8V7Ci+jg1Oz89Png1Un2Rbfc3XMPST0WIi3EZoDYDJyzq9TMvimFoEGgblMAP555SHJR3DH0/lPKkZlreVmN0jhJyVybQBWwkjGTHKcU9GNsyHKi+t7gZJTuFzTg7APbZzonq4/gix5zAy2MFT+oJjoaJxlGxWc87vtTD8tC+qikboFA3aaOtB4UgFsGP6D6xH7p4FfESsqR1m5y6SJYH2FVgYIZJNAlYlNnrHQ9pWCE1DX9cki6ZK6JlS6uV3Lsr5y91frvlipZOE7qpeQM/0BW4Z5VlyzmHlh8UDZXP3jWq30meVAUikb8ATWfflVq0UYUhrPVdp+dfki2VAOKZpjQlHvHLofgxOHI0AQ4yZa+N7qAiO254JOy1/6oqY+5/ncsPx8n47H/qX/MasmyL1m2fC5iAWJTQylPUD26X33xwMFzymf3LwRL2fISKadAoZUmUAWUUhgdE+kagS711rVhT/7qjxV6AnRFr6GQ4SRnSTel1GmFDlnKzVeLFV+Wfag+9Ngu+Z1vCwPRzy5dAB/a/ID60xcP8UrzwTOeuFIgJFb1OjxnG/7qU2fO0hxYfoz/6Cc12ar3WJ/UfubeX3Kd6qRf3WD55cEbXqF67MiXpREL358I2T0f8i/f8q7zurjUfV/a+STVcP1ZY3h/cXQ6qWdeP/dnjXrlSKUQcT1Sl4+gLB259Pzyx1f60NmK32TsaPtBGSmsI9DlC1Ikduw0RTO07OcpCmbwrJWvM29ztGx+CHoJ2U/H3v6afaXiopH7B898Taa7hkroaMSO52cjXpw0aANPfuhtr+kkdO13JNI1Ti1unB1OcjLXBCDSVVCwkB7sLckap5UvHQpD5pq9uKxwktGPxxqz1FkyKuq5br3kol0v9of69hVL8GsuYnzyJ4/Jf7cz4vnZJk8ej5hoB1QjR2oVJ9qGO4cT3jEmzCSvLazPJg9JPdp62qTe6TjV2rQK0CpgJjnMweYkG8qOroXMTbG1WvRVKaVwkpLaJkb7cRSRHKUilAoQcVjp0nVNQIh1AyspS40JpX3UlRwrKeFr+nRvDC7Ycn8885AcWDTc0LDMJYoX5wJuHsy4sbGW704c5z/tL5FYxe3DKV2rsAJ/Z3uXbxwNeexIgU+97a9d8BVu5UdieuVCj56bFFnKsPtwkvfaej4m5q5N187whZctqVPcty5hIVNEGiqhoBUsZgqjhKFYEegiWgXEug4oHBkKTS4JuWv3LpgQTYBShv44q5OMXDoIjlr43hVpvRdE7nz6VSmYATLXJjZ1BOH52WNsrAihLjLR6fDNYzFPHCvw1ze1OdA0JBamuoYPburyH/eWqISOf37Pu897EmaTh6QRf0At31ahP2jtJENw+JKk6nWKIHVNctchcy1yl1CPN5O7NgVzzxnf7y/2PyJrio41RUc1FAItS/Zveq2KjlVUQ0+mUoZQldAqRJBekaRF6nKMAqMCBqL3rTiCL8hnFs0gSgXEpk5iF0jtAjsHhimYBqVgDS/MBTw3E6IQHj8WM5cqDjdDMqf49omQv3dTk1/d3uYfPv31815JsanTtd+RmWQPqVskd52lNWguCYmdo98uTOxsL84uEukKWoU0c0WgblXLif3s3q8KwGd2PypfOviIjBUduYPMeSJjEzJS3E4tGqUarSPQAZXAZ9AHmjlzSZfFbJqOnSZzTTQBsR6gaEoowEr+Gk//pcU5LTd3z4ogBLoEPbeI0iAOlOJEZw+/+a0GlcCRO8VspmnlireOdjnWChiv5GwoWVq5Yqjg2DGQMxAKs6nintH3n/NKn08fkXr0wNIxmXtGcukg4shci3p0vwJo5d8U61JCXT7r2Mt3Jh4WrWCk4BguFLGSMp9aYiNoILGKjlVsr1/P4dYeRovjhKpE6hZJ7DytvEtswImgleo1LIo992xxZCvSNZ9Gri/S+yZ6ivRinM8cfV3Xu6MFJjodyqHQyhSf2V3ieDtgfzMgz4RK0Z+wocgxVsppxJZqKNw4kPP+jT/7uk5Cx35LMtemFt53Qb/nwOKDUo80pWAErUJCXUKAzDXJXJNuPo8AzUyxsbIFrSL6MthWfpzEtnhmOuDz+8p85PoWOwcsRRMR6LiXz6leEpYy3U3ZWjt3Ze6NxFktV3hR+u5QobGSoJShm0/TzBMWUsWfvVTkx7MxzUQRhpCm0F50mEAxOABbKp7YD2/p8BvfHOCutRkfvaFFLlAw0Igco8Wfu2Qn48njX5Yd9ZxaNEqka8uKFF5vlbk2C+kR5lJNoIVOrhguOEYKOxEs8+nL/MauCpuqGe8ZTxgrOdaVBKUCfHYeYlSMlYTFtMtCpmjliruGz+2V3igskevkOWnlx9m/2KEWCoM9mUrm2lhJWMiadK33zLkompnin/2oSivXJE6RC3RbgjjQBtYNCFuqGeMly9MTMSMFy7vGE3YM5Nww4HXOc+lXZHkJ8mJjNnlYKuE4oS5xtuWUYGnnE4gIi9kiJzp+JVsJhUYMx9uKXccjnpmO+PDWNttqlmoIRhfIXZdAxbRtl+NtTWIVo0XHYBwS6AKBKqJUQKTvvCxkq+nuF8WomMwlfOFAgT/fW+amRsZ967qsL1s2VS2xjhCE3fOOw03DE8diWrlmNtXMZ5rh2FHQjuNdQzdXxAGMF3MGIsf6cs6NjZyxknfNBQOBgrGSd1/N7BtSCc9fgnwtmOx+SRrRJgJdPO+xmWviJCdxCxxtddlaW9trJDiePDbH4ZbmhzMRD6zvsn0gpxF5VYhSAYhbCltKGSJdw0m27KISctd5DaOwrw9KRPju5MMy09W8fW2Z+x/UjFSEXBS/d9s8z0yFvLwYYEXxsRtb1EJhbY+Yd3/lKRmJHGPFnPlMM50Yuk4xElluH06oBsJ4yTFStKwrOxYzRayhGAilQAhUgVr0M5f0A780/5AMFhyD8Y6zNBOEzLUxKkIr33nyUh6FiCWxc2SuxRcPCj+ZDalHjp9Zn7C5YolM8ZT+sFZhz1V7RadWhr5OTKFI3eJZl2eXAqfE3Lf8p10yWINjE0IYKrSBuKj4yLYWd45kvDAb8Mvb7j/lj/vAo7uk6xTzM46hIcXmUs6OgYwPbupSNLB/0TAY+w5O1ypKgVAJhXIAg/Ebk3xMdL4ko8WdvVJj+ZQypJV0qcRoJSWxsxTMIKDo2Cn+8FkoB8IjBwrkKdy9PuOXruuwrWYpBeHShZBL1/eOVdSrhGl0r9XY7yylrkliZ2m8QZ/7rAnVL3/9CXnhsEIpKFUUzsK3fvHMNeL3P7pL7hhMuGc0JXeK8bJlfdnRiAZZzKYZjDciCKG+47IlGt+bfFi21iyD8Xb8HtG7RbFDde23xagCuXQIVJFQl33lWZKl5MtJzqOHj7GpavnPBwtsKFneMpYxHIvXbamT1tvvWqle61BElhSeeU8ZotH4Qs2lxUVrHLzr4afkves6/LfbO5TDIpEuE+oqRkW08wmem53n7pHLm0V++sVH5ec2dU/J0OfTR8SomIWsSSnwDYqiGcJKQsEMkrkmT09Mc++adTw3d4jffHKAX9ja4T3rEtaWHKEOl4QA4NWVWgX0d433qw2DUgYnGalb6O0KpFE9S79UOceKb/ldSvyH3V+Ve9ZkXF/fhFHxUpvPui7PzhxmR73IVw6ljBUd35oIeWB9woOvFBiIHH9tbcpo0RGbEKNC+h0jtSSTNUsJFqgl3XXuOlhxKGCocOmWgXDV3BHszDje1RxYNOSug2CRXikzdYso4K9ezvjxbMhndpfpWMWvPTbAN44V2Vq1hNrnEH4OSfcyZ0PuuuSu7X8frhfT014JNcPhyJyiaxXHO1+6pJa1Qu8rdGlxx589KZvHYXMl4KlMs7E6wYbyIqDo5E2+MxFy7xrLd06EfG8qZmJC2PXDDqP3FFhTsDw3GyzlFk4cg3HWy4wNgS75DlUvaROxWHzTI3MZXavo5r5rFp2u8bvIuCrd8o1/8oQMDmtGq0IlEKYTzc2NlHeMJYjAFw6WeGkuYOq45Z++p83/9DmDXkgwz5zA3jBM5Y5B3rLNMliw3DWUcdtwxmCsCVRpKbb2Y6633ozEZrRzxWKmmOpqRGCo4KiFQmRgffniZ9BXJbl9vO0Lu6RUVKQZ7BjI+LUbWhxcNFxXz/nNXQ2iCF5+agG1ZwZ1cB5VCsnu28z4Db4o8pbxlPvWJWwoW8qhUI+C3tiKHxft95ir4X1qsvslGVkWY38w9bCEWigaiIwQahgvXVyCr0q3/DOPPCXdRNAakgyur+ccaAXMJIovHiyyZ8ow8dhx1FwXM9GGyGDzDJNq1O4ZjrdrjNxaxShhoqNpxI5iIFiXobXPjP1+zwYRy4nOl2Q+1bTzB6WTKzIHWvmYfevgpVtBXJWW+3efeFyOdgyLicLlgtIwN+NwFlrzOaaVoRIL7Qzz0gzMdpG1FdJ9R0jSOeJogODubYy9b4xtDcv7Nna4rubLq6V+9U0X6Ve5ckmYTRTGy6TpWEXXemFA7hRaCbcPXfx171VJLsB9X3lKstzr0tuLjiBUmKD3c1PotIX2bIbZP4c5tEj38FEWWodQShMFFcqlMezffhObtwTcPZJwSyNjc81yfc1SCDRBb2nV10VnLid3nr+uhUMtQ6iFcnDSNQcK1l3E2Luq3PL2f/uEpIs5wWwXujl7/8WrXyf+/jNfk1amGS8GNHNFyQizocbh3eRg5JgJNGlioRTAYBHbyogLGxg+WGWh9QrV8jr0QAl1aJFXFmIqdxfZUs0JlGCU9HRWFteLu9CzUkArIdKKtUVfa0+sIndQU4I2Xsp7sWLvqrHce//fXZJnwuQrKWay7XuPqYN2xt4//fDSydj28S+LemkWd/MIG95UZms1ZyY1JA5urKf883verT6796uS2JPayV3HCwwVLaH204kzXcPLzZBXjgqLL7cwP5mEVxZQQ0XscIn8TWsIDi6Qb6iydlPE2zam3DiQcedIxkAkVHqSyL5E1n9vfePE+HTLiiK1XqzXzBX1UCgGva6ZFkYuQoFj1Vhuv6593b95XCwlVObQx5roqTajO39HBm68A6yD4RKuEGArIccOW8pbDGuLlsVM08o0f/zDx2RrVVhfdkx0NGtKjth0yRxYUZQDR6vsKIeOjiuweEij5hNkU528FCI7B0Fg7J1DiMA7NyasK/sZp4VUUY8EJ15wp9Xy5ZC/HqW3vtXit4HIBBILViBzikgL7iLZ26qrUO37H96pXv5H71G6mWKem0TNdhn/vZ8Ho3A3jyC5o/jOtQB0O47n9lgUcHjeG8Jjx0oc72hqkWNnI6ceOdaVLdvrObcPZdQiYbxkKQbC9ISjtqlI+Vd2YG8dha11ECjVDENVsBZGC46Chu9NxnzlUIHJrhcvZAKpc2TO4QQCZSgFglbeX5jeAGHRCMMFR6VnueoiplWrxnJPh/n+MeyGGuZ4k85f7uP/+OQYf//BIvH6Ctlf7MWsKaMizcj9a5nLBARenA/ptoRHdYmbGjnjZUenJ1zsu8T1ZUvmfBycPZFh5hPueFeF49USWQYbh4RGZDHK8eHNCYOxIxd4+1jitVipohtBKfB3PHFATxCLFUWopeeu/cYsGqF/dxQnMH4RE6pVE3P72PHAZ4TUglbIfBe3cxgz10WOt/ilT+3kqRMFPrqjye9/veglQY8fQbczXDnEzHTIxyr8/K8N8+GtHUqBkDq/7gwU1CMhcz4OHm8bnp4MeeJQzPoBx+1DCetLjo0VSyn0sVkrmE8VoaYXPzUa2FLzyspAQS6QWv8eoYZ65DA9fyk9V5xYb8WbKj9N7POzD8lMorDik6/+Gjk2wrvHz62VXjXkbvt7XxCssPdTv3DKB9r28S8LryyQ3r2W6ESLf/FRxW/+VZHwaBO21GgMKB7++Vnu/ThINaK4scS924WfWdfBKCiFQqC8OxwuOLrWJzpeygqTHU2goRo5AuUtvGgg1EIrV7RzL0AAT5DGv64QCPOp4lAzoJUpKqFja81Sj4SoJ6nte4j+a+HUMuTeBU/sibaXDHetohz047n/Xw0dUe/vOV0uvGrc8t5//fNq8yfOIGqf7aJyx7/6uQ7/4P8WHjxYZs9vFfj8voSvHoHvfLPFvb8nkFrqtzfYPA6bqykLmaJo+nEPBguOSPsYmDlo9or7s6mmaxVjDtaWffxs57CQGWa6mjUlSzNTBNorNgBauWKyqznc8pMXXoGicAK5A638OEsukIlfJtHb2+dQ60ER8dLgxPnHnChEFKHyF045EEIDkfZxOujdcPzHMw9JqGFnT4C4aiz3XNhx36dl6Nd38tFbW3xgY8Lf/OYQf3jXHF84UOCz3wmQVk5YD6nXFGuHFbNtuGU454ZGSjUU6pEwXrb8aDrkUEuzpWJ7yY/XM+86XqBjFe/b0OGmwWzpRh4ziWY+0Xx7IqSVa+4dTdlayxFgNtF8byrEKFhT8JOP2+o51R4xcHJwdOlm8MLS7hytTJE6sM5fKPOpwvVidjX01h+bk1YcaSgYT7RRwnW1D6pVT+62f/SQ0M5Z+55hbh3JOdIOGC/mPHs84IPbOixmms9/xaJH/GBZFELy41koh9hGgVtui7h9qMtY0fHsdIx18LaxLnOp5njH8NUXQpp7FskHi9xyS8hbRrvcPpiRC4wWHUbB4ZahkysCJUwlmsmuX3YtZppGbLljKGNDxWfgQS9e9jdgiHpqUMGv5Kx462xbdTKxSzTTXU3es9q+Kza9cGKdotIrffYrXVauEMsFH5Of+mf+9ji1aB0zyVF+9fEGU5PC/HMLMNlGeimp7mboiTZYwY2VKT2wkSDwWrG7xjLGyzmJVby8EPKNb2eYH04gQ0UYKDB+d5Xfvq3JYqqYSTWNyKsqNletHyDrtfWsQC30a1YHDERCLXKUAk+KFb+mjYyvWol47XffdafOW25qFf1mQ+a85RoNgfKdpMhIbxjNXzSBhrBH7qqJuefCxk8+Lr/4kQEG4wECXcCJpWAMm0qWfDigdE+dg69UKD6yH9oZdrGNbB3GliPMm8eIYpjZ22G+mbL4gSrH24ahgkMrcJFBFUPMsSYu0LQWhd3zBiuK2UTTzBS3DWYcaJol19nMFVsrlrnUEyYC9cguTRC2ckUxoGe13v27Xr0sF+9mAwVOQYq/OOLeRVAOfTJGL3kLesQG2r+uP86luULIVVZ4+kiIlS5GIrQKKZgGn3hLk9/+FnzvmKL4tQPYE/NkeRvnMkpzVeTOMSplxY3jwrfmCwxsK9K1Qphr9k+G5KK4/25h7rYxnn1JGG5oRhswHAtGOcYKjmrkKIfCkZYi71nbS3MhgRJGCw4rivVlu1SgSG0v1oqPq+UQwh7B9uQGO2glBFoRaCGxmiAQSqEQam+x4AnU6mSm7cQnauCz7lVP7nV/8Kh88TdSiga6VhObBvS6Mb///xn2LQS098xhMospFWlOH6dSXAuRIS+GVAc0GytdardqZlPDdOqXHQORj6ehhoHIcvM2w53DXe4azsgd1GOHiC9ZZg7WlBzfmYjInOL6gYztNV9LHio4ItPbiUdYym4VfvkiPVfsZXWeKAPk+PVvan1JNNDeSoMe+cvvziY9a1f4i6SPVUnujvf9e5HI4DZUKdw6xJ+8GHHDQMrHbhxfOsbomI/fPse7/mOIFAOYT5mZfhERh44i7PUNNm0yvG28S6CF7x8JsU4oVRVjFUushZnUUA5y3rEuYbqruaGRUw0FKxBr4XjHsHsuIHHw/GzES9OGzQ0/gTGb+nXpYMFRDqQ3ByxLRBotZE7RsX5pVDCy5FY7VvHKouFQSy8J+cdLjoHYLWXGWvnXC33rPfn6fldp1ZB73a9+XnQnR7cypBDg1pTJdwxSiRTPz4X8wV0LdO0UmetQNIP80Q8X+eF0DQD9/BQYRTEeRusAWV9F7WgwPel4phjzN7a0+PXbW/xgKuJHMxEvnjCMDwrrSzlrSpaSERZ6lpM6ONE2iMDLTcMXD5TQGtaVLCJwqGmITcR8lrO+ZDnUNJQDf0FE2lur7mW4tkd0v9plxSdkM4liz7zxw2iRMFr0xQ/ftfIJmdZ+eDx13j2HWqHNKrPcHe/9tKAUQSHAFQNcJUS3My+B+cEJ3vx3RtlQSbj/Lxv8m/cu8LvfqnN9o8vHbkxYW3R84k8m0d0cAk0c1ZlvHkB+dJzBVkbxl7cxXrTsXgioR47JrmFTJefZSU111FEKHa1c8cfPVvnrWzr8Lz+o88r3m2x5c4W3jXZ47OUCRw6kbNoeEWrBWXBWONwOKAeOZuQ43jZ0rLfMjRVLI3aUxC9XHD4DPtLSvoTp/HThdFfTiH1DYSB2FIyve0N/GeVduVnmoq3A1tN27VtxS6FtH/mc6CRHTbRpzxzz9wESSxTWiEK//ZAqBFAOyddW0K0Me8sILg4IjjUhDmAxgU6O2T1N0pwjSecpxA3mmwfI8y5WMgar24jfcpOPvZvr7Lg55uUDlpFRTb0MYwXLQORIneKRr3TQz0+R7DtEYGLUe3dgh0uE3z2Kq8dU3z7GxnHF9CKM1oRG6IiNsKcZsjjnGBlUTM1BoagYLTlGC5bt9YxjHU1mvWsdLliGYmGsZOnkijUlv19Hf7kUalmKt4Inc8t5tmBcMeRu/aOviT6yiJrugBUkNpijTchsb22gfXYTGiQy2GrkiTbarylyR/CmEfJXmozcXmPy6xPoEy1UktM8uJ92dxLrMpzLKUQDDFS3YMYHsONVGCkRby6TPvoKsqbCff/1AJXAMWL7kisAAAsGSURBVJMYHn8iwf3VD8nyJloFFNetx66vkt00TLCYktVjNqwz3L4mZ7BoKQeOxUwz0Q443DEstsCEiiwRJp6YgtyRbR/kLbdqClrYXMuohcJIwV8QCFSjkz8bxVKp0ahlVSxhKd6eqeEAK4jc5dj221+SfF0F08lRk23U8Ra6m2NHS+z9tFddbPv7XxSZ64ITVGjQc1040qTbmcboiDCuMDe3D4UiyRb9Luo2AQVGRwy+/d3I9kFEK8yPJjATLTAaPrSNv3F3yvNzMc985jDZT/bjXE6pOoqsreA21cnHKzRGQip1xXhV2FTNqIWO2cTvCNvK9VIm/ZMThsknp1AnWojRsL7KwG11rl8rjBUt19UyRguOWiS0c19pqkduqQVplLdcxF/bQa+ZL3hx3bk0Vysy5u79l15ictt/eFLmCwEBsPuTHzrlQ9h1VcxUx6/uR0q4bo7aUqe4WIRWRj6/iNYBzmUUIr/HVKqaZHkbrUNUbCC1BD+eRB1vIqNl9vzV31If2/VN+cbhAke+cIRguoMZGMFuqJHePMzwxpjqgOa6Ss5gISM2vqWTO9/9qYS9wofAD48FTP140V84zQw3UoL1Vco31GkMaZw4TnQMpdCxo25p54rpRFMJ/f5ZkQiJhYJROPH1ZL9FsGE4ujA57Iq0XIDtn3pC9nzsHef8EFv++L+I7uSozIET9v7h+9R1v/I5CQ4uMD+xl0LcIMkWqdU34NKcLPe7xgUjA+T3rkNNd5C5Lmp9jb1/+D71ri8/JUlbOLY/JXp4L268Qnr3WtauCxkYgLUFf+KN6meqivGS36g70DAQW3IHf/ZUSPz1g7hKCBvr2IGYsBqy8zrN7UNdmplhLtHkonjPeIc7hjMONc1SBSu1ymfpgSc1NvQ6WAGvZpuJFUvu68H1/81nRSUWlVrIHFIOfXNfK2S0hBursP9/PnVrobf+5S45ccKSWQh+cAIz18XeNsra2yrcviZnNtG8sqCZnXIsLjrCPTOwkIBWqMwh2xoUt5ZZt06z97FZZEuNO3ZoxoqWNw0nOFFsrFg2VOzSxbGQ+Ub/cMG3ErOecCDvNfZNr3+cO2jEEOoi1QvcxQeuUHIBtv3ug74xK7J0ttyaCvv/8aknZ/O/elyCAwvIQIwZKZDPpoSPv4KUQvI7x9h+Z5HRguOFo4rZb0+jJloAuNig4gAaBaQY+ASwETO+zjBccjQix2Bscfj68fU1y9vWpgwt22Ugc77O3MkVBxYNxUAYK3rX/qbh96uX5h8SrbzllgJhMH51isgVGXMvBvZ+4tzLhJv/9AnRGvRiinlhCtso4E4U0KUQu6GGrK2w/pYi19cy9i2GTB1KMCK4QoCKDKoS+R7dfIIbKRHXAiplRbvpmA188XdfM6A177AW3PUZm6v5kgpyJtG8vGD40WzId0/EpB0hKsBI2W+GurH8hNy/PqSdK66reb3XYAz7Fh6U63p7Xb0w95DUevtZOvlpQfsVS+754BzevT4/RXpsCnVcExbKUI/I15QpbCwRhIpdewPCUHCxwV7fII40sncemWxh5hOkGKJfmCIvBMw5QcYqtNcXOWrBOovREIbQzDTPTId85ZBhMdN874Bh4ekpsIKa7SJGIdsaHGwUiGJhYJtXbjx8qMgrJ3w78k2j35DxcoFAPyYFLdw0qFF45eSZpgRXvVvece+nJGnP00lmSLMFctsFFEaHDFS3Eg8Ps/tr//3SB9/4ycdlzbDG9SUPwOzhhPCJV0iPT6J1hNo5BqMlZD5FpTkMFsk216k3DOWKZm7WkWbC0KDGWTABHDvhiJ6bxByc90LkYkA+UkaNlbEbqzRqmihWTH17Gpyw5p3DAHTagjGgtUJEKFV1b4uojNgIc4lhums4sGhoznuXXq4qui1h7YhiRy3l7WMJ2wcsO+qnzhutanK3/dZ/FrNvFhZSmrNHaHcne7u7WrQOMCokCEpoHVAtr8PalGB0gM4DW1m7xmBzIS76TV1E4MhB35gPZjrQyvybFAPs5gFkrExpvECt4ZOqzMLYWk2e+dkiFCwe7RI8cwK77wRBo4bdPoSa6aCc0H37BtauMYgTjFHkmdBqC+2un5yQUFOvKLop5FMJlfGYekNTKCq2lHOKxpGLF+QdagccPWxJM6FUULxjh+Nfv/Wntzxe1W452zLgG6ShobInoDy7hnZngjRr+u6PDsnzNoJQrayHm8exkSFcSJDRIibw58OEinVly/ysoVsKyTfVfenn4DzBTAc10wGjWKhGVOv+hFcjRb0ER44Lna4QhqDnE2w5xIRFXx8UcKUQBOoVxUAdGj357LE5hW0KcahwgcFNdmkf6EI7QxcCmoGik0SMDGuSgvJjS5FltCjc0Ej5hz97/o1EVxW5O+79lHSaUyhliIsDxGMVlO96Q2RQ9ZiCbQCK3HYJTEwhbvgtDQoBZs8MNu0S7KswGW2lPBxSq2sWZx1HMLQnO+hiQDBeolhUNOe6sH8OqcZQCIgi784XFh1Dg4aR2LJ1m89un5uP2J9UUZlDDZfAKNR8F0ohVCI6XSETxXymGQgd1w8LtapmZkYIAkW4rsziXJH5/W3UYopq58TDESakp3n2SsdKIPzWzRe2Q+yqIpd6jOkUAPGJyFQbGS6hQg1zXQgN2oSEQdlfAGEVUytj11ZIn3+FhfYRQIg6FWqPKTIFJ9bXUEaxEBp0ZqGbYxNL+/ACbB4ge+8WopGYQsFvXmqML3d3Oo7ZVDNWyvmju9+jPvrkN2XoBs3B0UGS2xt0ukJ+rOPnfAXytiVPDTNzwjEUgyOa/ftygsOL5KNl1m/15czKHWVKhTIiim4G4oQjTcNn333ugs6ZsKrItdsGibzuE+nm2G6KmfDalKzbRjqOMC4TDQ8SDBaQ8Qq27Jcs0fwohYNN4qiOuX4tzCfeunKHOdEhOXoCgDCooEfLSDlE6jHV9QWiELRRBKFXSgxUNZWqVzsea/lT+O/efmrMu/+RXdIdq/htjbXi8Q+ee9/HO/+fJ6XVFjotywffrM4YQ18tVk1CNbrzH0i5OEpUrEMlhGZK0p6n3Z2k1Z1AxGF0RCGqE4U1KrVx8o/cwF07ND94cAZZSJBnDhLW6tg3j7P3j09mljd9+gnJ/3w3BBr7pjHYVGVoUBOEEBX9DO/D959597z7HnlKFmYdcVGRpxCXFN/8wBu7gefZsCrIHd35O9JJZtA6pFpaR3lkHRQCsuPTzC3up5PMAv1btAUUowGGNt8G3ZwN//hm9j3b4eXfO3/Z7nef/rp84s2n3odh0ycfF0Q4+D+e3ZKu+6ePiIQGlVv2/a8PrAhiYQWTe8/nd8nMrMPtnUe+sZep2edxkhMGJYbqO9EFP+HcnDvC7OLLSzdiDEzM2OjdxH/3JjpPT7D33/3iqzrZ/+QHX5Pfv/PC67crGSuS3Js//YR0v30Cs38WGSigFlNkIaGbzBEFFcxIFTdQ4KXP/bLa8cBnZHr/s7STGZRSjA29CXX/DlCw939feXcMeSOx4hKqu/78SWnN5GgnZPOLyNwc+pZNqNvXUPxJETtYxImQ3eUHrPUvbGPgpVEGX5rx69HIwPeOYscqbPv4l+VqJnhFWe51v/I5Ub1SnyhFdHSRvf/nhW/hs+3jXxa0Qg4vsu/f/9JVS2ofl5XcHW/7t7J716+re/5il8x87mU4tIB933Xs+99WTlKymnFZ3PJ1/+QRCZ4+ir1llA88ukuOnbCEIyW0UUh/vvEaXjdWllv+vx4X27Yc+N3z3xbuGs6P/x8cnV7mhGDmVAAAAABJRU5ErkJggg==",[[60.83333333333332,-8.166666666666666],[49.99999999999999,1.75]],null,"Continuous score",{"tileSize":256,"zIndex":1,"minZoom":0,"opacity":0.65}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[60.83333333333332,-8.166666666666666],[49.99999999999999,1.75]],null,"Thresholded score",{"tileSize":256,"zIndex":1,"minZoom":0,"opacity":0.65}]},{"method":"addLayersControl","args":[[],["Continuous score","Thresholded score"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"hideGroup","args":["Thresholded score"]},{"method":"addLegend","args":[{"colors":["#FFFFD9 , #FFFFD9 0%, #D6EFB3 20%, #75C8BD 40%, #2798C1 60%, #264DA0 80%, #081D58 100%, #081D58 "],"labels":["0.0","0.2","0.4","0.6","0.8","1.0"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomright","type":"numeric","title":"Relative score (0–1)","extra":{"p_1":0,"p_n":1},"layerId":null,"className":"info legend","group":"Continuous score"}]}],"limits":{"lat":[49.99999999999999,60.83333333333332],"lng":[-8.166666666666666,1.75]},"fitBounds":[49,-9,61,3,[]]},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The map is for exploration. The reproducible static plots remain the primary figures in the core practical.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="project-under-future-climate-cmip6-ssp1-2.6" class="level2">
+<h2 class="anchored" data-anchor-id="project-under-future-climate-cmip6-ssp1-2.6">4. Project under future climate: CMIP6 SSP1-2.6</h2>
+<p>A temporal projection applies the fitted relationship between the sampled presences, background locations and environmental predictors to <strong>different environmental conditions</strong>. It is a conditional modelling exercise—not a prediction of exactly where bats will live in future decades.</p>
+<p>The prepared future climate data were downloaded and verified in <a href="./page_SDM.4_EnvironmentalData.html">Environmental Data</a>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dataset feature</th>
+<th style="text-align: left;">Workshop example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Historical reference</td>
+<td style="text-align: left;">WorldClim 2.1 bioclimatic data, 1970–2000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Global climate model</td>
+<td style="text-align: left;"><strong>BCC-CSM2-MR</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Future scenario</td>
+<td style="text-align: left;"><strong>SSP1-2.6</strong> (<code>ssp = "126"</code>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Future period</td>
+<td style="text-align: left;"><strong>2041–2060</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Resolution</td>
+<td style="text-align: left;">5 arc-minutes, aligned to the historical teaching grid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">File</td>
+<td style="text-align: left;"><code>data/Clim_cmip6_2041_2060_UK.tif</code></td>
+</tr>
+</tbody>
+</table>
+<p>This is <strong>not</strong> the higher-emissions SSP5-8.5 scenario. The example reflects <strong>one model and one scenario</strong>, rather than the full range of climate-projection uncertainty.</p>
+<section id="load-and-check-the-prepared-future-climate-data" class="level3">
+<h3 class="anchored" data-anchor-id="load-and-check-the-prepared-future-climate-data">4.1 Load and check the prepared future climate data</h3>
+<p>The file supplied with the <strong>updated workshop data</strong> must contain actual future-climate values. If your copy of the GeoTIFF is missing or still contains the old, incorrect historical data, replace it with the verified file prepared in the Environmental Data chapter before proceeding.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>future_file <span class="ot">&lt;-</span> <span class="st">"data/Clim_cmip6_2041_2060_UK.tif"</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>historical_file <span class="ot">&lt;-</span> <span class="st">"data/Clim_UK.tif"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">file.exists</span>(future_file), <span class="fu">file.exists</span>(historical_file))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Clim_UK <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(historical_file)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>Clim_cmip6_2041_2060_UK <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(future_file)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">nlyr</span>(Clim_cmip6_2041_2060_UK) <span class="sc">==</span> <span class="dv">19</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">identical</span>(<span class="fu">names</span>(Clim_cmip6_2041_2060_UK), <span class="fu">names</span>(Clim_UK)),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">compareGeom</span>(Clim_cmip6_2041_2060_UK, Clim_UK),</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(model_predictors[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">%in%</span> <span class="fu">names</span>(Clim_cmip6_2041_2060_UK))</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># A former teaching-file version duplicated the historical raster.</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop if the downloaded 'future' BIO1 is identical or contains no values.</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>temp_difference <span class="ot">&lt;-</span> (</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  Clim_cmip6_2041_2060_UK[[<span class="st">"bio_1"</span>]] <span class="sc">-</span> Clim_UK[[<span class="st">"bio_1"</span>]]</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>max_abs_temperature_change <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">global</span>(</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span>(temp_difference), <span class="st">"max"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>)[[<span class="dv">1</span>]]</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.finite</span>(max_abs_temperature_change) <span class="sc">||</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    max_abs_temperature_change <span class="sc">&lt;</span> <span class="fl">1e-8</span>) {</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"The future raster is empty or identical to historical BIO1. "</span>,</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Replace it with the verified SSP1-2.6 future GeoTIFF."</span>)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the observed range in the prepared comparison.</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">global</span>(temp_difference, <span class="st">"range"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           min      max
+bio_1 1.164557 1.978635</code></pre>
+</div>
+</div>
+<p>In the verified preparation example, <strong>annual mean temperature increased by approximately 1.2–1.9°C</strong> across the mapped UK cells. Your displayed range should be checked against the actual GeoTIFF. The changes describe the selected <em>climate-model scenario</em>, not observed changes or a guaranteed regional forecast.</p>
+</section>
+<section id="supply-future-climate-to-the-fitted-glm" class="level3">
+<h3 class="anchored" data-anchor-id="supply-future-climate-to-the-fitted-glm">4.2 Supply future climate to the fitted GLM</h3>
+<p>Our GLM uses temperature, precipitation <strong>and elevation</strong>. Only the two climate layers change in this example: elevation is kept fixed as a simplifying assumption. The predictor names, units and raster grid must match those used for model fitting.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>future_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  Clim_cmip6_2041_2060_UK[[<span class="fu">c</span>(<span class="st">"bio_1"</span>, <span class="st">"bio_12"</span>)]],</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  proj_stack[[<span class="st">"elevation"</span>]]</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(future_stack) <span class="ot">&lt;-</span> model_predictors</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">compareGeom</span>(future_stack, proj_stack),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">identical</span>(<span class="fu">names</span>(future_stack), <span class="fu">names</span>(proj_stack))</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the SAME Chapter 6 training-fitted GLM under future conditions.</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>future_suitability <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  future_stack, glm_multi, <span class="at">type =</span> <span class="st">"response"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(future_suitability) <span class="ot">&lt;-</span> <span class="st">"relative_suitability_future"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="compare-current-and-future-modelled-suitability" class="level3">
+<h3 class="anchored" data-anchor-id="compare-current-and-future-modelled-suitability">4.3 Compare current and future modelled suitability</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(glm_suitability_map, future_suitability),</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">c</span>(<span class="st">"Historical climate (1970–2000)"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"SSP1-2.6 (2041–2060)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/assessment-future-maps-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The two maps show <strong>modelled presence–background scores</strong> under different climate conditions. Their colours should be read with attention to the legends; for direct comparison, the difference map below is more informative than visually comparing separate automatic colour scales.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>suitability_change <span class="ot">&lt;-</span> future_suitability <span class="sc">-</span> glm_suitability_map</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(suitability_change) <span class="ot">&lt;-</span> <span class="st">"future_minus_current"</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(suitability_change,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Change in relative GLM score: SSP1-2.6 minus historical"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="page_SDM.7_SDMAssessmentProjection_files/figure-html/assessment-change-map-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Inspect:</strong> Which areas show increasing or decreasing modelled suitability scores? Does an increase in the fitted score imply that lesser horseshoe bats will colonise those locations? Explain why factors such as dispersal, land use, roost availability and other ecological interactions also matter.</p>
+<p><strong>Important:</strong> The change map shows a difference between two <em>model predictions</em>. It does not estimate a change in occupancy probability, abundance, range size or conservation status.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What makes future projections uncertain?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Climate scenario and GCM:</strong> Other SSPs or global climate models can produce different regional conditions.</li>
+<li><strong>Transferability:</strong> The relationships fitted using present-day presence–background samples may change through time.</li>
+<li><strong>Environmental novelty:</strong> Some future predictor combinations may fall outside conditions represented in training data; GLM response curves can extrapolate into these poorly supported regions.</li>
+<li><strong>Missing processes:</strong> Habitat management, roost availability, dispersal and biotic interactions are not included in this simple model.</li>
+<li><strong>Survey bias and resolution:</strong> Presence records, background selection and coarse climate grids influence the mapped relationships.</li>
+</ul>
+<p>For an independent research assessment, consider multiple climate models, multiple scenarios and explicit spatial or temporal validation.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="research-extension-check-for-unfamiliar-future-conditions" class="level3">
+<h3 class="anchored" data-anchor-id="research-extension-check-for-unfamiliar-future-conditions">4.4 Research extension: check for unfamiliar future conditions</h3>
+<p>A simple first check asks whether projected temperature or precipitation falls outside the <strong>range represented in the training dataset</strong>. This does not detect every novel <em>combination</em> of variables, but it identifies one important type of extrapolation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>novel_temperature <span class="ot">&lt;-</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  future_stack[[<span class="st">"bio_1"</span>]] <span class="sc">&lt;</span> <span class="fu">min</span>(sdm_df_train<span class="sc">$</span>bio_1) <span class="sc">|</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  future_stack[[<span class="st">"bio_1"</span>]] <span class="sc">&gt;</span> <span class="fu">max</span>(sdm_df_train<span class="sc">$</span>bio_1)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>novel_precipitation <span class="ot">&lt;-</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  future_stack[[<span class="st">"bio_12"</span>]] <span class="sc">&lt;</span> <span class="fu">min</span>(sdm_df_train<span class="sc">$</span>bio_12) <span class="sc">|</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  future_stack[[<span class="st">"bio_12"</span>]] <span class="sc">&gt;</span> <span class="fu">max</span>(sdm_df_train<span class="sc">$</span>bio_12)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>novel_conditions <span class="ot">&lt;-</span> novel_temperature <span class="sc">|</span> novel_precipitation</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(novel_conditions,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Outside at least one training predictor range"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Explain:</strong> Why should predictions outside the training-data range be interpreted with greater caution even if <code>terra::predict()</code> successfully produces numbers?</p>
+</section>
+</section>
+<section id="additional-research-approaches" class="level2">
+<h2 class="anchored" data-anchor-id="additional-research-approaches">5. Additional research approaches</h2>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Continuous Boyce Index (optional)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <strong>Continuous Boyce Index (CBI)</strong> compares the distribution of suitability scores at known presences with the distribution of scores across the available study region. It is particularly relevant to presence-only SDMs, but its interpretation depends on the study extent, availability sample, sample size and spatial bias. It does not by itself provide independent proof that a model is ecologically accurate.</p>
+<p>The optional code below uses <strong>scores across available raster cells</strong> as <code>fit</code> and <strong>held-out presence scores</strong> as <code>obs</code>. It does not incorrectly substitute a mixed vector of test presence/background predictions for study-region availability. This runs only when you choose to explore it in RStudio.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ecospat)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Scores from the available study grid.</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>available_scores <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">values</span>(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  glm_suitability_map, <span class="at">mat =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>presence_scores <span class="ot">&lt;-</span> glm_predict_test[obs_test <span class="sc">==</span> <span class="dv">1</span>L]</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>boyce_res <span class="ot">&lt;-</span> ecospat<span class="sc">::</span><span class="fu">ecospat.boyce</span>(</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> available_scores,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">obs =</span> presence_scores,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">nclass =</span> <span class="dv">0</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">PEplot =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>boyce_res<span class="sc">$</span>cor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A positive Boyce correlation suggests that observed presences tend to fall in cells with higher predicted scores than expected from the available region. Results can be unstable with few presences and are sensitive to availability and sampling design.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Final model fitting after assessment (optional)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For an independent research analysis, a <strong>final GLM may be refitted to the full available dataset</strong> after the model structure, tuning decisions and evaluation procedure have been finalised. Its purpose is to use all suitable calibration data for subsequent projection. This <strong>does not change</strong> the previously obtained held-out AUC or TSS, and those evaluation measures must not be recalculated using the refitted model and the same test records.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only after model choices and held-out assessment are complete:</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>all_calibration_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sdm_df_train, sdm_df_test)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>final_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formula</span>(glm_multi),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> all_calibration_data,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># A full-data final map is a new product; preserve the assessed</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># training-fitted model and its independent test results separately.</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>final_suitability <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">predict</span>(</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  proj_stack, final_glm, <span class="at">type =</span> <span class="st">"response"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Do not automatically carry over the earlier training-selected threshold to a different refitted model without checking the classification rule. For real-world SDMs, consider spatially separated evaluation, explicit predictor selection and external observations where available.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="practise-interpret-and-extend" class="level2">
+<h2 class="anchored" data-anchor-id="practise-interpret-and-extend">6. Practise, interpret and extend</h2>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Core practical — complete these before moving on
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Calculate the held-out ROC curve and AUC. Explain what the comparison between presences and background sites measures.</li>
+<li>Choose a score threshold from <strong>training data</strong>, then report sensitivity, specificity and TSS for the held-out test subset.</li>
+<li>Display continuous and thresholded current-climate maps. Why is it incorrect to label the resulting cells as confirmed presences or absences?</li>
+<li>Load the verified SSP1-2.6 climate file and compare future and historical <strong>modelled scores</strong>. Explain one source of uncertainty in the projection.</li>
+</ol>
+<section id="optional-research-extensions" class="level3">
+<h3 class="anchored" data-anchor-id="optional-research-extensions">Optional research extensions</h3>
+<ul>
+<li>Explore how a different training-selected threshold changes the balance of sensitivity and specificity.</li>
+<li>Calculate the Continuous Boyce Index and describe its dependence on study-area availability and occurrence sampling.</li>
+<li>Identify future cells with predictor values outside the training range.</li>
+<li>Explain why spatially separated cross-validation may give a different assessment from a random data split.</li>
+<li>Compare projections across additional GCMs and SSPs, without assuming that a single scenario defines the future.</li>
+</ul>
+</section>
+</div>
+</div>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li>Araújo et al.&nbsp;(2005). <a href="https://doi.org/10.1111/j.1365-2486.2005.01000.x">Validation of species–climate impact models under climate change</a>.</li>
+<li>Hirzel et al.&nbsp;(2006). <a href="https://doi.org/10.1016/j.ecolmodel.2006.05.017">Evaluating the ability of habitat suitability models to predict species presences</a>.</li>
+<li>Liu et al.&nbsp;(2005). <a href="https://doi.org/10.1111/j.0906-7590.2005.03957.x">Selecting thresholds of occurrence in the prediction of species distributions</a>.</li>
+<li>Phillips et al.&nbsp;(2009). <a href="https://doi.org/10.1890/07-2153.1">Sample selection bias and presence-only distribution models</a>.</li>
+<li>Zurell et al.&nbsp;(2020). <a href="https://doi.org/10.1111/ecog.04960">A standard protocol for reporting species distribution models</a>.</li>
+<li><a href="https://www.worldclim.org/data/cmip6/cmip6_clim10m.html">WorldClim CMIP6 projections</a> and <a href="https://search.r-project.org/CRAN/refmans/geodata/html/cmip6.html"><code>geodata::cmip6_world()</code> documentation</a>.</li>
+</ul>
+<p><strong>Next:</strong> Explore <a href="./page_SDM.8_SDMCompareAlgorithms.html">Fitting and Comparing Algorithms</a>, where different modelling approaches are considered in relation to data, modelling objectives and validation design.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/konswells1\.github\.io\/SDM-Workshop");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a href="https://konswells1.github.io">Konstans Wells</a>, Swansea University, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>License: <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
